@@ -1,0 +1,61 @@
+import { prisma } from '@/lib/prisma';
+import { CriarUsuarioDTO, AtualizarUsuarioDTO } from '@/validators/usuario.validator';
+
+export class UsuarioService {
+  async listar() {
+    return await prisma.usuario.findMany({
+      where: { deletado_em: null },
+      orderBy: { criado_em: 'desc' },
+    });
+  }
+
+  async buscarPorId(id: number) {
+    return await prisma.usuario.findFirst({
+      where: { id, deletado_em: null },
+    });
+  }
+
+  async buscarPorChatId(chatId: number) {
+    return await prisma.usuario.findFirst({
+      where: { chat_id: chatId, deletado_em: null },
+    });
+  }
+
+  async buscarPorAgentId(agentId: number) {
+    return await prisma.usuario.findFirst({
+      where: { agent_id: agentId, deletado_em: null },
+    });
+  }
+
+  async criar(data: CriarUsuarioDTO) {
+    return await prisma.usuario.create({
+      data,
+    });
+  }
+
+  async atualizar(id: number, data: AtualizarUsuarioDTO) {
+    const usuario = await this.buscarPorId(id);
+    if (!usuario) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    return await prisma.usuario.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async deletar(id: number) {
+    const usuario = await this.buscarPorId(id);
+    if (!usuario) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    return await prisma.usuario.update({
+      where: { id },
+      data: { deletado_em: new Date() },
+    });
+  }
+}
+
+export const usuarioService = new UsuarioService();

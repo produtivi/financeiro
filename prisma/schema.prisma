@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum StatusUsuario {
+  active
+  inactive
+  deleted
+}
+
+enum TipoCategoria {
+  receita
+  despesa
+}
+
+enum TipoTransacao {
+  receita
+  despesa
+}
+
+enum TipoRelatorio {
+  geral
+  receitas
+  despesas
+  por_categoria
+}
+
+enum FiltroTipoRelatorio {
+  receita
+  despesa
+  ambos
+}
+
+enum FormatoRelatorio {
+  pdf
+  png
+  jpg
+}
+
+model Usuario {
+  id           Int              @id @default(autoincrement())
+  chat_id      Int              @unique
+  agent_id     Int              @unique
+  nome         String?          @db.VarChar(100)
+  status       StatusUsuario    @default(active)
+  criado_em    DateTime         @default(now())
+  deletado_em  DateTime?
+
+  transacoes   Transacao[]
+  relatorios   Relatorio[]
+
+  @@map("usuarios")
+}
+
+model Categoria {
+  id           Int              @id @default(autoincrement())
+  nome         String           @db.VarChar(50)
+  tipo         TipoCategoria
+  ativo        Boolean          @default(true)
+  criado_em    DateTime         @default(now())
+  deletado_em  DateTime?
+
+  transacoes   Transacao[]
+
+  @@index([tipo])
+  @@map("categorias")
+}
+
+model Transacao {
+  id                Int              @id @default(autoincrement())
+  usuario_id        Int
+  tipo              TipoTransacao
+  valor             Decimal          @db.Decimal(10, 2)
+  categoria_id      Int
+  descricao         String?          @db.Text
+  data_transacao    DateTime         @db.Date
+  criado_em         DateTime         @default(now())
+  atualizado_em     DateTime         @updatedAt
+  deletado_em       DateTime?
+
+  usuario           Usuario          @relation(fields: [usuario_id], references: [id])
+  categoria         Categoria        @relation(fields: [categoria_id], references: [id])
+
+  @@index([data_transacao])
+  @@index([usuario_id, data_transacao])
+  @@map("transacoes")
+}
+
+model Relatorio {
+  id                    Int                    @id @default(autoincrement())
+  usuario_id            Int
+  tipo_relatorio        TipoRelatorio
+  data_inicio           DateTime               @db.Date
+  data_fim              DateTime               @db.Date
+  filtro_tipo           FiltroTipoRelatorio
+  filtro_categoria_id   Int?
+  url_imagem            String?                @db.VarChar(255)
+  formato               FormatoRelatorio
+  criado_em             DateTime               @default(now())
+
+  usuario               Usuario                @relation(fields: [usuario_id], references: [id])
+
+  @@map("relatorios")
+}
