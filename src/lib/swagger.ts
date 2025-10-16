@@ -96,6 +96,50 @@ export const swaggerSpec = {
           data_transacao: { type: 'string', format: 'date' },
         },
       },
+      Relatorio: {
+        type: 'object',
+        properties: {
+          id: { type: 'integer' },
+          usuario_id: { type: 'integer' },
+          tipo_relatorio: { type: 'string', enum: ['geral', 'receitas', 'despesas', 'por_categoria'] },
+          data_inicio: { type: 'string', format: 'date' },
+          data_fim: { type: 'string', format: 'date' },
+          filtro_tipo: { type: 'string', enum: ['receita', 'despesa', 'ambos'] },
+          filtro_categoria_id: { type: 'integer', nullable: true },
+          url_imagem: { type: 'string' },
+          formato: { type: 'string', enum: ['pdf', 'png', 'jpg'] },
+          criado_em: { type: 'string', format: 'date-time' },
+        },
+      },
+      GerarRelatorio: {
+        type: 'object',
+        required: ['usuario_id', 'data_inicio', 'data_fim', 'tipo_grafico'],
+        properties: {
+          usuario_id: { type: 'integer' },
+          data_inicio: { type: 'string', format: 'date', example: '2025-10-01' },
+          data_fim: { type: 'string', format: 'date', example: '2025-10-31' },
+          tipo_grafico: {
+            type: 'string',
+            enum: ['geral', 'pizza_receitas', 'pizza_despesas', 'barras_despesas', 'comparativo', 'categorias_especificas'],
+            description: 'Tipo de gráfico a ser gerado'
+          },
+          categorias_ids: {
+            type: 'array',
+            items: { type: 'integer' },
+            description: 'IDs das categorias (opcional, para filtros específicos)'
+          },
+          titulo: {
+            type: 'string',
+            maxLength: 255,
+            description: 'Título customizado do relatório'
+          },
+          formato: {
+            type: 'string',
+            enum: ['png', 'jpg'],
+            default: 'png'
+          },
+        },
+      },
     },
   },
   security: [{ ApiKeyAuth: [] }],
@@ -238,6 +282,42 @@ export const swaggerSpec = {
         },
         responses: {
           '201': { description: 'Usuário criado' },
+        },
+      },
+    },
+    '/usuarios/chat/{chat_id}': {
+      get: {
+        tags: ['Usuários'],
+        summary: 'Buscar usuário por chat_id do WhatsApp',
+        description: 'Endpoint usado para identificar usuário pela conversa do WhatsApp',
+        parameters: [
+          {
+            name: 'chat_id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'ID do chat do WhatsApp',
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Usuário encontrado',
+            content: {
+              'application/json': {
+                schema: {
+                  allOf: [
+                    { $ref: '#/components/schemas/ApiResponse' },
+                    {
+                      properties: {
+                        data: { $ref: '#/components/schemas/Usuario' },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          '404': { description: 'Usuário não encontrado' },
         },
       },
     },
@@ -400,5 +480,190 @@ export const swaggerSpec = {
         },
       },
     },
+    '/relatorios': {
+      post: {
+        tags: ['Relatórios'],
+        summary: 'Gerar relatório com imagem',
+        description: 'Gera um relatório financeiro visual, salva a imagem no Digital Ocean Spaces e retorna a URL + dados estruturados',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: { $ref: '#/components/schemas/GerarRelatorio' },
+              examples: {
+                dashboard_geral: {
+                  summary: 'Dashboard Geral',
+                  value: {
+                    usuario_id: 1,
+                    data_inicio: '2025-10-01',
+                    data_fim: '2025-10-31',
+                    tipo_grafico: 'geral',
+                    titulo: 'Dashboard Mensal - Outubro',
+                    formato: 'png'
+                  }
+                },
+                pizza_despesas: {
+                  summary: 'Pizza de Despesas',
+                  value: {
+                    usuario_id: 1,
+                    data_inicio: '2025-10-01',
+                    data_fim: '2025-10-31',
+                    tipo_grafico: 'pizza_despesas',
+                    formato: 'png'
+                  }
+                },
+                categorias_filtradas: {
+                  summary: 'Categorias Específicas',
+                  value: {
+                    usuario_id: 1,
+                    data_inicio: '2025-10-15',
+                    data_fim: '2025-10-20',
+                    tipo_grafico: 'categorias_especificas',
+                    categorias_ids: [1, 2, 5],
+                    titulo: 'Análise de Categorias Selecionadas'
+                  }
+                }
+              }
+            },
+          },
+        },
+        responses: {
+          '201': {
+            description: 'Relatório gerado com sucesso',
+            content: {
+              'application/json': {
+                schema: {
+                  allOf: [
+                    { $ref: '#/components/schemas/ApiResponse' },
+                    {
+                      properties: {
+                        data: {
+                          type: 'object',
+                          properties: {
+                            relatorio: { $ref: '#/components/schemas/Relatorio' },
+                            dados: {
+                              type: 'object',
+                              properties: {
+                                receitaTotal: { type: 'number' },
+                                despesaTotal: { type: 'number' },
+                                saldo: { type: 'number' },
+                                receitas: {
+                                  type: 'array',
+                                  items: {
+                                    type: 'object',
+                                    properties: {
+                                      categoria: { type: 'string' },
+                                      valor: { type: 'number' }
+                                    }
+                                  }
+                                },
+                                despesas: {
+                                  type: 'array',
+                                  items: {
+                                    type: 'object',
+                                    properties: {
+                                      categoria: { type: 'string' },
+                                      valor: { type: 'number' }
+                                    }
+                                  }
+                                },
+                                periodo: { type: 'string' }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          '400': { description: 'Dados inválidos' },
+          '500': { description: 'Erro ao gerar relatório' }
+        },
+      },
+      get: {
+        tags: ['Relatórios'],
+        summary: 'Listar relatórios do usuário',
+        description: 'Lista todos os relatórios gerados por um usuário',
+        parameters: [
+          {
+            name: 'usuario_id',
+            in: 'query',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'ID do usuário'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Lista de relatórios',
+            content: {
+              'application/json': {
+                schema: {
+                  allOf: [
+                    { $ref: '#/components/schemas/ApiResponse' },
+                    {
+                      properties: {
+                        data: {
+                          type: 'array',
+                          items: { $ref: '#/components/schemas/Relatorio' }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          '400': { description: 'usuario_id é obrigatório' }
+        }
+      }
+    },
+    '/relatorios/{id}': {
+      get: {
+        tags: ['Relatórios'],
+        summary: 'Buscar relatório específico',
+        description: 'Retorna um relatório específico do usuário',
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'ID do relatório'
+          },
+          {
+            name: 'usuario_id',
+            in: 'query',
+            required: true,
+            schema: { type: 'integer' },
+            description: 'ID do usuário'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Relatório encontrado',
+            content: {
+              'application/json': {
+                schema: {
+                  allOf: [
+                    { $ref: '#/components/schemas/ApiResponse' },
+                    {
+                      properties: {
+                        data: { $ref: '#/components/schemas/Relatorio' }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          '404': { description: 'Relatório não encontrado' },
+          '400': { description: 'usuario_id é obrigatório' }
+        }
+      }
+    }
   },
 };
