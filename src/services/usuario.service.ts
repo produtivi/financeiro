@@ -5,6 +5,11 @@ export class UsuarioService {
   async listar() {
     return await prisma.usuario.findMany({
       where: { deletado_em: null },
+      include: {
+        grupo: {
+          select: { id: true, nome: true },
+        },
+      },
       orderBy: { criado_em: 'desc' },
     });
   }
@@ -18,6 +23,11 @@ export class UsuarioService {
   async buscarPorChatId(chatId: number) {
     return await prisma.usuario.findFirst({
       where: { chat_id: chatId, deletado_em: null },
+      include: {
+        grupo: {
+          select: { id: true, nome: true, descricao: true },
+        },
+      },
     });
   }
 

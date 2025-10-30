@@ -48,18 +48,61 @@ enum FormatoRelatorio {
   jpg
 }
 
-model Usuario {
-  id           Int              @id @default(autoincrement())
-  chat_id      Int              @unique
-  agent_id     Int              @unique
-  nome         String?          @db.VarChar(100)
-  status       StatusUsuario    @default(active)
-  criado_em    DateTime         @default(now())
+enum TipoCaixa {
+  pessoal
+  negocio
+}
+
+enum TipoMeta {
+  reserva_financeira
+  controle_inventario
+  meta_vendas
+  pagamento_contas
+  outro
+}
+
+enum TipoEntrada {
+  texto
+  audio
+  foto
+  video
+  nota_fiscal
+}
+
+model Grupo {
+  id           Int        @id @default(autoincrement())
+  nome         String     @db.VarChar(100)
+  descricao    String?    @db.Text
+  ativo        Boolean    @default(true)
+  criado_em    DateTime   @default(now())
+  atualizado_em DateTime  @updatedAt
   deletado_em  DateTime?
 
-  transacoes   Transacao[]
-  relatorios   Relatorio[]
+  usuarios     Usuario[]
 
+  @@map("grupos")
+}
+
+model Usuario {
+  id                  Int                 @id @default(autoincrement())
+  chat_id             Int                 @unique
+  agent_id            Int
+  nome                String?             @db.VarChar(100)
+  telefone            String?             @db.VarChar(20)
+  grupo_id            Int?
+  status              StatusUsuario       @default(active)
+  criado_em           DateTime            @default(now())
+  deletado_em         DateTime?
+
+  grupo               Grupo?              @relation(fields: [grupo_id], references: [id])
+  transacoes          Transacao[]
+  relatorios          Relatorio[]
+  metas               Meta[]
+  questionarios       Questionario[]
+
+  @@index([grupo_id])
+  @@index([telefone])
+  @@index([agent_id])
   @@map("usuarios")
 }
 
@@ -81,9 +124,12 @@ model Transacao {
   id                Int              @id @default(autoincrement())
   usuario_id        Int
   tipo              TipoTransacao
+  tipo_caixa        TipoCaixa        @default(pessoal)
   valor             Decimal          @db.Decimal(10, 2)
   categoria_id      Int
   descricao         String?          @db.Text
+  tipo_entrada      TipoEntrada      @default(texto)
+  arquivo_url       String?          @db.VarChar(500)
   data_transacao    DateTime         @db.Date
   criado_em         DateTime         @default(now())
   atualizado_em     DateTime         @updatedAt
@@ -94,6 +140,7 @@ model Transacao {
 
   @@index([data_transacao])
   @@index([usuario_id, data_transacao])
+  @@index([tipo_caixa])
   @@map("transacoes")
 }
 
@@ -112,4 +159,59 @@ model Relatorio {
   usuario               Usuario                @relation(fields: [usuario_id], references: [id])
 
   @@map("relatorios")
+}
+
+model Meta {
+  id                Int       @id @default(autoincrement())
+  usuario_id        Int
+  descricao         String    @db.Text
+  tipo_meta         TipoMeta
+  data_inicio       DateTime  @db.Date
+  data_fim          DateTime  @db.Date
+  cumprida          Boolean?
+  criado_em         DateTime  @default(now())
+  respondido_em     DateTime?
+
+  usuario           Usuario   @relation(fields: [usuario_id], references: [id])
+
+  @@index([usuario_id, data_inicio])
+  @@map("metas")
+}
+
+model Admin {
+  id            Int       @id @default(autoincrement())
+  nome          String    @db.VarChar(100)
+  email         String    @unique @db.VarChar(255)
+  senha_hash    String    @db.VarChar(255)
+  criado_em     DateTime  @default(now())
+  atualizado_em DateTime  @updatedAt
+
+  @@map("admins")
+}
+
+model Questionario {
+  id           Int      @id @default(autoincrement())
+  usuario_id   Int
+
+  resposta_1   String   @db.VarChar(255)
+  resposta_2   String   @db.VarChar(255)
+  resposta_3   String   @db.VarChar(255)
+  resposta_4   String   @db.VarChar(255)
+  resposta_5   String   @db.VarChar(255)
+  resposta_6   String   @db.VarChar(255)
+  resposta_7   String   @db.VarChar(255)
+  resposta_8   String   @db.VarChar(255)
+  resposta_9   String   @db.VarChar(255)
+  resposta_10  String   @db.VarChar(255)
+  resposta_11  String?  @db.Text
+  resposta_12  String   @db.VarChar(255)
+
+  criado_em    DateTime @default(now())
+  atualizado_em DateTime @updatedAt
+
+  usuario      Usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@index([usuario_id])
+  @@index([criado_em])
+  @@map("questionarios")
 }

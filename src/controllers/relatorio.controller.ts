@@ -14,7 +14,7 @@ export const relatorioController = {
           {
             success: false,
             message: 'Dados inválidos',
-            errors: validacao.error.errors.map(err => ({
+            errors: validacao.error.issues.map((err: any) => ({
               campo: err.path.join('.'),
               mensagem: err.message
             }))
