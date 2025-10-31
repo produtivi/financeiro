@@ -3,12 +3,10 @@
 import { useEffect, useState } from 'react';
 import {
   Users,
-  TrendingUp,
   Target,
   Wallet,
   ArrowUpCircle,
   ArrowDownCircle,
-  DollarSign,
   CheckCircle,
   XCircle
 } from 'lucide-react';

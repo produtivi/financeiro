@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { UserPlus, Mail, Lock, User, TrendingUp } from 'lucide-react';
+import { UserPlus, Mail, Lock, User } from 'lucide-react';
 import Image from 'next/image';
 
 export default function CadastroPage() {

@@ -21,6 +21,7 @@ export default function CategoriasPage() {
 
   useEffect(() => {
     carregarCategorias();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const carregarCategorias = async () => {

@@ -71,11 +71,11 @@ export class QuestionarioService {
       };
     }
 
-    const contarRespostas = (campo: string) => {
+    const contarRespostas = (campo: keyof typeof questionarios[0]) => {
       const contagem: Record<string, number> = {};
       questionarios.forEach((q) => {
-        const valor = (q as Record<string, string | null>)[campo];
-        if (valor) {
+        const valor = q[campo];
+        if (valor && typeof valor === 'string') {
           contagem[valor] = (contagem[valor] || 0) + 1;
         }
       });

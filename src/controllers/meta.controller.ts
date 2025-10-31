@@ -65,7 +65,7 @@ export const metaController = {
         );
       }
 
-      const filtros: Record<string, string> = {};
+      const filtros: Record<string, string | boolean> = {};
       if (data_inicio) filtros.data_inicio = data_inicio;
       if (data_fim) filtros.data_fim = data_fim;
       if (tipo_meta) filtros.tipo_meta = tipo_meta;

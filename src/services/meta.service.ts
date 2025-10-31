@@ -48,7 +48,7 @@ export const metaService = {
     }
 
     if (filtros?.tipo_meta) {
-      where.tipo_meta = filtros.tipo_meta;
+      where.tipo_meta = filtros.tipo_meta as 'reserva_financeira' | 'controle_inventario' | 'meta_vendas' | 'pagamento_contas' | 'outro';
     }
 
     if (filtros?.cumprida !== undefined) {
