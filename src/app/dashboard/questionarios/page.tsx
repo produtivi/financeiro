@@ -27,6 +27,7 @@ interface Questionario {
   resposta_12: string;
   criado_em: string;
   usuario: Usuario;
+  [key: string]: string | number | Usuario | undefined;
 }
 
 interface Metricas {
@@ -199,7 +200,8 @@ export default function QuestionariosPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
                       {Object.entries(PERGUNTAS).map(([num, texto]) => {
-                        const resposta = (q as Record<string, string | null>)[`resposta_${num}`];
+                        const respostaValue = q[`resposta_${num}`];
+                        const resposta = typeof respostaValue === 'string' ? respostaValue : '-';
                         return (
                           <div key={num} className="bg-gray-900/50 rounded-lg p-3">
                             <p className="text-xs text-gray-500 mb-1">{texto}</p>
