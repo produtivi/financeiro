@@ -69,6 +69,12 @@ enum TipoEntrada {
   nota_fiscal
 }
 
+enum RoleAdmin {
+  master
+  admin
+  user
+}
+
 model Grupo {
   id           Int        @id @default(autoincrement())
   nome         String     @db.VarChar(100)
@@ -179,14 +185,33 @@ model Meta {
 }
 
 model Admin {
-  id            Int       @id @default(autoincrement())
-  nome          String    @db.VarChar(100)
-  email         String    @unique @db.VarChar(255)
-  senha_hash    String    @db.VarChar(255)
-  criado_em     DateTime  @default(now())
-  atualizado_em DateTime  @updatedAt
+  id            Int           @id @default(autoincrement())
+  nome          String        @db.VarChar(100)
+  email         String        @unique @db.VarChar(255)
+  senha_hash    String        @db.VarChar(255)
+  role          RoleAdmin     @default(user)
+  ativo         Boolean       @default(true)
+  criado_em     DateTime      @default(now())
+  atualizado_em DateTime      @updatedAt
+  deletado_em   DateTime?
+
+  agentes       AdminAgente[]
 
   @@map("admins")
+}
+
+model AdminAgente {
+  id         Int      @id @default(autoincrement())
+  admin_id   Int
+  agent_id   Int
+  criado_em  DateTime @default(now())
+
+  admin      Admin    @relation(fields: [admin_id], references: [id], onDelete: Cascade)
+
+  @@unique([admin_id, agent_id])
+  @@index([admin_id])
+  @@index([agent_id])
+  @@map("admin_agentes")
 }
 
 model Questionario {

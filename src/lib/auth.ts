@@ -10,6 +10,8 @@ declare module 'next-auth' {
       name?: string | null;
       email?: string | null;
       image?: string | null;
+      role: string;
+      agentIds: number[];
     };
   }
 }
@@ -28,10 +30,17 @@ export const authOptions: NextAuthOptions = {
         }
 
         const admin = await prisma.admin.findUnique({
-          where: { email: credentials.email },
+          where: {
+            email: credentials.email,
+          },
+          include: {
+            agentes: {
+              select: { agent_id: true }
+            }
+          }
         });
 
-        if (!admin) {
+        if (!admin || admin.deletado_em !== null || !admin.ativo) {
           return null;
         }
 
@@ -48,6 +57,8 @@ export const authOptions: NextAuthOptions = {
           id: admin.id.toString(),
           email: admin.email,
           name: admin.nome,
+          role: admin.role,
+          agentIds: admin.agentes.map(a => a.agent_id),
         };
       },
     }),
@@ -66,8 +77,23 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
+      if (session.user && token.id) {
+        const admin = await prisma.admin.findUnique({
+          where: { id: parseInt(token.id as string) },
+          include: {
+            agentes: {
+              select: { agent_id: true }
+            }
+          }
+        });
+
+        if (admin && admin.deletado_em === null && admin.ativo) {
+          session.user.id = admin.id.toString();
+          session.user.name = admin.nome;
+          session.user.email = admin.email;
+          session.user.role = admin.role;
+          session.user.agentIds = admin.agentes.map(a => a.agent_id);
+        }
       }
       return session;
     },

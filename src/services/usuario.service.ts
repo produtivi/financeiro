@@ -2,9 +2,15 @@ import { prisma } from '@/lib/prisma';
 import { CriarUsuarioDTO, AtualizarUsuarioDTO } from '@/validators/usuario.validator';
 
 export class UsuarioService {
-  async listar() {
+  async listar(agentIds?: number[]) {
+    const where: any = { deletado_em: null };
+
+    if (agentIds && agentIds.length > 0) {
+      where.agent_id = { in: agentIds };
+    }
+
     return await prisma.usuario.findMany({
-      where: { deletado_em: null },
+      where,
       include: {
         grupo: {
           select: { id: true, nome: true },

@@ -1,30 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { usuarioService } from '@/services/usuario.service';
-import { criarUsuarioSchema, atualizarUsuarioSchema } from '@/validators/usuario.validator';
+import { adminService } from '@/services/admin.service';
+import { criarAdminSchema, atualizarAdminSchema } from '@/validators/admin.validator';
 import { ApiResponse } from '@/types/api';
-import { getSession } from '@/middlewares/authorization.middleware';
 
-export class UsuarioController {
+export class AdminController {
   async listar(): Promise<NextResponse<ApiResponse>> {
     try {
-      const session = await getSession();
-      let agentIds: number[] | undefined;
-
-      if (session?.user?.role !== 'master') {
-        agentIds = session?.user?.agentIds || [];
-      }
-
-      const usuarios = await usuarioService.listar(agentIds);
+      const admins = await adminService.listar();
       return NextResponse.json({
         success: true,
-        data: usuarios,
-        message: 'Usuários listados com sucesso',
+        data: admins,
+        message: 'Admins listados com sucesso',
       });
     } catch (error) {
       return NextResponse.json(
         {
           success: false,
-          message: error instanceof Error ? error.message : 'Erro ao listar usuários',
+          message: error instanceof Error ? error.message : 'Erro ao listar admins',
         },
         { status: 500 }
       );
@@ -33,12 +25,12 @@ export class UsuarioController {
 
   async buscarPorId(id: number): Promise<NextResponse<ApiResponse>> {
     try {
-      const usuario = await usuarioService.buscarPorId(id);
-      if (!usuario) {
+      const admin = await adminService.buscarPorId(id);
+      if (!admin) {
         return NextResponse.json(
           {
             success: false,
-            message: 'Usuário não encontrado',
+            message: 'Admin não encontrado',
           },
           { status: 404 }
         );
@@ -46,43 +38,14 @@ export class UsuarioController {
 
       return NextResponse.json({
         success: true,
-        data: usuario,
-        message: 'Usuário encontrado',
+        data: admin,
+        message: 'Admin encontrado',
       });
     } catch (error) {
       return NextResponse.json(
         {
           success: false,
-          message: error instanceof Error ? error.message : 'Erro ao buscar usuário',
-        },
-        { status: 500 }
-      );
-    }
-  }
-
-  async buscarPorChatId(chatId: number): Promise<NextResponse<ApiResponse>> {
-    try {
-      const usuario = await usuarioService.buscarPorChatId(chatId);
-      if (!usuario) {
-        return NextResponse.json(
-          {
-            success: false,
-            message: 'Usuário não encontrado',
-          },
-          { status: 404 }
-        );
-      }
-
-      return NextResponse.json({
-        success: true,
-        data: usuario,
-        message: 'Usuário encontrado',
-      });
-    } catch (error) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error instanceof Error ? error.message : 'Erro ao buscar usuário',
+          message: error instanceof Error ? error.message : 'Erro ao buscar admin',
         },
         { status: 500 }
       );
@@ -92,14 +55,14 @@ export class UsuarioController {
   async criar(request: NextRequest): Promise<NextResponse<ApiResponse>> {
     try {
       const body = await request.json();
-      const validated = criarUsuarioSchema.parse(body);
-      const usuario = await usuarioService.criar(validated);
+      const validated = criarAdminSchema.parse(body);
+      const admin = await adminService.criar(validated);
 
       return NextResponse.json(
         {
           success: true,
-          data: usuario,
-          message: 'Usuário criado com sucesso',
+          data: admin,
+          message: 'Admin criado com sucesso',
         },
         { status: 201 }
       );
@@ -118,7 +81,7 @@ export class UsuarioController {
       return NextResponse.json(
         {
           success: false,
-          message: error instanceof Error ? error.message : 'Erro ao criar usuário',
+          message: error instanceof Error ? error.message : 'Erro ao criar admin',
         },
         { status: 500 }
       );
@@ -128,13 +91,13 @@ export class UsuarioController {
   async atualizar(id: number, request: NextRequest): Promise<NextResponse<ApiResponse>> {
     try {
       const body = await request.json();
-      const validated = atualizarUsuarioSchema.parse(body);
-      const usuario = await usuarioService.atualizar(id, validated);
+      const validated = atualizarAdminSchema.parse(body);
+      const admin = await adminService.atualizar(id, validated);
 
       return NextResponse.json({
         success: true,
-        data: usuario,
-        message: 'Usuário atualizado com sucesso',
+        data: admin,
+        message: 'Admin atualizado com sucesso',
       });
     } catch (error) {
       if (error instanceof Error && error.name === 'ZodError') {
@@ -148,7 +111,7 @@ export class UsuarioController {
         );
       }
 
-      if (error instanceof Error && error.message === 'Usuário não encontrado') {
+      if (error instanceof Error && error.message === 'Admin não encontrado') {
         return NextResponse.json(
           {
             success: false,
@@ -161,7 +124,7 @@ export class UsuarioController {
       return NextResponse.json(
         {
           success: false,
-          message: error instanceof Error ? error.message : 'Erro ao atualizar usuário',
+          message: error instanceof Error ? error.message : 'Erro ao atualizar admin',
         },
         { status: 500 }
       );
@@ -170,13 +133,13 @@ export class UsuarioController {
 
   async deletar(id: number): Promise<NextResponse<ApiResponse>> {
     try {
-      await usuarioService.deletar(id);
+      await adminService.deletar(id);
       return NextResponse.json({
         success: true,
-        message: 'Usuário deletado com sucesso',
+        message: 'Admin deletado com sucesso',
       });
     } catch (error) {
-      if (error instanceof Error && error.message === 'Usuário não encontrado') {
+      if (error instanceof Error && error.message === 'Admin não encontrado') {
         return NextResponse.json(
           {
             success: false,
@@ -189,7 +152,7 @@ export class UsuarioController {
       return NextResponse.json(
         {
           success: false,
-          message: error instanceof Error ? error.message : 'Erro ao deletar usuário',
+          message: error instanceof Error ? error.message : 'Erro ao deletar admin',
         },
         { status: 500 }
       );
@@ -197,4 +160,4 @@ export class UsuarioController {
   }
 }
 
-export const usuarioController = new UsuarioController();
+export const adminController = new AdminController();

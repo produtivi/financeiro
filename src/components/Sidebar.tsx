@@ -12,26 +12,34 @@ import {
   Menu,
   X,
   BarChart3,
-  FileText
+  FileText,
+  Shield,
+  Link as LinkIcon
 } from 'lucide-react';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import Image from 'next/image';
 
 const menuItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/usuarios', label: 'Usuários', icon: Users },
-  { href: '/dashboard/grupos', label: 'Grupos', icon: Users },
-  { href: '/dashboard/transacoes', label: 'Transações', icon: TrendingUp },
-  { href: '/dashboard/metas', label: 'Metas', icon: Target },
-  { href: '/dashboard/categorias', label: 'Categorias', icon: Folder },
-  { href: '/dashboard/questionarios', label: 'Questionários', icon: FileText },
-  { href: '/dashboard/metricas-agentes', label: 'Métricas Agentes', icon: BarChart3 },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['master', 'admin', 'user'] },
+  { href: '/dashboard/usuarios', label: 'Usuários', icon: Users, roles: ['master', 'admin'] },
+  { href: '/dashboard/grupos', label: 'Grupos', icon: Users, roles: ['master', 'admin'] },
+  { href: '/dashboard/transacoes', label: 'Transações', icon: TrendingUp, roles: ['master', 'admin'] },
+  { href: '/dashboard/metas', label: 'Metas', icon: Target, roles: ['master', 'admin'] },
+  { href: '/dashboard/categorias', label: 'Categorias', icon: Folder, roles: ['master', 'admin'] },
+  { href: '/dashboard/questionarios', label: 'Questionários', icon: FileText, roles: ['master', 'admin'] },
+  { href: '/dashboard/metricas-agentes', label: 'Métricas Agentes', icon: BarChart3, roles: ['master', 'admin'] },
+  { href: '/dashboard/admins', label: 'Admins', icon: Shield, roles: ['master'] },
+  { href: '/dashboard/admin-agentes', label: 'Vínculos Admin-Agente', icon: LinkIcon, roles: ['master'] },
 ];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+
+  const userRole = session?.user?.role || 'user';
+  const filteredMenuItems = menuItems.filter(item => item.roles.includes(userRole));
 
   return (
     <>
@@ -58,7 +66,7 @@ export default function Sidebar() {
         </div>
 
         <nav className="flex-1 p-4 space-y-1">
-          {menuItems.map((item) => {
+          {filteredMenuItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
 

@@ -21,6 +21,8 @@ async function main() {
   const nome = await question('Nome completo: ');
   const email = await question('Email: ');
   const senha = await question('Senha (min 6 caracteres): ');
+  const roleInput = await question('Role (master/admin/user) [user]: ');
+  const role = (roleInput.toLowerCase() || 'user') as 'master' | 'admin' | 'user';
 
   if (!nome || !email || !senha) {
     console.error('❌ Todos os campos são obrigatórios!');
@@ -32,11 +34,16 @@ async function main() {
     process.exit(1);
   }
 
+  if (!['master', 'admin', 'user'].includes(role)) {
+    console.error('❌ Role inválida! Use: master, admin ou user');
+    process.exit(1);
+  }
+
   const adminExistente = await prisma.admin.findUnique({
     where: { email },
   });
 
-  if (adminExistente) {
+  if (adminExistente && !adminExistente.deletado_em) {
     console.error('❌ Email já cadastrado!');
     process.exit(1);
   }
@@ -48,13 +55,16 @@ async function main() {
       nome,
       email,
       senha_hash,
+      role,
+      ativo: true,
     },
   });
 
   console.log('\n✅ Admin criado com sucesso!');
   console.log(`ID: ${admin.id}`);
   console.log(`Nome: ${admin.nome}`);
-  console.log(`Email: ${admin.email}\n`);
+  console.log(`Email: ${admin.email}`);
+  console.log(`Role: ${admin.role}\n`);
 }
 
 main()

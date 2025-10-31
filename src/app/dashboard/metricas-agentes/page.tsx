@@ -99,9 +99,7 @@ export default function MetricasAgentesPage() {
 
   const carregarUsuarios = async () => {
     try {
-      const res = await fetch('/api/v1/usuarios', {
-        headers: { 'x-api-key': API_KEY },
-      });
+      const res = await fetch('/api/v1/usuarios');
       const data = await res.json();
       if (data.success) {
         setUsuarios(data.data);
@@ -126,12 +124,8 @@ export default function MetricasAgentesPage() {
       const [resSummary, resDaily, resTransacoes, resMetas] = await Promise.all([
         fetch(`${AGENT_API_URL}/public/agent-metrics/${usuario.agent_id}/summary?${params}`),
         fetch(`${AGENT_API_URL}/public/agent-metrics/${usuario.agent_id}/daily?${params}`),
-        fetch(`/api/v1/transacoes?usuario_id=${usuario.id}`, {
-          headers: { 'x-api-key': API_KEY },
-        }),
-        fetch(`/api/v1/metas?usuario_id=${usuario.id}`, {
-          headers: { 'x-api-key': API_KEY },
-        }),
+        fetch(`/api/v1/transacoes?usuario_id=${usuario.id}`),
+        fetch(`/api/v1/metas?usuario_id=${usuario.id}`),
       ]);
 
       const [dataSummary, dataDaily, dataTransacoes, dataMetas] = await Promise.all([
