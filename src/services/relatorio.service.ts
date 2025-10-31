@@ -93,7 +93,7 @@ export const relatorioService = {
     const periodo = this.formatarPeriodo(data_inicio, data_fim);
 
     let buffer: Buffer;
-    let tituloFinal = titulo || `Relatório Financeiro - ${periodo}`;
+    const tituloFinal = titulo || `Relatório Financeiro - ${periodo}`;
 
     switch (tipo_grafico) {
       case 'geral':

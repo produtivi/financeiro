@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { relatorioService } from '@/services/relatorio.service';
 import { gerarRelatorioSchema } from '@/validators/relatorio.validator';
 import { ApiResponse } from '@/types/api';
+import { ZodIssue } from 'zod';
 
 export const relatorioController = {
   async gerar(req: NextRequest): Promise<NextResponse<ApiResponse>> {
@@ -14,7 +15,7 @@ export const relatorioController = {
           {
             success: false,
             message: 'Dados inválidos',
-            errors: validacao.error.issues.map((err: any) => ({
+            errors: validacao.error.issues.map((err: ZodIssue) => ({
               campo: err.path.join('.'),
               mensagem: err.message
             }))

@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/prisma';
+import { Prisma } from '@prisma/client';
 
 export const metaService = {
   async criar(dados: {
@@ -34,7 +35,7 @@ export const metaService = {
     tipo_meta?: string;
     cumprida?: boolean;
   }) {
-    const where: any = {
+    const where: Prisma.MetaWhereInput = {
       usuario_id,
     };
 
@@ -97,7 +98,7 @@ export const metaService = {
   }) {
     await this.buscarPorId(id, usuario_id);
 
-    const updateData: any = {};
+    const updateData: Prisma.MetaUpdateInput = {};
 
     if (dados.descricao) updateData.descricao = dados.descricao;
     if (dados.tipo_meta) updateData.tipo_meta = dados.tipo_meta;
@@ -147,7 +148,7 @@ export const metaService = {
   },
 
   async estatisticas(usuario_id: number, periodo?: { data_inicio: string; data_fim: string }) {
-    const where: any = { usuario_id };
+    const where: Prisma.MetaWhereInput = { usuario_id };
 
     if (periodo) {
       where.data_inicio = { gte: new Date(periodo.data_inicio) };

@@ -74,7 +74,7 @@ export class QuestionarioService {
     const contarRespostas = (campo: string) => {
       const contagem: Record<string, number> = {};
       questionarios.forEach((q) => {
-        const valor = (q as any)[campo];
+        const valor = (q as Record<string, string | null>)[campo];
         if (valor) {
           contagem[valor] = (contagem[valor] || 0) + 1;
         }

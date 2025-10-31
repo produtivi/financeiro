@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { metaService } from '@/services/meta.service';
 import { criarMetaSchema, atualizarMetaSchema, marcarCumpridaSchema } from '@/validators/meta.validator';
 import { ApiResponse } from '@/types/api';
+import { ZodIssue } from 'zod';
 
 export const metaController = {
   async criar(req: NextRequest): Promise<NextResponse<ApiResponse>> {
@@ -14,7 +15,7 @@ export const metaController = {
           {
             success: false,
             message: 'Dados inválidos',
-            errors: validacao.error.issues.map((err: any) => ({
+            errors: validacao.error.issues.map((err: ZodIssue) => ({
               campo: err.path.join('.'),
               mensagem: err.message
             }))
@@ -64,7 +65,7 @@ export const metaController = {
         );
       }
 
-      const filtros: any = {};
+      const filtros: Record<string, string> = {};
       if (data_inicio) filtros.data_inicio = data_inicio;
       if (data_fim) filtros.data_fim = data_fim;
       if (tipo_meta) filtros.tipo_meta = tipo_meta;
@@ -157,7 +158,7 @@ export const metaController = {
           {
             success: false,
             message: 'Dados inválidos',
-            errors: validacao.error.issues.map((err: any) => ({
+            errors: validacao.error.issues.map((err: ZodIssue) => ({
               campo: err.path.join('.'),
               mensagem: err.message
             }))
@@ -219,7 +220,7 @@ export const metaController = {
           {
             success: false,
             message: 'Dados inválidos',
-            errors: validacao.error.issues.map((err: any) => ({
+            errors: validacao.error.issues.map((err: ZodIssue) => ({
               campo: err.path.join('.'),
               mensagem: err.message
             }))

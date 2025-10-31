@@ -13,6 +13,17 @@ import {
   XCircle
 } from 'lucide-react';
 
+interface Usuario {
+  id: number;
+  status: string;
+  grupo_experimental?: string;
+}
+
+interface Transacao {
+  tipo: 'receita' | 'despesa';
+  valor: number;
+}
+
 interface DashboardStats {
   usuarios: {
     total: number;
@@ -84,21 +95,21 @@ export default function DashboardPage() {
       const transacoes = dataTransacoes.success ? dataTransacoes.data : [];
 
       const porGrupo: Record<string, number> = {};
-      usuarios.forEach((u: any) => {
+      usuarios.forEach((u: Usuario) => {
         const grupo = u.grupo_experimental || 'controle';
         porGrupo[grupo] = (porGrupo[grupo] || 0) + 1;
       });
 
-      const receitas = transacoes.filter((t: any) => t.tipo === 'receita');
-      const despesas = transacoes.filter((t: any) => t.tipo === 'despesa');
+      const receitas = transacoes.filter((t: Transacao) => t.tipo === 'receita');
+      const despesas = transacoes.filter((t: Transacao) => t.tipo === 'despesa');
 
-      const totalReceitas = receitas.reduce((sum: number, t: any) => sum + Number(t.valor), 0);
-      const totalDespesas = despesas.reduce((sum: number, t: any) => sum + Number(t.valor), 0);
+      const totalReceitas = receitas.reduce((sum: number, t: Transacao) => sum + Number(t.valor), 0);
+      const totalDespesas = despesas.reduce((sum: number, t: Transacao) => sum + Number(t.valor), 0);
 
       setStats({
         usuarios: {
           total: usuarios.length,
-          ativos: usuarios.filter((u: any) => u.status === 'active').length,
+          ativos: usuarios.filter((u: Usuario) => u.status === 'active').length,
           porGrupo,
         },
         transacoes: {
