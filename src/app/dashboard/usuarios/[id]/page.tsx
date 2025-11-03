@@ -128,7 +128,26 @@ export default function UsuarioDetalhePage({ params }: { params: Promise<{ id: s
   };
 
   const formatarData = (data: string) => {
-    return new Date(data + 'T00:00:00').toLocaleDateString('pt-BR');
+    try {
+      if (!data) return 'Data não disponível';
+
+      const dataObj = new Date(data);
+
+      if (isNaN(dataObj.getTime())) {
+        const dataLimpa = data.split('T')[0];
+        const dataComHora = new Date(dataLimpa + 'T00:00:00');
+
+        if (isNaN(dataComHora.getTime())) {
+          return 'Invalid Date';
+        }
+
+        return dataComHora.toLocaleDateString('pt-BR');
+      }
+
+      return dataObj.toLocaleDateString('pt-BR');
+    } catch {
+      return 'Invalid Date';
+    }
   };
 
   const getGrupoColor = (grupo: string) => {
@@ -479,7 +498,7 @@ export default function UsuarioDetalhePage({ params }: { params: Promise<{ id: s
                           </span>
                           {meta.respondido_em && (
                             <span>
-                              Respondido: {new Date(meta.respondido_em).toLocaleDateString('pt-BR')}
+                              Respondido: {formatarData(meta.respondido_em)}
                             </span>
                           )}
                         </div>

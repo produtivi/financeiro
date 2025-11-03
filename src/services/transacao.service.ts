@@ -13,6 +13,10 @@ export class TransacaoService {
       where.tipo = filtros.tipo;
     }
 
+    if (filtros?.tipo_caixa) {
+      where.tipo_caixa = filtros.tipo_caixa;
+    }
+
     if (filtros?.categoria_id) {
       where.categoria_id = filtros.categoria_id;
     }

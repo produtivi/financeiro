@@ -23,6 +23,7 @@ import {
 
 interface Usuario {
   id: number;
+  chat_id: number;
   agent_id: number;
   nome?: string;
 }
@@ -86,8 +87,7 @@ export default function MetricasAgentesPage() {
   const [dataInicio, setDataInicio] = useState('');
   const [dataFim, setDataFim] = useState('');
 
-  const API_KEY = process.env.NEXT_PUBLIC_API_KEY || 'hkjsaDFSkjSDF39847sfkjdWr23';
-  const AGENT_API_URL = process.env.AGENT_API_URL || 'http://localhost:3333';
+  const AGENT_API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL;
 
   useEffect(() => {
     carregarUsuarios();
@@ -122,15 +122,15 @@ export default function MetricasAgentesPage() {
       if (dataFim) params.append('endDate', dataFim);
 
       const [resSummary, resDaily, resTransacoes, resMetas] = await Promise.all([
-        fetch(`${AGENT_API_URL}/public/agent-metrics/${usuario.agent_id}/summary?${params}`),
-        fetch(`${AGENT_API_URL}/public/agent-metrics/${usuario.agent_id}/daily?${params}`),
+        fetch(`${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/summary?${params}`).catch(() => ({ ok: false })),
+        fetch(`${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/daily?${params}`).catch(() => ({ ok: false })),
         fetch(`/api/v1/transacoes?usuario_id=${usuario.id}`),
         fetch(`/api/v1/metas?usuario_id=${usuario.id}`),
       ]);
 
       const [dataSummary, dataDaily, dataTransacoes, dataMetas] = await Promise.all([
-        resSummary.json(),
-        resDaily.json(),
+        resSummary.ok ? resSummary.json() : { success: false },
+        resDaily.ok ? resDaily.json() : { success: false },
         resTransacoes.json(),
         resMetas.json(),
       ]);

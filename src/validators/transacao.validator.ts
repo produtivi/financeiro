@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const criarTransacaoSchema = z.object({
   usuario_id: z.number().int().positive('usuario_id deve ser um número positivo'),
   tipo: z.enum(['receita', 'despesa'], { message: 'Tipo deve ser receita ou despesa' }),
+  tipo_caixa: z.enum(['pessoal', 'negocio'], { message: 'Tipo de caixa deve ser pessoal ou negocio' }).default('pessoal'),
   valor: z.number().positive('Valor deve ser positivo'),
   categoria_id: z.number().int().positive('categoria_id deve ser um número positivo'),
   descricao: z.string().optional(),
@@ -13,6 +14,7 @@ export const criarTransacaoSchema = z.object({
 
 export const atualizarTransacaoSchema = z.object({
   tipo: z.enum(['receita', 'despesa'], { message: 'Tipo deve ser receita ou despesa' }).optional(),
+  tipo_caixa: z.enum(['pessoal', 'negocio'], { message: 'Tipo de caixa deve ser pessoal ou negocio' }).optional(),
   valor: z.number().positive('Valor deve ser positivo').optional(),
   categoria_id: z.number().int().positive('categoria_id deve ser um número positivo').optional(),
   descricao: z.string().optional(),
@@ -27,6 +29,7 @@ export const atualizarTransacaoSchema = z.object({
 export const filtrosTransacaoSchema = z.object({
   usuario_id: z.number().int().positive().optional(),
   tipo: z.enum(['receita', 'despesa']).optional(),
+  tipo_caixa: z.enum(['pessoal', 'negocio']).optional(),
   categoria_id: z.number().int().positive().optional(),
   data_inicio: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: 'Data inicial inválida',
