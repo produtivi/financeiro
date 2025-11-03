@@ -1,6 +1,6 @@
 import QuickChart from 'quickchart-js';
-import puppeteer from 'puppeteer';
 import { gerarHTMLDashboard } from './html-dashboard-generator';
+import { convertHtmlToImage } from './html-to-image';
 
 export interface DadosGrafico {
   labels: string[];
@@ -48,26 +48,11 @@ export async function gerarDashboardGeral(
 ): Promise<Buffer> {
   const html = gerarHTMLDashboard(dados);
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  return await convertHtmlToImage({
+    html,
+    width: 1200,
+    height: 1400
   });
-
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1200, height: 1400 });
-  await page.setContent(html, { waitUntil: 'networkidle0' });
-
-  // Aguardar os gráficos renderizarem
-  await new Promise(resolve => setTimeout(resolve, 2000));
-
-  const screenshot = await page.screenshot({
-    type: 'png',
-    fullPage: true
-  });
-
-  await browser.close();
-
-  return Buffer.from(screenshot);
 }
 
 export async function gerarGraficoPizza(
