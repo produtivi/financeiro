@@ -122,15 +122,15 @@ export default function MetricasAgentesPage() {
       if (dataFim) params.append('endDate', dataFim);
 
       const [resSummary, resDaily, resTransacoes, resMetas] = await Promise.all([
-        fetch(`${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/summary?${params}`).catch(() => ({ ok: false })),
-        fetch(`${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/daily?${params}`).catch(() => ({ ok: false })),
+        fetch(`${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/summary?${params}`).catch(() => null),
+        fetch(`${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/daily?${params}`).catch(() => null),
         fetch(`/api/v1/transacoes?usuario_id=${usuario.id}`),
         fetch(`/api/v1/metas?usuario_id=${usuario.id}`),
       ]);
 
       const [dataSummary, dataDaily, dataTransacoes, dataMetas] = await Promise.all([
-        resSummary.ok ? resSummary.json() : { success: false },
-        resDaily.ok ? resDaily.json() : { success: false },
+        resSummary && resSummary.ok ? resSummary.json() : { success: false },
+        resDaily && resDaily.ok ? resDaily.json() : { success: false },
         resTransacoes.json(),
         resMetas.json(),
       ]);
