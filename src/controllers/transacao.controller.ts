@@ -16,6 +16,9 @@ export class TransacaoController {
       if (searchParams.get('tipo')) {
         filtros.tipo = searchParams.get('tipo');
       }
+      if (searchParams.get('tipo_caixa')) {
+        filtros.tipo_caixa = searchParams.get('tipo_caixa');
+      }
       if (searchParams.get('categoria_id')) {
         filtros.categoria_id = Number(searchParams.get('categoria_id'));
       }
