@@ -7,6 +7,10 @@ export const criarTransacaoSchema = z.object({
   valor: z.number().positive('Valor deve ser positivo'),
   categoria_id: z.number().int().positive('categoria_id deve ser um número positivo'),
   descricao: z.string().optional(),
+  tipo_entrada: z.enum(['texto', 'audio', 'foto', 'video', 'nota_fiscal'], {
+    message: 'Tipo de entrada deve ser texto, audio, foto, video ou nota_fiscal'
+  }).default('texto'),
+  arquivo_url: z.string().optional(),
   data_transacao: z.string().refine((date) => !isNaN(Date.parse(date)), {
     message: 'Data inválida',
   }),
@@ -18,6 +22,8 @@ export const atualizarTransacaoSchema = z.object({
   valor: z.number().positive('Valor deve ser positivo').optional(),
   categoria_id: z.number().int().positive('categoria_id deve ser um número positivo').optional(),
   descricao: z.string().optional(),
+  tipo_entrada: z.enum(['texto', 'audio', 'foto', 'video', 'nota_fiscal']).optional(),
+  arquivo_url: z.string().optional(),
   data_transacao: z
     .string()
     .refine((date) => !isNaN(Date.parse(date)), {

@@ -105,6 +105,7 @@ model Usuario {
   relatorios          Relatorio[]
   metas               Meta[]
   questionarios       Questionario[]
+  latencias           Latencia[]
 
   @@index([grupo_id])
   @@index([telefone])
@@ -239,4 +240,24 @@ model Questionario {
   @@index([usuario_id])
   @@index([criado_em])
   @@map("questionarios")
+}
+
+model Latencia {
+  id                    Int      @id @default(autoincrement())
+  usuario_id            Int
+  agent_id              Int
+  momento_lembrete      DateTime
+  momento_resposta      DateTime
+  latencia_segundos     Int
+  tipo_lembrete         String?  @db.VarChar(100)
+  respondeu             Boolean  @default(true)
+  criado_em             DateTime @default(now())
+
+  usuario               Usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade)
+
+  @@index([usuario_id])
+  @@index([agent_id])
+  @@index([momento_lembrete])
+  @@index([criado_em])
+  @@map("latencias")
 }

@@ -14,7 +14,8 @@ import {
   BarChart3,
   FileText,
   Shield,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Clock
 } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { useState } from 'react';
@@ -29,6 +30,7 @@ const menuItems = [
   { href: '/dashboard/categorias', label: 'Categorias', icon: Folder, roles: ['master', 'admin'] },
   { href: '/dashboard/questionarios', label: 'Questionários', icon: FileText, roles: ['master', 'admin'] },
   { href: '/dashboard/metricas-agentes', label: 'Métricas Agentes', icon: BarChart3, roles: ['master', 'admin'] },
+  { href: '/dashboard/latencias', label: 'Latências', icon: Clock, roles: ['master', 'admin'] },
   { href: '/dashboard/admins', label: 'Admins', icon: Shield, roles: ['master'] },
   { href: '/dashboard/admin-agentes', label: 'Vínculos Admin-Agente', icon: LinkIcon, roles: ['master'] },
 ];
