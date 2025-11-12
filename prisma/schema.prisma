@@ -231,6 +231,7 @@ model Questionario {
   resposta_10  String   @db.VarChar(255)
   resposta_11  String?  @db.Text
   resposta_12  String   @db.VarChar(255)
+  resposta_13  String   @db.VarChar(255)
 
   criado_em    DateTime @default(now())
   atualizado_em DateTime @updatedAt

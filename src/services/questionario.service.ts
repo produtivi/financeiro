@@ -96,6 +96,7 @@ export class QuestionarioService {
         pergunta_9: contarRespostas('resposta_9'),
         pergunta_10: contarRespostas('resposta_10'),
         pergunta_12: contarRespostas('resposta_12'),
+        pergunta_13: contarRespostas('resposta_13'),
       },
     };
   }

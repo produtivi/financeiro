@@ -25,6 +25,7 @@ interface Questionario {
   resposta_10: string;
   resposta_11?: string;
   resposta_12: string;
+  resposta_13: string;
   criado_em: string;
   usuario: Usuario;
   [key: string]: string | number | Usuario | undefined;
@@ -47,7 +48,8 @@ const PERGUNTAS = {
   9: 'Frequência de registro',
   10: 'Estabelece metas',
   11: 'Acompanhamento de metas (aberta)',
-  12: 'Nível de confiança',
+  12: 'Separa dinheiro pessoal do negócio',
+  13: 'Nível de confiança',
 };
 
 export default function QuestionariosPage() {

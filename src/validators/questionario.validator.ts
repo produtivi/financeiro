@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Schema para formato do agente (array de respostas)
 export const criarQuestionarioAgenteSchema = z.object({
   usuario_id: z.number().int().positive('usuario_id deve ser um número positivo'),
-  respostas: z.array(z.string()).length(12, 'Deve conter exatamente 12 respostas'),
+  respostas: z.array(z.string()).length(13, 'Deve conter exatamente 13 respostas'),
 });
 
 // Schema para formato direto (objeto com campos)
@@ -21,6 +21,7 @@ export const criarQuestionarioSchema = z.object({
   resposta_10: z.string().min(1, 'resposta_10 é obrigatória').max(255),
   resposta_11: z.string().optional(),
   resposta_12: z.string().min(1, 'resposta_12 é obrigatória').max(255),
+  resposta_13: z.string().min(1, 'resposta_13 é obrigatória').max(255),
 });
 
 export type CriarQuestionarioAgenteDTO = z.infer<typeof criarQuestionarioAgenteSchema>;
@@ -42,5 +43,6 @@ export function converterRespostasParaObjeto(data: CriarQuestionarioAgenteDTO): 
     resposta_10: data.respostas[9],
     resposta_11: data.respostas[10] || undefined,
     resposta_12: data.respostas[11],
+    resposta_13: data.respostas[12],
   };
 }
