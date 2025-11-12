@@ -316,6 +316,131 @@ export class DashboardService {
       porTipo,
     };
   }
+
+  async exportarDados(filters: DashboardMetricsFilters) {
+    const { startDate, endDate, agentIds, grupoId, usuarioId } = filters;
+
+    const whereUsuario: any = { deletado_em: null };
+
+    if (agentIds && agentIds.length > 0) {
+      whereUsuario.agent_id = { in: agentIds };
+    }
+
+    if (grupoId) {
+      whereUsuario.grupo_id = grupoId;
+    }
+
+    if (usuarioId) {
+      whereUsuario.id = usuarioId;
+    }
+
+    const usuariosPermitidos = await prisma.usuario.findMany({
+      where: whereUsuario,
+      select: { id: true },
+    });
+
+    const usuarioIds = usuariosPermitidos.map((u) => u.id);
+
+    if (usuarioIds.length === 0) {
+      return {
+        usuarios: [],
+        transacoes: [],
+        metas: [],
+        mensagens: [],
+      };
+    }
+
+    const [usuarios, transacoes, metas] = await Promise.all([
+      prisma.usuario.findMany({
+        where: {
+          id: { in: usuarioIds },
+          deletado_em: null,
+        },
+        include: {
+          grupo: {
+            select: { id: true, nome: true },
+          },
+        },
+      }),
+      prisma.transacao.findMany({
+        where: {
+          usuario_id: { in: usuarioIds },
+          deletado_em: null,
+          data_transacao: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+        include: {
+          categoria: {
+            select: { id: true, nome: true },
+          },
+          usuario: {
+            select: { id: true, nome: true, chat_id: true, agent_id: true },
+          },
+        },
+        orderBy: { data_transacao: 'desc' },
+      }),
+      prisma.meta.findMany({
+        where: {
+          usuario_id: { in: usuarioIds },
+          data_inicio: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+        include: {
+          usuario: {
+            select: { id: true, nome: true, chat_id: true, agent_id: true },
+          },
+        },
+        orderBy: { data_inicio: 'desc' },
+      }),
+    ]);
+
+    const AGENT_API_URL = process.env.AGENT_API_URL;
+    const mensagens: any[] = [];
+
+    if (AGENT_API_URL) {
+      const params = new URLSearchParams({
+        startDate: startDate.toISOString().split('T')[0],
+        endDate: endDate.toISOString().split('T')[0],
+      });
+
+      for (const usuario of usuarios) {
+        try {
+          const response = await fetch(
+            `${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/summary?${params}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            if (data.success && data.data.inbound_by_type) {
+              Object.entries(data.data.inbound_by_type).forEach(([tipo, quantidade]) => {
+                mensagens.push({
+                  usuario_id: usuario.id,
+                  usuario_nome: usuario.nome,
+                  chat_id: usuario.chat_id,
+                  agent_id: usuario.agent_id,
+                  grupo: usuario.grupo?.nome || 'Sem Grupo',
+                  tipo_mensagem: tipo,
+                  quantidade: quantidade,
+                });
+              });
+            }
+          }
+        } catch (error) {
+          console.error(`Erro ao buscar mensagens do usuário ${usuario.id}:`, error);
+        }
+      }
+    }
+
+    return {
+      usuarios,
+      transacoes,
+      metas,
+      mensagens,
+    };
+  }
 }
 
 export const dashboardService = new DashboardService();

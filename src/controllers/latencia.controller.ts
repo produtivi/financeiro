@@ -41,7 +41,7 @@ export class LatenciaController {
           {
             success: false,
             message: 'Dados inválidos',
-            errors: error.errors,
+            errors: error.issues,
           },
           { status: 400 }
         );

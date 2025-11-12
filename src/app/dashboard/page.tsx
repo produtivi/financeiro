@@ -21,6 +21,7 @@ import {
   Briefcase,
   User,
   PieChart as PieChartIcon,
+  Download,
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
@@ -246,6 +247,37 @@ export default function DashboardPage() {
     }).format(valor);
   };
 
+  const exportarDados = async () => {
+    try {
+      const params = new URLSearchParams({
+        startDate: dataInicio,
+        endDate: dataFim,
+      });
+
+      if (grupoSelecionado) {
+        params.append('grupoId', grupoSelecionado);
+      }
+
+      if (usuarioSelecionado) {
+        params.append('usuarioId', usuarioSelecionado);
+      }
+
+      const response = await fetch(`/api/v1/dashboard/exportar?${params}`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dashboard-export-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Erro ao exportar dados:', error);
+      alert('Erro ao exportar dados');
+    }
+  };
+
   const dadosGrupos = metrics
     ? Object.entries(metrics.usuarios.porGrupo).map(([nome, valor]) => ({
         name: nome,
@@ -285,9 +317,18 @@ export default function DashboardPage() {
       </div>
 
       <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Filter className="w-5 h-5 text-blue-400" />
-          <h2 className="text-lg font-semibold text-white">Filtros</h2>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Filter className="w-5 h-5 text-blue-400" />
+            <h2 className="text-lg font-semibold text-white">Filtros</h2>
+          </div>
+          <button
+            onClick={exportarDados}
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Exportar Dados
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -546,7 +587,7 @@ export default function DashboardPage() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }) => `${name}: ${((percent || 0) * 100).toFixed(0)}%`}
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
