@@ -48,6 +48,7 @@ export class DashboardController {
         message: 'Métricas da dashboard obtidas com sucesso',
       });
     } catch (error) {
+      console.error('Erro ao obter métricas da dashboard:', error);
       return NextResponse.json(
         {
           success: false,
@@ -67,6 +68,7 @@ export class DashboardController {
         message: 'Grupos listados com sucesso',
       });
     } catch (error) {
+      console.error('Erro ao listar grupos:', error);
       return NextResponse.json(
         {
           success: false,
@@ -93,6 +95,7 @@ export class DashboardController {
         message: 'Usuários listados com sucesso',
       });
     } catch (error) {
+      console.error('Erro ao listar usuários:', error);
       return NextResponse.json(
         {
           success: false,

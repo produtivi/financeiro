@@ -7,20 +7,25 @@ import { getSession } from '@/middlewares/authorization.middleware';
 export class UsuarioController {
   async listar(): Promise<NextResponse<ApiResponse>> {
     try {
+      console.log('[UsuarioController] Iniciando listagem de usuários');
       const session = await getSession();
+      console.log('[UsuarioController] Session obtida:', session ? 'OK' : 'NULL');
       let agentIds: number[] | undefined;
 
       if (session?.user?.role !== 'master') {
         agentIds = session?.user?.agentIds || [];
       }
+      console.log('[UsuarioController] AgentIds:', agentIds);
 
       const usuarios = await usuarioService.listar(agentIds);
+      console.log('[UsuarioController] Usuários listados:', usuarios.length);
       return NextResponse.json({
         success: true,
         data: usuarios,
         message: 'Usuários listados com sucesso',
       });
     } catch (error) {
+      console.error('[UsuarioController] Erro ao listar usuários:', error);
       return NextResponse.json(
         {
           success: false,
