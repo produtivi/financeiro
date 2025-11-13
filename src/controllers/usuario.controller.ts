@@ -89,6 +89,78 @@ export class UsuarioController {
     }
   }
 
+  async buscarPorTelefoneEAgent(telefone: string, agentId: number): Promise<NextResponse<ApiResponse>> {
+    try {
+      const usuario = await usuarioService.buscarPorTelefoneEAgent(telefone, agentId);
+      if (!usuario) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Usuário não encontrado',
+          },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json({
+        success: true,
+        data: usuario,
+        message: 'Usuário encontrado',
+      });
+    } catch (error) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: error instanceof Error ? error.message : 'Erro ao buscar usuário',
+        },
+        { status: 500 }
+      );
+    }
+  }
+
+  async atualizarPorTelefoneEAgent(telefone: string, agentId: number, request: NextRequest): Promise<NextResponse<ApiResponse>> {
+    try {
+      const body = await request.json();
+      const validated = atualizarUsuarioSchema.parse(body);
+      const usuario = await usuarioService.atualizarPorTelefoneEAgent(telefone, agentId, validated);
+
+      return NextResponse.json({
+        success: true,
+        data: usuario,
+        message: 'Usuário atualizado com sucesso',
+      });
+    } catch (error) {
+      if (error instanceof Error && error.name === 'ZodError') {
+        return NextResponse.json(
+          {
+            success: false,
+            message: 'Dados inválidos',
+            errors: error,
+          },
+          { status: 400 }
+        );
+      }
+
+      if (error instanceof Error && error.message === 'Usuário não encontrado') {
+        return NextResponse.json(
+          {
+            success: false,
+            message: error.message,
+          },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: error instanceof Error ? error.message : 'Erro ao atualizar usuário',
+        },
+        { status: 500 }
+      );
+    }
+  }
+
   async criar(request: NextRequest): Promise<NextResponse<ApiResponse>> {
     try {
       const body = await request.json();

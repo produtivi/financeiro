@@ -43,6 +43,34 @@ export class UsuarioService {
     });
   }
 
+  async buscarPorTelefoneEAgent(telefone: string, agentId: number) {
+    return await prisma.usuario.findFirst({
+      where: { telefone, agent_id: agentId, deletado_em: null },
+      include: {
+        grupo: {
+          select: { id: true, nome: true, descricao: true },
+        },
+      },
+    });
+  }
+
+  async atualizarPorTelefoneEAgent(telefone: string, agentId: number, data: AtualizarUsuarioDTO) {
+    const usuario = await this.buscarPorTelefoneEAgent(telefone, agentId);
+    if (!usuario) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    return await prisma.usuario.update({
+      where: { id: usuario.id },
+      data,
+      include: {
+        grupo: {
+          select: { id: true, nome: true, descricao: true },
+        },
+      },
+    });
+  }
+
   async criar(data: CriarUsuarioDTO) {
     return await prisma.usuario.create({
       data,
