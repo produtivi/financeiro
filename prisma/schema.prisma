@@ -91,7 +91,7 @@ model Grupo {
 
 model Usuario {
   id                  Int                 @id @default(autoincrement())
-  chat_id             Int                 @unique
+  chat_id             Int?                @unique
   agent_id            Int
   nome                String?             @db.VarChar(100)
   telefone            String?             @db.VarChar(20)
