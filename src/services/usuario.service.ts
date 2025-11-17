@@ -1,5 +1,11 @@
 import { prisma } from '@/lib/prisma';
-import { CriarUsuarioDTO, AtualizarUsuarioDTO } from '@/validators/usuario.validator';
+import { CriarUsuarioDTO, AtualizarUsuarioDTO, ImportarUsuarioLinhaDTO } from '@/validators/usuario.validator';
+
+interface ResultadoImportacao {
+  criados: number;
+  atualizados: number;
+  erros: Array<{ linha: number; erro: string; dados: any }>;
+}
 
 export class UsuarioService {
   async listar(agentIds?: number[]) {
@@ -99,6 +105,50 @@ export class UsuarioService {
       where: { id },
       data: { deletado_em: new Date() },
     });
+  }
+
+  async importarEmLote(usuarios: ImportarUsuarioLinhaDTO[]): Promise<ResultadoImportacao> {
+    const resultado: ResultadoImportacao = {
+      criados: 0,
+      atualizados: 0,
+      erros: [],
+    };
+
+    for (let i = 0; i < usuarios.length; i++) {
+      const usuario = usuarios[i];
+      try {
+        const existente = await this.buscarPorTelefoneEAgent(usuario.telefone, usuario.agent_id);
+
+        if (existente) {
+          await prisma.usuario.update({
+            where: { id: existente.id },
+            data: {
+              grupo_id: usuario.grupo_id,
+            },
+          });
+          resultado.atualizados++;
+        } else {
+          await prisma.usuario.create({
+            data: {
+              nome: usuario.nome,
+              telefone: usuario.telefone,
+              grupo_id: usuario.grupo_id,
+              agent_id: usuario.agent_id,
+              status: 'active',
+            },
+          });
+          resultado.criados++;
+        }
+      } catch (error) {
+        resultado.erros.push({
+          linha: i + 2,
+          erro: error instanceof Error ? error.message : 'Erro desconhecido',
+          dados: usuario,
+        });
+      }
+    }
+
+    return resultado;
   }
 }
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Users, Search, Filter, UserCheck, UserX, Eye, Edit2 } from 'lucide-react';
+import { Users, Search, Filter, UserCheck, UserX, Eye, Edit2, Upload, FileSpreadsheet, Download } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { read, utils } from 'xlsx';
 
 interface Grupo {
   id: number;
@@ -39,6 +40,14 @@ export default function UsuariosPage() {
   const [usuarioEditando, setUsuarioEditando] = useState<Usuario | null>(null);
   const [telefoneEdit, setTelefoneEdit] = useState('');
   const [grupoIdEdit, setGrupoIdEdit] = useState<number | null>(null);
+
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
+  const [previewDialogOpen, setPreviewDialogOpen] = useState(false);
+  const [resultadoDialogOpen, setResultadoDialogOpen] = useState(false);
+  const [dadosPreview, setDadosPreview] = useState<any[]>([]);
+  const [arquivoSelecionado, setArquivoSelecionado] = useState<File | null>(null);
+  const [importando, setImportando] = useState(false);
+  const [resultadoImportacao, setResultadoImportacao] = useState<any>(null);
 
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY || 'hkjsaDFSkjSDF39847sfkjdWr23';
 
@@ -148,14 +157,94 @@ export default function UsuariosPage() {
     });
   };
 
+  const converterGrupoIdParaNome = (grupoId: number): string => {
+    const mapa: { [key: number]: string } = {
+      1: 'Controle',
+      2: 'Informativo/Formal',
+      3: 'Padrão/Acolhedor',
+    };
+    return mapa[grupoId] || `Grupo ${grupoId}`;
+  };
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setArquivoSelecionado(file);
+
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const workbook = read(arrayBuffer);
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const dados = utils.sheet_to_json(worksheet);
+
+      setDadosPreview(dados);
+      setImportDialogOpen(false);
+      setPreviewDialogOpen(true);
+    } catch (error) {
+      console.error('Erro ao ler arquivo:', error);
+      alert('Erro ao ler o arquivo. Verifique se é um arquivo CSV ou Excel válido.');
+    }
+  };
+
+  const confirmarImportacao = async () => {
+    if (!arquivoSelecionado) return;
+
+    setImportando(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', arquivoSelecionado);
+
+      const res = await fetch('/api/v1/usuarios/importar', {
+        method: 'POST',
+        headers: { 'x-api-key': API_KEY },
+        body: formData,
+      });
+
+      const data = await res.json();
+      setResultadoImportacao(data);
+      setPreviewDialogOpen(false);
+      setResultadoDialogOpen(true);
+
+      if (data.success) {
+        carregarUsuarios();
+      }
+    } catch (error) {
+      console.error('Erro ao importar:', error);
+      alert('Erro ao importar usuários');
+    } finally {
+      setImportando(false);
+      setArquivoSelecionado(null);
+    }
+  };
+
+  const baixarModeloCSV = () => {
+    const csvContent = 'nome,telefone,grupo_id,agent_id\nJoão Silva,11999999999,1,1\nMaria Santos,11988888888,2,1\nPedro Costa,11977777777,3,1\n';
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'modelo-importacao-usuarios.csv';
+    link.click();
+  };
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-          <Users className="w-8 h-8" />
-          Usuários
-        </h1>
-        <p className="text-gray-400">Gerenciar usuários do sistema Impact Hub</p>
+      <div className="flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+            <Users className="w-8 h-8" />
+            Usuários
+          </h1>
+          <p className="text-gray-400">Gerenciar usuários do sistema Impact Hub</p>
+        </div>
+        <button
+          onClick={() => setImportDialogOpen(true)}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+        >
+          <Upload className="w-4 h-4" />
+          Importar Usuários
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -273,11 +362,10 @@ export default function UsuariosPage() {
                     <td className="py-4 px-4 text-gray-400 font-mono">{usuario.chat_id}</td>
                     <td className="py-4 px-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          usuario.status === 'active'
-                            ? 'bg-green-500/20 text-green-300'
-                            : 'bg-red-500/20 text-red-300'
-                        }`}
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${usuario.status === 'active'
+                          ? 'bg-green-500/20 text-green-300'
+                          : 'bg-red-500/20 text-red-300'
+                          }`}
                       >
                         {usuario.status === 'active' ? 'Ativo' : 'Inativo'}
                       </span>
@@ -360,6 +448,163 @@ export default function UsuariosPage() {
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
               Salvar
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={importDialogOpen} onOpenChange={setImportDialogOpen}>
+        <DialogContent className="bg-gray-900 border-gray-800">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <FileSpreadsheet className="w-5 h-5" />
+              Importar Usuários
+            </DialogTitle>
+            <DialogDescription className="text-gray-400">
+              Faça upload de um arquivo CSV ou Excel com os dados dos usuários
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+              <h4 className="text-sm font-medium text-blue-300 mb-2">Formato do arquivo</h4>
+              <p className="text-xs text-gray-400 mb-2">
+                O arquivo deve conter as colunas: <span className="font-mono text-white">nome</span>,{' '}
+                <span className="font-mono text-white">telefone</span>,{' '}
+                <span className="font-mono text-white">grupo_id</span>,{' '}
+                <span className="font-mono text-white">agent_id</span>
+              </p>
+              <p className="text-xs text-gray-400 mb-3">
+                <strong className="text-blue-300">IDs dos grupos:</strong> 1 = Controle, 2 = Informativo/Formal, 3 = Padrão/Acolhedor
+              </p>
+              <button
+                onClick={baixarModeloCSV}
+                className="inline-flex items-center gap-2 text-xs bg-gray-800 hover:bg-gray-700 text-white px-3 py-1.5 rounded transition-colors"
+              >
+                <Download className="w-3 h-3" />
+                Baixar modelo CSV
+              </button>
+            </div>
+
+            <div className="border-2 border-dashed border-gray-700 rounded-lg p-8 text-center">
+              <input
+                type="file"
+                accept=".csv,.xlsx,.xls"
+                onChange={handleFileSelect}
+                className="hidden"
+                id="file-upload"
+              />
+              <label
+                htmlFor="file-upload"
+                className="cursor-pointer flex flex-col items-center gap-3"
+              >
+                <Upload className="w-12 h-12 text-gray-500" />
+                <div>
+                  <p className="text-white font-medium">Clique para selecionar arquivo</p>
+                  <p className="text-xs text-gray-500 mt-1">CSV ou Excel (.xlsx, .xls)</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={previewDialogOpen} onOpenChange={setPreviewDialogOpen} >
+        <DialogContent className="bg-gray-900  border-gray-800 min-w-[80vw] max-h-[80vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="text-white">Preview da Importação</DialogTitle>
+            <DialogDescription className="text-gray-400">
+              Revise os dados antes de confirmar a importação ({dadosPreview.length} registros)
+            </DialogDescription>
+          </DialogHeader>
+          <div className="overflow-auto flex-1 py-4">
+            <table className="w-full text-sm">
+              <thead className="sticky -top-4 bg-gray-900">
+                <tr className="border-b border-gray-800">
+                  <th className="text-left py-2 px-3 text-gray-400 font-medium">Nome</th>
+                  <th className="text-left py-2 px-3 text-gray-400 font-medium">Telefone</th>
+                  <th className="text-left py-2 px-3 text-gray-400 font-medium">Grupo</th>
+                  <th className="text-left py-2 px-3 text-gray-400 font-medium">Agent ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dadosPreview.map((item: any, index: number) => (
+                  <tr key={index} className="border-b border-gray-800/50">
+                    <td className="py-2 px-3 text-white">{item.nome}</td>
+                    <td className="py-2 px-3 text-gray-300">{item.telefone}</td>
+                    <td className="py-2 px-3 text-gray-300">
+                      {item.grupo_id ? converterGrupoIdParaNome(Number(item.grupo_id)) : '-'}
+                    </td>
+                    <td className="py-2 px-3 text-gray-300">{item.agent_id}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <DialogFooter>
+            <button
+              onClick={() => setPreviewDialogOpen(false)}
+              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+              disabled={importando}
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={confirmarImportacao}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+              disabled={importando}
+            >
+              {importando ? 'Importando...' : 'Confirmar Importação'}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={resultadoDialogOpen} onOpenChange={setResultadoDialogOpen}>
+        <DialogContent className="bg-gray-900 border-gray-800 max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-white">Resultado da Importação</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            {resultadoImportacao?.success ? (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                    <p className="text-xs text-gray-400 mb-1">Criados</p>
+                    <p className="text-2xl font-bold text-green-400">{resultadoImportacao.data.criados}</p>
+                  </div>
+                  <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                    <p className="text-xs text-gray-400 mb-1">Atualizados</p>
+                    <p className="text-2xl font-bold text-blue-400">{resultadoImportacao.data.atualizados}</p>
+                  </div>
+                </div>
+
+                {resultadoImportacao.data.erros.length > 0 && (
+                  <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                    <h4 className="text-sm font-medium text-red-300 mb-2">
+                      Erros ({resultadoImportacao.data.erros.length})
+                    </h4>
+                    <div className="max-h-40 overflow-auto space-y-2">
+                      {resultadoImportacao.data.erros.map((erro: any, index: number) => (
+                        <div key={index} className="text-xs text-gray-300">
+                          <span className="font-mono text-red-400">Linha {erro.linha}:</span> {erro.erro}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+                <p className="text-red-300">{resultadoImportacao?.message}</p>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <button
+              onClick={() => setResultadoDialogOpen(false)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Fechar
             </button>
           </DialogFooter>
         </DialogContent>
