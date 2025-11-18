@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { FileText, Users, BarChart3, Calendar, TrendingUp } from 'lucide-react';
+import { FileText, Users, BarChart3, Calendar, TrendingUp, Download, Search } from 'lucide-react';
 
 interface Usuario {
   id: number;
@@ -95,7 +95,7 @@ export default function QuestionariosPage() {
   const questionariosFiltrados = questionarios.filter((q) =>
     usuarioFiltro
       ? q.usuario.nome?.toLowerCase().includes(usuarioFiltro.toLowerCase()) ||
-        q.usuario.chat_id.toString().includes(usuarioFiltro)
+      q.usuario.chat_id.toString().includes(usuarioFiltro)
       : true
   );
 
@@ -107,6 +107,26 @@ export default function QuestionariosPage() {
       hour: '2-digit',
       minute: '2-digit',
     });
+  };
+
+  const exportarDados = async () => {
+    try {
+      const response = await fetch('/api/v1/questionarios/exportar', {
+        headers: { 'x-api-key': API_KEY },
+      });
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `questionarios-export-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Erro ao exportar questionários:', error);
+      alert('Erro ao exportar questionários');
+    }
   };
 
   if (loading) {
@@ -127,42 +147,53 @@ export default function QuestionariosPage() {
         <p className="text-gray-400">Acompanhe as respostas dos usuários</p>
       </div>
 
-      <div className="flex gap-2 bg-gray-900 border border-gray-800 rounded-xl p-2 w-fit">
+      <div className="flex gap-4 items-center">
+        <div className="flex gap-2 bg-gray-900 border border-gray-800 rounded-xl p-2">
+          <button
+            onClick={() => setView('lista')}
+            className={`px-4 py-2 rounded-lg transition-colors ${view === 'lista'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
+              }`}
+          >
+            <Users className="w-5 h-5 inline mr-2" />
+            Por Usuário
+          </button>
+          <button
+            onClick={() => setView('metricas')}
+            className={`px-4 py-2 rounded-lg transition-colors ${view === 'metricas'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-400 hover:text-white hover:bg-gray-800'
+              }`}
+          >
+            <BarChart3 className="w-5 h-5 inline mr-2" />
+            Métricas Gerais
+          </button>
+        </div>
+
         <button
-          onClick={() => setView('lista')}
-          className={`px-4 py-2 rounded-lg transition-colors ${
-            view === 'lista'
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-400 hover:text-white hover:bg-gray-800'
-          }`}
+          onClick={exportarDados}
+          className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
         >
-          <Users className="w-5 h-5 inline mr-2" />
-          Por Usuário
-        </button>
-        <button
-          onClick={() => setView('metricas')}
-          className={`px-4 py-2 rounded-lg transition-colors ${
-            view === 'metricas'
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-400 hover:text-white hover:bg-gray-800'
-          }`}
-        >
-          <BarChart3 className="w-5 h-5 inline mr-2" />
-          Métricas Gerais
+          <Download className="w-4 h-4" />
+          Exportar Questionários
         </button>
       </div>
 
       {view === 'lista' ? (
         <>
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Buscar por nome ou chat_id..."
-                value={usuarioFiltro}
-                onChange={(e) => setUsuarioFiltro(e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-              />
+            <div className="mb-6">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Buscar por nome ou chat_id..."
+                  value={usuarioFiltro}
+                  onChange={(e) => setUsuarioFiltro(e.target.value)}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-12 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+              </div>
             </div>
 
             {questionariosFiltrados.length === 0 ? (
@@ -175,39 +206,61 @@ export default function QuestionariosPage() {
                 </p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {questionariosFiltrados.map((q) => (
                   <div
                     key={q.id}
-                    className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 hover:border-gray-600 transition-colors"
+                    className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-xl p-6 hover:border-blue-500/50 transition-all shadow-lg"
                   >
-                    <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-start justify-between mb-6 pb-4 border-b border-gray-700">
                       <div>
-                        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                          <Users className="w-5 h-5 text-blue-400" />
+                        <h3 className="text-xl font-bold text-white flex items-center gap-3">
+                          <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                            <Users className="w-5 h-5 text-blue-400" />
+                          </div>
                           {q.usuario.nome || `Usuário #${q.usuario.id}`}
                         </h3>
-                        <div className="flex gap-4 mt-1 text-sm text-gray-400">
-                          <span>Chat ID: {q.usuario.chat_id}</span>
-                          {q.usuario.telefone && <span>Tel: {q.usuario.telefone}</span>}
+                        <div className="flex gap-4 mt-2 text-sm text-gray-400 ml-13">
+                          <span className="flex items-center gap-1">
+                            <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
+                            Chat ID: {q.usuario.chat_id}
+                          </span>
+                          {q.usuario.telefone && (
+                            <span className="flex items-center gap-1">
+                              <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                              Tel: {q.usuario.telefone}
+                            </span>
+                          )}
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="flex items-center gap-2 text-sm text-gray-400">
-                          <Calendar className="w-4 h-4" />
-                          {formatarData(q.criado_em)}
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-gray-800 rounded-lg border border-gray-700">
+                          <Calendar className="w-4 h-4 text-blue-400" />
+                          <span className="text-sm text-gray-300">{formatarData(q.criado_em)}</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       {Object.entries(PERGUNTAS).map(([num, texto]) => {
                         const respostaValue = q[`resposta_${num}`];
                         const resposta = typeof respostaValue === 'string' ? respostaValue : '-';
                         return (
-                          <div key={num} className="bg-gray-900/50 rounded-lg p-3">
-                            <p className="text-xs text-gray-500 mb-1">{texto}</p>
-                            <p className="text-white text-sm">{resposta || '-'}</p>
+                          <div
+                            key={num}
+                            className="bg-gray-800/50 border border-gray-700/50 rounded-lg p-4 hover:bg-gray-800/80 hover:border-blue-500/30 transition-all"
+                          >
+                            <div className="flex items-start gap-2">
+                              <span className="flex-shrink-0 w-6 h-6 bg-blue-500/10 rounded-full flex items-center justify-center text-blue-400 text-xs font-bold">
+                                {num}
+                              </span>
+                              <div className="flex-1">
+                                <p className="text-xs text-gray-400 mb-2 font-medium">{texto}</p>
+                                <p className="text-white text-sm font-medium leading-relaxed">
+                                  {resposta || '-'}
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         );
                       })}
@@ -221,66 +274,93 @@ export default function QuestionariosPage() {
       ) : (
         <>
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                <TrendingUp className="w-6 h-6 text-green-400" />
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-6 h-6 text-green-400" />
+                </div>
                 Resumo Geral
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/30 rounded-lg p-4">
-                  <p className="text-sm text-gray-400 mb-1">Total de Respostas</p>
-                  <p className="text-3xl font-bold text-white">{metricas?.total || 0}</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/30 rounded-xl p-6 shadow-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-sm text-blue-300 font-medium">Total de Respostas</p>
+                    <FileText className="w-5 h-5 text-blue-400" />
+                  </div>
+                  <p className="text-4xl font-bold text-white">{metricas?.total || 0}</p>
+                  <p className="text-xs text-gray-400 mt-2">Questionários respondidos</p>
                 </div>
               </div>
             </div>
 
             {metricas && metricas.total > 0 && (
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-white mb-4">
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                  <BarChart3 className="w-6 h-6 text-purple-400" />
                   Distribuição por Pergunta
                 </h3>
-                {Object.entries(metricas.distribuicao_por_pergunta).map(
-                  ([pergunta, respostas]) => {
-                    const numPergunta = parseInt(pergunta.replace('pergunta_', ''), 10) as keyof typeof PERGUNTAS;
-                    const totalRespostas = Object.values(respostas).reduce(
-                      (a, b) => a + b,
-                      0
-                    );
+                <div className="grid grid-cols-1 gap-6">
+                  {Object.entries(metricas.distribuicao_por_pergunta).map(
+                    ([pergunta, respostas]) => {
+                      const numPergunta = parseInt(pergunta.replace('pergunta_', ''), 10) as keyof typeof PERGUNTAS;
+                      const totalRespostas = Object.values(respostas).reduce(
+                        (a, b) => a + b,
+                        0
+                      );
 
-                    return (
-                      <div key={pergunta} className="bg-gray-800/50 rounded-lg p-4">
-                        <h4 className="text-white font-medium mb-3">
-                          {numPergunta}. {PERGUNTAS[numPergunta]}
-                        </h4>
-                        <div className="space-y-2">
-                          {Object.entries(respostas)
-                            .sort(([, a], [, b]) => b - a)
-                            .map(([resposta, count]) => {
-                              const percentual =
-                                totalRespostas > 0 ? (count / totalRespostas) * 100 : 0;
+                      return (
+                        <div
+                          key={pergunta}
+                          className="bg-gradient-to-br from-gray-800 to-gray-800/50 border border-gray-700 rounded-xl p-6 shadow-lg"
+                        >
+                          <div className="flex items-start gap-3 mb-4">
+                            <span className="flex-shrink-0 w-8 h-8 bg-purple-500/10 rounded-full flex items-center justify-center text-purple-400 text-sm font-bold">
+                              {numPergunta}
+                            </span>
+                            <h4 className="text-white font-semibold text-lg">
+                              {PERGUNTAS[numPergunta]}
+                            </h4>
+                          </div>
+                          <div className="space-y-3 ml-11">
+                            {Object.entries(respostas)
+                              .sort(([, a], [, b]) => b - a)
+                              .map(([resposta, count], index) => {
+                                const percentual =
+                                  totalRespostas > 0 ? (count / totalRespostas) * 100 : 0;
+                                const barColors = [
+                                  'bg-blue-500',
+                                  'bg-purple-500',
+                                  'bg-green-500',
+                                  'bg-orange-500',
+                                  'bg-pink-500',
+                                ];
+                                const barColor = barColors[index % barColors.length];
 
-                              return (
-                                <div key={resposta}>
-                                  <div className="flex justify-between text-sm mb-1">
-                                    <span className="text-gray-300">{resposta}</span>
-                                    <span className="text-gray-400">
-                                      {count} ({percentual.toFixed(1)}%)
-                                    </span>
+                                return (
+                                  <div key={resposta} className="group">
+                                    <div className="flex justify-between text-sm mb-2">
+                                      <span className="text-gray-300 font-medium group-hover:text-white transition-colors">
+                                        {resposta}
+                                      </span>
+                                      <span className="text-gray-400 font-semibold">
+                                        {count} ({percentual.toFixed(1)}%)
+                                      </span>
+                                    </div>
+                                    <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                                      <div
+                                        className={`${barColor} h-3 rounded-full transition-all duration-500 ease-out`}
+                                        style={{ width: `${percentual}%` }}
+                                      />
+                                    </div>
                                   </div>
-                                  <div className="w-full bg-gray-700 rounded-full h-2">
-                                    <div
-                                      className="bg-blue-500 h-2 rounded-full"
-                                      style={{ width: `${percentual}%` }}
-                                    />
-                                  </div>
-                                </div>
-                              );
-                            })}
+                                );
+                              })}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  }
-                )}
+                      );
+                    }
+                  )}
+                </div>
               </div>
             )}
           </div>

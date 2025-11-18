@@ -65,6 +65,7 @@ export class DashboardService {
           naoCumpridas: 0,
           pendentes: 0,
           taxaCumprimento: 0,
+          porTipoMeta: {},
         },
       };
     }
@@ -154,6 +155,11 @@ export class DashboardService {
         ? (metasCumpridas / (metasCumpridas + metasNaoCumpridas)) * 100
         : 0;
 
+    const porTipoMeta: Record<string, number> = {};
+    metas.forEach((m) => {
+      porTipoMeta[m.tipo_meta] = (porTipoMeta[m.tipo_meta] || 0) + 1;
+    });
+
     const mensagens = await this.obterMetricasMensagens(filters);
 
     return {
@@ -191,6 +197,7 @@ export class DashboardService {
         naoCumpridas: metasNaoCumpridas,
         pendentes: metasPendentes,
         taxaCumprimento,
+        porTipoMeta,
       },
       mensagens,
     };

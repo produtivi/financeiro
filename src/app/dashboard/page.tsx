@@ -60,6 +60,7 @@ interface DashboardMetrics {
     naoCumpridas: number;
     pendentes: number;
     taxaCumprimento: number;
+    porTipoMeta: Record<string, number>;
   };
   mensagens?: {
     total: number;
@@ -102,6 +103,22 @@ const ICONS_TIPOS: Record<string, any> = {
   foto: ImageIcon,
   video: Video,
   nota_fiscal: Receipt,
+};
+
+const LABELS_TIPOS_META: Record<string, string> = {
+  reserva_financeira: 'Reserva Financeira',
+  controle_inventario: 'Controle de Inventário',
+  meta_vendas: 'Meta de Vendas',
+  pagamento_contas: 'Pagamento de Contas',
+  outro: 'Outro',
+};
+
+const CORES_TIPOS_META: Record<string, string> = {
+  reserva_financeira: '#10b981',
+  controle_inventario: '#3b82f6',
+  meta_vendas: '#f59e0b',
+  pagamento_contas: '#ef4444',
+  outro: '#8b5cf6',
 };
 
 export default function DashboardPage() {
@@ -296,6 +313,19 @@ export default function DashboardPage() {
 
   const dadosTiposEntrada = dadosTiposMensagens;
 
+  const dadosTiposMeta = metrics?.metas.porTipoMeta
+    ? Object.entries(metrics.metas.porTipoMeta)
+        .map(([tipo, quantidade]) => ({
+          tipo,
+          label: LABELS_TIPOS_META[tipo] || tipo,
+          quantidade,
+          fill: CORES_TIPOS_META[tipo] || '#6b7280',
+        }))
+        .sort((a, b) => b.quantidade - a.quantidade)
+    : [];
+
+  const tipoMetaMaisSolicitado = dadosTiposMeta.length > 0 ? dadosTiposMeta[0] : null;
+
   if (loading && !metrics) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -438,7 +468,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
@@ -502,6 +532,29 @@ export default function DashboardPage() {
             {formatarMoeda(metrics?.transacoes.saldo || 0)}
           </p>
           <p className="text-sm text-gray-400">Saldo Total</p>
+        </div>
+
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-6 h-6 text-orange-500" />
+            </div>
+            <span className="text-xs text-gray-400">Ranking</span>
+          </div>
+          {tipoMetaMaisSolicitado ? (
+            <>
+              <p className="text-2xl font-bold text-white mb-1">{tipoMetaMaisSolicitado.label}</p>
+              <p className="text-sm text-gray-400">Meta mais solicitada</p>
+              <div className="mt-3 pt-3 border-t border-gray-800">
+                <p className="text-xs text-gray-500">{tipoMetaMaisSolicitado.quantidade} metas criadas</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-2xl font-bold text-gray-400 mb-1">-</p>
+              <p className="text-sm text-gray-400">Nenhuma meta</p>
+            </>
+          )}
         </div>
       </div>
 
@@ -646,6 +699,56 @@ export default function DashboardPage() {
             <p className="text-gray-400 text-center py-8">Nenhum dado disponível</p>
           )}
         </div>
+      </div>
+
+      <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+          <Target className="w-6 h-6 text-orange-500" />
+          Tipos de Meta Mais Solicitados
+        </h2>
+        {dadosTiposMeta.length > 0 ? (
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={dadosTiposMeta}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+              <XAxis
+                dataKey="label"
+                stroke="#d1d5db"
+                tick={{ fill: '#d1d5db' }}
+                style={{ fontSize: '12px' }}
+                angle={-15}
+                textAnchor="end"
+                height={80}
+              />
+              <YAxis
+                stroke="#d1d5db"
+                tick={{ fill: '#d1d5db' }}
+                style={{ fontSize: '14px' }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#1f2937',
+                  border: '1px solid #374151',
+                  borderRadius: '8px',
+                  color: '#fff',
+                }}
+                labelStyle={{ color: '#fff' }}
+                itemStyle={{ color: '#fff' }}
+                formatter={(value: any, name: string) => {
+                  const total = metrics?.metas.total || 0;
+                  const percentual = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+                  return [`${value} metas (${percentual}%)`, 'Quantidade'];
+                }}
+              />
+              <Bar dataKey="quantidade" fill="#8884d8" radius={[8, 8, 0, 0]}>
+                {dadosTiposMeta.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.fill} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <p className="text-gray-400 text-center py-8">Nenhuma meta criada no período</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

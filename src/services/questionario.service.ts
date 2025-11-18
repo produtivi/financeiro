@@ -100,6 +100,26 @@ export class QuestionarioService {
       },
     };
   }
+
+  async exportarDados() {
+    return await prisma.questionario.findMany({
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nome: true,
+            chat_id: true,
+            agent_id: true,
+            telefone: true,
+            grupo: {
+              select: { nome: true },
+            },
+          },
+        },
+      },
+      orderBy: { criado_em: 'desc' },
+    });
+  }
 }
 
 export const questionarioService = new QuestionarioService();
