@@ -1,5 +1,12 @@
 import QuickChart from 'quickchart-js';
-import { gerarHTMLDashboard } from './html-dashboard-generator';
+import {
+  gerarHTMLDashboard,
+  gerarHTMLPizzaReceitas,
+  gerarHTMLPizzaDespesas,
+  gerarHTMLDuasPizzas,
+  gerarHTMLBarras,
+  gerarHTMLComparativo
+} from './html-dashboard-generator';
 import { convertHtmlToImage } from './html-to-image';
 
 export interface DadosGrafico {
@@ -15,6 +22,7 @@ export interface DadosRelatorio {
   receitasPorCategoria: DadosGrafico;
   despesasPorCategoria: DadosGrafico;
   periodo: string;
+  titulo?: string;
 }
 
 const COLORS = {
@@ -254,4 +262,49 @@ export async function gerarGraficoComparativo(
 
   const imageBuffer = await chart.toBinary();
   return Buffer.from(imageBuffer);
+}
+
+export async function gerarDashboardPizzaReceitas(dados: DadosRelatorio): Promise<Buffer> {
+  const html = gerarHTMLPizzaReceitas(dados);
+  return await convertHtmlToImage({
+    html,
+    width: 1200,
+    height: 1200
+  });
+}
+
+export async function gerarDashboardPizzaDespesas(dados: DadosRelatorio): Promise<Buffer> {
+  const html = gerarHTMLPizzaDespesas(dados);
+  return await convertHtmlToImage({
+    html,
+    width: 1200,
+    height: 1200
+  });
+}
+
+export async function gerarDashboardDuasPizzas(dados: DadosRelatorio): Promise<Buffer> {
+  const html = gerarHTMLDuasPizzas(dados);
+  return await convertHtmlToImage({
+    html,
+    width: 1200,
+    height: 1200
+  });
+}
+
+export async function gerarDashboardBarras(dados: DadosRelatorio, tipo: 'receita' | 'despesa'): Promise<Buffer> {
+  const html = gerarHTMLBarras(dados, tipo);
+  return await convertHtmlToImage({
+    html,
+    width: 1200,
+    height: 1200
+  });
+}
+
+export async function gerarDashboardComparativo(dados: DadosRelatorio): Promise<Buffer> {
+  const html = gerarHTMLComparativo(dados);
+  return await convertHtmlToImage({
+    html,
+    width: 1200,
+    height: 1200
+  });
 }

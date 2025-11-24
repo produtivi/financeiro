@@ -2,6 +2,11 @@ import { prisma } from '@/lib/prisma';
 import { uploadToSpaces } from '@/lib/spaces';
 import {
   gerarDashboardGeral,
+  gerarDashboardPizzaReceitas,
+  gerarDashboardPizzaDespesas,
+  gerarDashboardDuasPizzas,
+  gerarDashboardBarras,
+  gerarDashboardComparativo,
   gerarGraficoPizza,
   gerarGraficoBarras,
   gerarGraficoComparativo,
@@ -14,10 +19,11 @@ interface FiltrosRelatorio {
   usuario_id: number;
   data_inicio: string;
   data_fim: string;
-  tipo_grafico: 'geral' | 'pizza_receitas' | 'pizza_despesas' | 'barras_despesas' | 'comparativo' | 'categorias_especificas';
+  tipo_grafico: 'geral' | 'pizza_receitas' | 'pizza_despesas' | 'pizza' | 'barras_despesas' | 'barras_receitas' | 'comparativo' | 'categorias_especificas';
   categorias_ids?: number[];
   titulo?: string;
   formato?: 'png' | 'jpg';
+  tipo_caixa?: 'pessoal' | 'negocio';
 }
 
 interface TransacaoAgrupada {
@@ -38,7 +44,8 @@ export const relatorioService = {
       tipo_grafico,
       categorias_ids,
       titulo,
-      formato = 'png'
+      formato = 'png',
+      tipo_caixa
     } = filtros;
 
     const whereBase = {
@@ -50,7 +57,8 @@ export const relatorioService = {
       deletado_em: null,
       ...(categorias_ids && categorias_ids.length > 0 && {
         categoria_id: { in: categorias_ids }
-      })
+      }),
+      ...(tipo_caixa && { tipo_caixa })
     };
 
     const receitas = await prisma.transacao.groupBy({
@@ -92,45 +100,53 @@ export const relatorioService = {
 
     const periodo = this.formatarPeriodo(data_inicio, data_fim);
 
+    let tituloBase = 'Resultados Financeiros';
+    if (tipo_caixa === 'negocio') {
+      tituloBase = 'Resultados Financeiros - Negócio';
+    } else if (tipo_caixa === 'pessoal') {
+      tituloBase = 'Resultados Financeiros - Pessoal';
+    }
+    const tituloFinal = titulo || tituloBase;
+
+    const dadosRelatorio: DadosRelatorio = {
+      receitaTotal,
+      despesaTotal,
+      saldo,
+      receitasPorCategoria: this.montarDadosGrafico(receitasComNome),
+      despesasPorCategoria: this.montarDadosGrafico(despesasComNome),
+      periodo,
+      titulo: tituloFinal
+    };
+
     let buffer: Buffer;
-    const tituloFinal = titulo || `Relatório Financeiro - ${periodo}`;
 
     switch (tipo_grafico) {
       case 'geral':
-        const dadosRelatorio: DadosRelatorio = {
-          receitaTotal,
-          despesaTotal,
-          saldo,
-          receitasPorCategoria: this.montarDadosGrafico(receitasComNome),
-          despesasPorCategoria: this.montarDadosGrafico(despesasComNome),
-          periodo
-        };
         buffer = await gerarDashboardGeral(dadosRelatorio);
         break;
 
       case 'pizza_receitas':
-        buffer = await gerarGraficoPizza(
-          this.montarDadosGrafico(receitasComNome),
-          tituloFinal
-        );
+        buffer = await gerarDashboardPizzaReceitas(dadosRelatorio);
         break;
 
       case 'pizza_despesas':
-        buffer = await gerarGraficoPizza(
-          this.montarDadosGrafico(despesasComNome),
-          tituloFinal
-        );
+        buffer = await gerarDashboardPizzaDespesas(dadosRelatorio);
+        break;
+
+      case 'pizza':
+        buffer = await gerarDashboardDuasPizzas(dadosRelatorio);
         break;
 
       case 'barras_despesas':
-        buffer = await gerarGraficoBarras(
-          this.montarDadosGrafico(despesasComNome),
-          tituloFinal
-        );
+        buffer = await gerarDashboardBarras(dadosRelatorio, 'despesa');
+        break;
+
+      case 'barras_receitas':
+        buffer = await gerarDashboardBarras(dadosRelatorio, 'receita');
         break;
 
       case 'comparativo':
-        buffer = await gerarGraficoComparativo(receitaTotal, despesaTotal, periodo);
+        buffer = await gerarDashboardComparativo(dadosRelatorio);
         break;
 
       case 'categorias_especificas':
