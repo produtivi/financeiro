@@ -44,10 +44,14 @@ export async function POST(request: NextRequest) {
     for (let i = 0; i < dados.length; i++) {
       const linha = dados[i] as any;
       try {
+        const grupoId = linha.grupo_id === undefined || linha.grupo_id === null || linha.grupo_id === ''
+          ? null
+          : Number(linha.grupo_id);
+
         const usuarioValidado = importarUsuarioLinhaSchema.parse({
           nome: linha.nome,
           telefone: String(linha.telefone || '').trim(),
-          grupo_id: Number(linha.grupo_id),
+          grupo_id: grupoId,
           agent_id: Number(linha.agent_id),
         });
         usuariosParaImportar.push(usuarioValidado);

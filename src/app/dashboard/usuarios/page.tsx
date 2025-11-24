@@ -220,7 +220,7 @@ export default function UsuariosPage() {
   };
 
   const baixarModeloCSV = () => {
-    const csvContent = 'nome,telefone,grupo_id,agent_id\nJoão Silva,11999999999,1,1\nMaria Santos,11988888888,2,1\nPedro Costa,11977777777,3,1\n';
+    const csvContent = 'nome,telefone,grupo_id,agent_id\nJoão Silva,11999999999,1,1\nMaria Santos,11988888888,,1\nPedro Costa,11977777777,3,1\n';
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -470,11 +470,14 @@ export default function UsuariosPage() {
               <p className="text-xs text-gray-400 mb-2">
                 O arquivo deve conter as colunas: <span className="font-mono text-white">nome</span>,{' '}
                 <span className="font-mono text-white">telefone</span>,{' '}
-                <span className="font-mono text-white">grupo_id</span>,{' '}
+                <span className="font-mono text-white">grupo_id</span> (opcional),{' '}
                 <span className="font-mono text-white">agent_id</span>
               </p>
-              <p className="text-xs text-gray-400 mb-3">
+              <p className="text-xs text-gray-400 mb-2">
                 <strong className="text-blue-300">IDs dos grupos:</strong> 1 = Controle, 2 = Informativo/Formal, 3 = Padrão/Acolhedor
+              </p>
+              <p className="text-xs text-gray-400 mb-3">
+                <strong className="text-blue-300">Nota:</strong> Deixe o grupo_id vazio para criar usuários sem grupo. Se um usuário já existir e o grupo_id vier vazio, o grupo será removido.
               </p>
               <button
                 onClick={baixarModeloCSV}
