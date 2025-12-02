@@ -160,7 +160,10 @@ export class DashboardService {
       porTipoMeta[m.tipo_meta] = (porTipoMeta[m.tipo_meta] || 0) + 1;
     });
 
-    const mensagens = await this.obterMetricasMensagens(filters);
+    const [mensagens, engagementStats] = await Promise.all([
+      this.obterMetricasMensagens(filters),
+      this.obterEngagementStats(filters),
+    ]);
 
     return {
       usuarios: {
@@ -200,6 +203,7 @@ export class DashboardService {
         porTipoMeta,
       },
       mensagens,
+      engagementStats,
     };
   }
 
@@ -249,6 +253,35 @@ export class DashboardService {
       },
       orderBy: { nome: 'asc' },
     });
+  }
+
+  async obterEngagementStats(filters: DashboardMetricsFilters) {
+    const AGENT_API_URL = process.env.AGENT_API_URL;
+    if (!AGENT_API_URL) {
+      return null;
+    }
+
+    try {
+      const agentId = 437;
+      const url = `${AGENT_API_URL}/public/agents/${agentId}/engagement-stats`;
+
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0',
+          'Accept': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Erro ao buscar engagement stats:', error);
+      return null;
+    }
   }
 
   async obterMetricasMensagens(filters: DashboardMetricsFilters) {

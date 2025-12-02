@@ -22,6 +22,9 @@ import {
   User,
   PieChart as PieChartIcon,
   Download,
+  MessageCircle,
+  ThumbsUp,
+  ThumbsDown,
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
@@ -66,6 +69,42 @@ interface DashboardMetrics {
     total: number;
     porTipo: Record<string, number>;
   };
+  engagementStats?: EngagementStats;
+}
+
+interface EngagementStats {
+  agent_id: number;
+  timestamp: string;
+  summary: {
+    high_engagement: {
+      count: number;
+      description: string;
+      percentage: string;
+    };
+    low_engagement: {
+      count: number;
+      description: string;
+      percentage: string;
+    };
+    total_chats: number;
+    total_tags: number;
+  };
+  by_tag: Array<{
+    tag_id: number;
+    tag_name: string;
+    tag_color: string;
+    high_engagement: {
+      count: number;
+      description: string;
+      percentage: string;
+    };
+    low_engagement: {
+      count: number;
+      description: string;
+      percentage: string;
+    };
+    total_chats: number;
+  }>;
 }
 
 interface Grupo {
@@ -557,6 +596,84 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
+
+      {metrics?.engagementStats && (
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <MessageCircle className="w-6 h-6 text-cyan-500" />
+            Engajamento de Conversas
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 border border-cyan-500/30 rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <MessageCircle className="w-5 h-5 text-cyan-400" />
+                <span className="text-sm text-gray-400">Total de Chats</span>
+              </div>
+              <p className="text-3xl font-bold text-white">{metrics.engagementStats.summary.total_chats}</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-green-500/10 to-green-600/10 border border-green-500/30 rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <ThumbsUp className="w-5 h-5 text-green-400" />
+                <span className="text-sm text-gray-400">Alto Engajamento</span>
+              </div>
+              <p className="text-3xl font-bold text-green-400">{metrics.engagementStats.summary.high_engagement.count}</p>
+              <p className="text-xs text-gray-500 mt-1">{metrics.engagementStats.summary.high_engagement.percentage}%</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-orange-500/10 to-orange-600/10 border border-orange-500/30 rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <ThumbsDown className="w-5 h-5 text-orange-400" />
+                <span className="text-sm text-gray-400">Baixo Engajamento</span>
+              </div>
+              <p className="text-3xl font-bold text-orange-400">{metrics.engagementStats.summary.low_engagement.count}</p>
+              <p className="text-xs text-gray-500 mt-1">{metrics.engagementStats.summary.low_engagement.percentage}%</p>
+            </div>
+          </div>
+
+          {metrics.engagementStats.by_tag.length > 0 && (
+            <>
+              <h3 className="text-lg font-semibold text-white mb-4">Por Grupo Experimental</h3>
+              <div className="space-y-3">
+                {metrics.engagementStats.by_tag.map((tag) => (
+                  <div key={tag.tag_id} className="bg-gray-800/50 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: tag.tag_color }}
+                        />
+                        <span className="font-semibold text-white">{tag.tag_name}</span>
+                      </div>
+                      <span className="text-sm text-gray-400">{tag.total_chats} chats</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <ThumbsUp className="w-4 h-4 text-green-400" />
+                          <span className="text-sm text-gray-400">Alto</span>
+                        </div>
+                        <p className="text-xl font-bold text-green-400">
+                          {tag.high_engagement.count} <span className="text-sm text-gray-500">({tag.high_engagement.percentage}%)</span>
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <ThumbsDown className="w-4 h-4 text-orange-400" />
+                          <span className="text-sm text-gray-400">Baixo</span>
+                        </div>
+                        <p className="text-xl font-bold text-orange-400">
+                          {tag.low_engagement.count} <span className="text-sm text-gray-500">({tag.low_engagement.percentage}%)</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/30 rounded-xl p-6">

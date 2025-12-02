@@ -134,7 +134,7 @@ export default function UsuariosPage() {
       busca === '' ||
       usuario.nome?.toLowerCase().includes(busca.toLowerCase()) ||
       usuario.id.toString().includes(busca) ||
-      usuario.chat_id.toString().includes(busca);
+      usuario.chat_id?.toString().includes(busca);
 
     return matchStatus && matchBusca;
   });
