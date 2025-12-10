@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Users, Search, Filter, UserCheck, UserX, Eye, Edit2, Upload, FileSpreadsheet, Download } from 'lucide-react';
+import { Users, Search, Filter, UserCheck, UserX, Eye, Edit2, Upload, FileSpreadsheet, Download, MessageSquare } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -28,6 +28,7 @@ interface Usuario {
   grupo?: Grupo;
   status: string;
   criado_em: string;
+  respondeu_questionario: boolean;
 }
 
 export default function UsuariosPage() {
@@ -35,6 +36,8 @@ export default function UsuariosPage() {
   const [grupos, setGrupos] = useState<Grupo[]>([]);
   const [loading, setLoading] = useState(true);
   const [filtroStatus, setFiltroStatus] = useState('todos');
+  const [filtroQuestionario, setFiltroQuestionario] = useState('todos');
+  const [filtroChatId, setFiltroChatId] = useState('todos');
   const [busca, setBusca] = useState('');
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [usuarioEditando, setUsuarioEditando] = useState<Usuario | null>(null);
@@ -130,13 +133,20 @@ export default function UsuariosPage() {
 
   const usuariosFiltrados = usuarios.filter((usuario) => {
     const matchStatus = filtroStatus === 'todos' || usuario.status === filtroStatus;
+    const matchQuestionario =
+      filtroQuestionario === 'todos' ||
+      (filtroQuestionario === 'respondidas' && usuario.respondeu_questionario) ||
+      (filtroQuestionario === 'nao_respondidas' && !usuario.respondeu_questionario);
+    const matchChatId =
+      filtroChatId === 'todos' ||
+      (filtroChatId === 'com_chat' && usuario.chat_id !== null) ||
+      (filtroChatId === 'sem_chat' && usuario.chat_id === null);
     const matchBusca =
       busca === '' ||
       usuario.nome?.toLowerCase().includes(busca.toLowerCase()) ||
-      usuario.id.toString().includes(busca) ||
-      usuario.chat_id?.toString().includes(busca);
+      usuario.id.toString().includes(busca);
 
-    return matchStatus && matchBusca;
+    return matchStatus && matchQuestionario && matchChatId && matchBusca;
   });
 
   const estatisticas = {
@@ -294,7 +304,7 @@ export default function UsuariosPage() {
               type="text"
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              placeholder="Buscar por nome, ID ou chat_id..."
+              placeholder="Buscar por nome ou ID..."
               className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-11 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -308,6 +318,24 @@ export default function UsuariosPage() {
               <option value="todos">Todos status</option>
               <option value="active">Ativos</option>
               <option value="inactive">Inativos</option>
+            </select>
+            <select
+              value={filtroQuestionario}
+              onChange={(e) => setFiltroQuestionario(e.target.value)}
+              className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
+            >
+              <option value="todos">Todos questionários</option>
+              <option value="respondidas">Apenas respondidas</option>
+              <option value="nao_respondidas">Apenas não respondidas</option>
+            </select>
+            <select
+              value={filtroChatId}
+              onChange={(e) => setFiltroChatId(e.target.value)}
+              className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
+            >
+              <option value="todos">Todos chats</option>
+              <option value="com_chat">Apenas com chat</option>
+              <option value="sem_chat">Apenas sem chat</option>
             </select>
           </div>
         </div>
@@ -330,7 +358,7 @@ export default function UsuariosPage() {
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Nome</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Telefone</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Grupo</th>
-                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Chat ID</th>
+                  <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Questionário</th>
                   <th className="text-left py-3 px-4 text-sm font-semibold text-gray-400">Status</th>
                   <th className="text-right py-3 px-4 text-sm font-semibold text-gray-400">Ações</th>
                 </tr>
@@ -359,7 +387,16 @@ export default function UsuariosPage() {
                         <span className="text-gray-500 text-sm">Sem grupo</span>
                       )}
                     </td>
-                    <td className="py-4 px-4 text-gray-400 font-mono">{usuario.chat_id}</td>
+                    <td className="py-4 px-4">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${usuario.respondeu_questionario
+                          ? 'bg-green-500/20 text-green-300'
+                          : 'bg-gray-500/20 text-gray-300'
+                          }`}
+                      >
+                        {usuario.respondeu_questionario ? 'Sim' : 'Não'}
+                      </span>
+                    </td>
                     <td className="py-4 px-4">
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${usuario.status === 'active'
@@ -384,6 +421,16 @@ export default function UsuariosPage() {
                         >
                           <Eye className="w-4 h-4" />
                         </Link>
+                        {usuario.chat_id && (
+                          <a
+                            href={`https://app.produtive.ai/agent/437/chat/${usuario.chat_id}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors"
+                          >
+                            <MessageSquare className="w-4 h-4" />
+                          </a>
+                        )}
                       </div>
                     </td>
                   </tr>

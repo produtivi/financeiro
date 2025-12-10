@@ -15,15 +15,25 @@ export class UsuarioService {
       where.agent_id = { in: agentIds };
     }
 
-    return await prisma.usuario.findMany({
+    const usuarios = await prisma.usuario.findMany({
       where,
       include: {
         grupo: {
           select: { id: true, nome: true },
         },
+        questionarios: {
+          select: { id: true },
+          take: 1,
+        },
       },
       orderBy: { criado_em: 'desc' },
     });
+
+    return usuarios.map((usuario) => ({
+      ...usuario,
+      respondeu_questionario: usuario.questionarios.length > 0,
+      questionarios: undefined,
+    }));
   }
 
   async buscarPorId(id: number) {
