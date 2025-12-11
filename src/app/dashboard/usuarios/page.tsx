@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { read, utils } from 'xlsx';
+import { read, utils, write } from 'xlsx';
 
 interface Grupo {
   id: number;
@@ -238,6 +238,35 @@ export default function UsuariosPage() {
     link.click();
   };
 
+  const exportarTabela = () => {
+    const dadosExportacao = usuariosFiltrados.map((usuario) => ({
+      ID: usuario.id,
+      Nome: usuario.nome || `Usuário #${usuario.id}`,
+      Telefone: usuario.telefone || '-',
+      Grupo: usuario.grupo ? usuario.grupo.nome : 'Sem grupo',
+      'Respondeu Questionário': usuario.respondeu_questionario ? 'Sim' : 'Não',
+      Status: usuario.status === 'active' ? 'Ativo' : 'Inativo',
+      'Chat ID': usuario.chat_id || '-',
+      'Agent ID': usuario.agent_id || '-',
+      'Criado em': formatarData(usuario.criado_em),
+    }));
+
+    const worksheet = utils.json_to_sheet(dadosExportacao);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, 'Usuários');
+
+    const excelBuffer = write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    const dataAtual = new Date().toISOString().split('T')[0];
+    link.download = `usuarios-${dataAtual}.xlsx`;
+    link.click();
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-start">
@@ -248,13 +277,22 @@ export default function UsuariosPage() {
           </h1>
           <p className="text-gray-400">Gerenciar usuários do sistema Impact Hub</p>
         </div>
-        <button
-          onClick={() => setImportDialogOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
-        >
-          <Upload className="w-4 h-4" />
-          Importar Usuários
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={exportarTabela}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            Exportar
+          </button>
+          <button
+            onClick={() => setImportDialogOpen(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+          >
+            <Upload className="w-4 h-4" />
+            Importar Usuários
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
