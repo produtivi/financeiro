@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Users, Search, Filter, UserCheck, UserX, Eye, Edit2, Upload, FileSpreadsheet, Download, MessageSquare } from 'lucide-react';
+import { Users, Search, Filter, UserCheck, UserX, Eye, Edit2, Upload, FileSpreadsheet, Download, MessageSquare, Trash2 } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -51,6 +51,10 @@ export default function UsuariosPage() {
   const [arquivoSelecionado, setArquivoSelecionado] = useState<File | null>(null);
   const [importando, setImportando] = useState(false);
   const [resultadoImportacao, setResultadoImportacao] = useState<any>(null);
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [usuarioDeletando, setUsuarioDeletando] = useState<Usuario | null>(null);
+  const [deletando, setDeletando] = useState(false);
 
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY || 'hkjsaDFSkjSDF39847sfkjdWr23';
 
@@ -267,6 +271,40 @@ export default function UsuariosPage() {
     link.click();
   };
 
+  const abrirDialogDeletar = (usuario: Usuario) => {
+    setUsuarioDeletando(usuario);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmarDelecao = async () => {
+    if (!usuarioDeletando) return;
+
+    setDeletando(true);
+    try {
+      const res = await fetch(`/api/v1/usuarios/${usuarioDeletando.id}`, {
+        method: 'DELETE',
+        headers: {
+          'x-api-key': API_KEY,
+        },
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        carregarUsuarios();
+        setDeleteDialogOpen(false);
+        setUsuarioDeletando(null);
+      } else {
+        alert('Erro ao deletar usuário: ' + (data.message || 'Erro desconhecido'));
+      }
+    } catch (error) {
+      console.error('Erro ao deletar usuário:', error);
+      alert('Erro ao deletar usuário');
+    } finally {
+      setDeletando(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-start">
@@ -469,6 +507,12 @@ export default function UsuariosPage() {
                             <MessageSquare className="w-4 h-4" />
                           </a>
                         )}
+                        <button
+                          onClick={() => abrirDialogDeletar(usuario)}
+                          className="inline-flex items-center gap-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </td>
                   </tr>
@@ -693,6 +737,47 @@ export default function UsuariosPage() {
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
               Fechar
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent className="bg-gray-900 border-gray-800">
+          <DialogHeader>
+            <DialogTitle className="text-white flex items-center gap-2">
+              <Trash2 className="w-5 h-5 text-red-500" />
+              Confirmar Exclusão
+            </DialogTitle>
+            <DialogDescription className="text-gray-400">
+              Você está prestes a deletar o usuário{' '}
+              <span className="font-semibold text-white">
+                {usuarioDeletando?.nome || `#${usuarioDeletando?.id}`}
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+              <p className="text-sm text-red-300 font-medium mb-2">⚠️ Atenção</p>
+              <p className="text-sm text-gray-300">
+                Esta ação não pode ser desfeita. Todos os dados do usuário serão permanentemente removidos do sistema.
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <button
+              onClick={() => setDeleteDialogOpen(false)}
+              className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+              disabled={deletando}
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={confirmarDelecao}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+              disabled={deletando}
+            >
+              {deletando ? 'Deletando...' : 'Confirmar Exclusão'}
             </button>
           </DialogFooter>
         </DialogContent>
