@@ -148,6 +148,7 @@ export default function UsuariosPage() {
     const matchBusca =
       busca === '' ||
       usuario.nome?.toLowerCase().includes(busca.toLowerCase()) ||
+      usuario.telefone?.toLowerCase().includes(busca.toLowerCase()) ||
       usuario.id.toString().includes(busca);
 
     return matchStatus && matchQuestionario && matchChatId && matchBusca;
@@ -380,7 +381,7 @@ export default function UsuariosPage() {
               type="text"
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
-              placeholder="Buscar por nome ou ID..."
+              placeholder="Buscar por nome, telefone ou ID..."
               className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-11 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
             />
           </div>
