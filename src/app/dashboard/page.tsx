@@ -25,6 +25,7 @@ import {
   MessageCircle,
   ThumbsUp,
   ThumbsDown,
+  Minus,
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
@@ -81,6 +82,11 @@ interface EngagementStats {
       description: string;
       percentage: string;
     };
+    mid_engagement: {
+      count: number;
+      description: string;
+      percentage: string;
+    };
     low_engagement: {
       count: number;
       description: string;
@@ -94,6 +100,11 @@ interface EngagementStats {
     tag_name: string;
     tag_color: string;
     high_engagement: {
+      count: number;
+      description: string;
+      percentage: string;
+    };
+    mid_engagement: {
       count: number;
       description: string;
       percentage: string;
@@ -603,7 +614,7 @@ export default function DashboardPage() {
             <MessageCircle className="w-6 h-6 text-cyan-500" />
             Engajamento de Conversas
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 border border-cyan-500/30 rounded-lg p-4">
               <div className="flex items-center gap-3 mb-2">
                 <MessageCircle className="w-5 h-5 text-cyan-400" />
@@ -619,6 +630,15 @@ export default function DashboardPage() {
               </div>
               <p className="text-3xl font-bold text-green-400">{metrics.engagementStats.summary.high_engagement.count}</p>
               <p className="text-xs text-gray-500 mt-1">{metrics.engagementStats.summary.high_engagement.percentage}%</p>
+            </div>
+
+            <div className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/10 border border-yellow-500/30 rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-2">
+                <Minus className="w-5 h-5 text-yellow-400" />
+                <span className="text-sm text-gray-400">Médio Engajamento</span>
+              </div>
+              <p className="text-3xl font-bold text-yellow-400">{metrics.engagementStats.summary.mid_engagement?.count || 0}</p>
+              <p className="text-xs text-gray-500 mt-1">{metrics.engagementStats.summary.mid_engagement?.percentage || '0'}%</p>
             </div>
 
             <div className="bg-gradient-to-br from-orange-500/10 to-orange-600/10 border border-orange-500/30 rounded-lg p-4">
@@ -647,7 +667,7 @@ export default function DashboardPage() {
                       </div>
                       <span className="text-sm text-gray-400">{tag.total_chats} chats</span>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-3 gap-4">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
                           <ThumbsUp className="w-4 h-4 text-green-400" />
@@ -655,6 +675,15 @@ export default function DashboardPage() {
                         </div>
                         <p className="text-xl font-bold text-green-400">
                           {tag.high_engagement.count} <span className="text-sm text-gray-500">({tag.high_engagement.percentage}%)</span>
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <Minus className="w-4 h-4 text-yellow-400" />
+                          <span className="text-sm text-gray-400">Médio</span>
+                        </div>
+                        <p className="text-xl font-bold text-yellow-400">
+                          {tag.mid_engagement?.count || 0} <span className="text-sm text-gray-500">({tag.mid_engagement?.percentage || '0'}%)</span>
                         </p>
                       </div>
                       <div>
