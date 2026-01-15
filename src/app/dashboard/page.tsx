@@ -118,6 +118,46 @@ interface EngagementStats {
   }>;
 }
 
+interface LatenciaMetrics {
+  average_seconds: number;
+  average_minutes: number;
+  average_hours: number;
+  median_seconds: number;
+  median_minutes: number;
+  median_hours: number;
+  min_seconds: number;
+  min_minutes: number;
+  max_seconds: number;
+  max_minutes: number;
+  max_hours: number;
+}
+
+interface ResponseLatencyData {
+  period: {
+    start_date: string;
+    end_date: string;
+  };
+  total_responses: number;
+  unique_contacts: number;
+  latency_metrics: LatenciaMetrics | null;
+  message?: string;
+}
+
+interface GoalsTemplateLatencyData {
+  period: {
+    start_date: string;
+    end_date: string;
+  };
+  total_responses: number;
+  unique_contacts: number;
+  templates_used: {
+    formal: number;
+    padrao: number;
+  };
+  latency_metrics: LatenciaMetrics | null;
+  message?: string;
+}
+
 interface Grupo {
   id: number;
   nome: string;
@@ -182,6 +222,10 @@ export default function DashboardPage() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [grupoSelecionado, setGrupoSelecionado] = useState('');
   const [usuarioSelecionado, setUsuarioSelecionado] = useState('');
+  const [responseLatency, setResponseLatency] = useState<ResponseLatencyData | null>(null);
+  const [goalsTemplateLatency, setGoalsTemplateLatency] = useState<GoalsTemplateLatencyData | null>(null);
+
+  const AGENT_API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL;
 
   const getDomingoAnterior = (data: Date): Date => {
     const dia = data.getDay();
@@ -282,11 +326,42 @@ export default function DashboardPage() {
         params.append('usuarioId', usuarioSelecionado);
       }
 
-      const res = await fetch(`/api/v1/dashboard/metricas?${params}`);
-      const data = await res.json();
+      const promises = [
+        fetch(`/api/v1/dashboard/metricas?${params}`)
+      ];
 
+      if (AGENT_API_URL && dataInicio && dataFim) {
+        const apiParams = new URLSearchParams({
+          startDate: dataInicio,
+          endDate: dataFim,
+        });
+
+        promises.push(
+          fetch(`${AGENT_API_URL}/public/agent-metrics/response-latency?${apiParams}`).catch(() => null),
+          fetch(`${AGENT_API_URL}/public/agent-metrics/goals-template-latency?${apiParams}`).catch(() => null)
+        );
+      }
+
+      const results = await Promise.all(promises);
+      const [metricsRes, responseLatencyRes, goalsTemplateLatencyRes] = results;
+
+      const data = await metricsRes.json();
       if (data.success) {
         setMetrics(data.data);
+      }
+
+      if (responseLatencyRes && responseLatencyRes.ok) {
+        const responseLatencyData = await responseLatencyRes.json();
+        if (responseLatencyData.success) {
+          setResponseLatency(responseLatencyData.data);
+        }
+      }
+
+      if (goalsTemplateLatencyRes && goalsTemplateLatencyRes.ok) {
+        const goalsTemplateLatencyData = await goalsTemplateLatencyRes.json();
+        if (goalsTemplateLatencyData.success) {
+          setGoalsTemplateLatency(goalsTemplateLatencyData.data);
+        }
       }
     } catch (error) {
       console.error('Erro ao carregar métricas:', error);
@@ -703,6 +778,58 @@ export default function DashboardPage() {
           )}
         </div>
       )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {goalsTemplateLatency && goalsTemplateLatency.latency_metrics && (
+          <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Target className="w-5 h-5 text-purple-400" />
+              Latência de Templates de Metas
+            </h2>
+            <p className="text-gray-400 text-xs mb-4">
+              Tempo de resposta após envio de templates de acompanhamento de metas
+            </p>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="text-center bg-gray-900/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs mb-1">Respostas</p>
+                <p className="text-xl font-bold text-white">{goalsTemplateLatency.total_responses}</p>
+              </div>
+              <div className="text-center bg-gray-900/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs mb-1">Latência Média</p>
+                <p className="text-xl font-bold text-green-400">
+                  {goalsTemplateLatency.latency_metrics.average_minutes.toFixed(1)}min
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {responseLatency && responseLatency.latency_metrics && (
+          <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-blue-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-blue-400" />
+              Latência de Lembretes de Registro
+            </h2>
+            <p className="text-gray-400 text-xs mb-4">
+              Tempo de resposta após lembretes de registro de entradas/saídas
+            </p>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="text-center bg-gray-900/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs mb-1">Respostas</p>
+                <p className="text-xl font-bold text-white">{responseLatency.total_responses}</p>
+              </div>
+              <div className="text-center bg-gray-900/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs mb-1">Latência Média</p>
+                <p className="text-xl font-bold text-green-400">
+                  {responseLatency.latency_metrics.average_minutes.toFixed(1)}min
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/30 rounded-xl p-6">

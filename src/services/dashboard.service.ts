@@ -323,21 +323,46 @@ export class DashboardService {
       endDate: endDate.toISOString().split('T')[0],
     });
 
-    const metricasPromises = usuarios.map(async (usuario) => {
-      try {
-        const response = await fetch(
-          `${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/summary?${params}`
-        );
-        if (!response.ok) return null;
-        const data = await response.json();
-        return data.success ? data.data : null;
-      } catch (error) {
-        return null;
-      }
-    });
+    // Usar endpoint batch para evitar sobrecarga de conexões
+    const chatIds = usuarios.map((u) => u.chat_id).filter((id) => id !== null);
 
-    const resultados = await Promise.all(metricasPromises);
-    const metricasValidas = resultados.filter((m) => m !== null);
+    let metricasValidas: any[] = [];
+
+    if (chatIds.length > 0) {
+      try {
+        // Dividir em batches de 100 (limite do endpoint)
+        const BATCH_SIZE = 100;
+        const batches = [];
+
+        for (let i = 0; i < chatIds.length; i += BATCH_SIZE) {
+          batches.push(chatIds.slice(i, i + BATCH_SIZE));
+        }
+
+        const batchPromises = batches.map(async (batch) => {
+          try {
+            const response = await fetch(
+              `${AGENT_API_URL}/public/agent-metrics/users/batch-summary?${params}`,
+              {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chatIds: batch }),
+              }
+            );
+            if (!response.ok) return [];
+            const data = await response.json();
+            return data.success ? data.data : [];
+          } catch (error) {
+            return [];
+          }
+        });
+
+        const batchResults = await Promise.all(batchPromises);
+        metricasValidas = batchResults.flat();
+      } catch (error) {
+        console.error('Erro ao buscar métricas batch:', error);
+        metricasValidas = [];
+      }
+    }
 
     const porTipo: Record<string, number> = {};
     let total = 0;
@@ -447,29 +472,57 @@ export class DashboardService {
         endDate: endDate.toISOString().split('T')[0],
       });
 
-      for (const usuario of usuarios) {
+      // Usar endpoint batch
+      const chatIds = usuarios.map((u) => u.chat_id).filter((id) => id !== null);
+
+      if (chatIds.length > 0) {
         try {
-          const response = await fetch(
-            `${AGENT_API_URL}/public/agent-metrics/user/${usuario.chat_id}/summary?${params}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success && data.data.inbound_by_type) {
-              Object.entries(data.data.inbound_by_type).forEach(([tipo, quantidade]) => {
-                mensagens.push({
-                  usuario_id: usuario.id,
-                  usuario_nome: usuario.nome,
-                  chat_id: usuario.chat_id,
-                  agent_id: usuario.agent_id,
-                  grupo: usuario.grupo?.nome || 'Sem Grupo',
-                  tipo_mensagem: tipo,
-                  quantidade: quantidade,
-                });
-              });
+          // Dividir em batches de 100
+          const BATCH_SIZE = 100;
+          const batches = [];
+
+          for (let i = 0; i < chatIds.length; i += BATCH_SIZE) {
+            batches.push(chatIds.slice(i, i + BATCH_SIZE));
+          }
+
+          for (const batch of batches) {
+            try {
+              const response = await fetch(
+                `${AGENT_API_URL}/public/agent-metrics/users/batch-summary?${params}`,
+                {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ chatIds: batch }),
+                }
+              );
+
+              if (response.ok) {
+                const data = await response.json();
+                if (data.success && Array.isArray(data.data)) {
+                  data.data.forEach((metrica: any) => {
+                    const usuario = usuarios.find((u) => u.chat_id === metrica.chat_id);
+                    if (usuario && metrica.inbound_by_type) {
+                      Object.entries(metrica.inbound_by_type).forEach(([tipo, quantidade]) => {
+                        mensagens.push({
+                          usuario_id: usuario.id,
+                          usuario_nome: usuario.nome,
+                          chat_id: usuario.chat_id,
+                          agent_id: usuario.agent_id,
+                          grupo: usuario.grupo?.nome || 'Sem Grupo',
+                          tipo_mensagem: tipo,
+                          quantidade: quantidade,
+                        });
+                      });
+                    }
+                  });
+                }
+              }
+            } catch (error) {
+              console.error('Erro ao buscar batch de mensagens:', error);
             }
           }
         } catch (error) {
-          console.error(`Erro ao buscar mensagens do usuário ${usuario.id}:`, error);
+          console.error('Erro ao processar batches de mensagens:', error);
         }
       }
     }
