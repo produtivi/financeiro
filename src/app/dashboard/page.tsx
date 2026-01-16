@@ -327,7 +327,7 @@ export default function DashboardPage() {
       }
 
       const promises = [
-        fetch(`/api/v1/dashboard/metricas?${params}`)
+        fetch(`/api/v1/dashboard/metricas?${params}`).catch(() => null)
       ];
 
       if (AGENT_API_URL && dataInicio && dataFim) {
@@ -344,6 +344,10 @@ export default function DashboardPage() {
 
       const results = await Promise.all(promises);
       const [metricsRes, responseLatencyRes, goalsTemplateLatencyRes] = results;
+
+      if (!metricsRes || !metricsRes.ok) {
+        throw new Error('Erro ao carregar métricas');
+      }
 
       const data = await metricsRes.json();
       if (data.success) {
