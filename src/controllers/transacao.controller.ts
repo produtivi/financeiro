@@ -4,7 +4,7 @@ import { criarTransacaoSchema, atualizarTransacaoSchema, filtrosTransacaoSchema 
 import { ApiResponse } from '@/types/api';
 
 export class TransacaoController {
-  async listar(request: NextRequest): Promise<NextResponse<ApiResponse>> {
+  async listar(request: NextRequest, agentIds?: number[]): Promise<NextResponse<ApiResponse>> {
     try {
       const searchParams = request.nextUrl.searchParams;
 
@@ -30,7 +30,7 @@ export class TransacaoController {
       }
 
       const validated = Object.keys(filtros).length > 0 ? filtrosTransacaoSchema.parse(filtros) : undefined;
-      const transacoes = await transacaoService.listar(validated);
+      const transacoes = await transacaoService.listar(validated, agentIds);
 
       return NextResponse.json({
         success: true,
@@ -195,7 +195,7 @@ export class TransacaoController {
     }
   }
 
-  async exportarTransacoes(request: NextRequest): Promise<NextResponse> {
+  async exportarTransacoes(request: NextRequest, agentIds?: number[]): Promise<NextResponse> {
     try {
       const searchParams = request.nextUrl.searchParams;
 
@@ -221,15 +221,16 @@ export class TransacaoController {
       }
 
       const validated = Object.keys(filtros).length > 0 ? filtrosTransacaoSchema.parse(filtros) : undefined;
-      const transacoes = await transacaoService.listar(validated);
+      const transacoes = await transacaoService.listar(validated, agentIds);
 
       const csvLines: string[] = [];
-      csvLines.push('ID,Usuário,Tipo,Tipo Caixa,Valor,Categoria,Data Transação,Tipo Entrada,Descrição');
+      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo,Tipo Caixa,Valor,Categoria,Data Transação,Tipo Entrada,Descrição');
 
       transacoes.forEach((t: any) => {
         const descricao = (t.descricao || '').replace(/,/g, ';').replace(/\n/g, ' ');
+        const grupoNome = t.usuario.grupo?.nome || 'Sem Grupo';
         csvLines.push(
-          `${t.id},${t.usuario.nome || `Usuário #${t.usuario.id}`},${t.tipo},${t.tipo_caixa},${t.valor},${t.categoria.nome},${new Date(t.data_transacao).toLocaleDateString('pt-BR')},${t.tipo_entrada},${descricao}`
+          `${t.id},${t.usuario.nome || `Usuário #${t.usuario.id}`},${grupoNome},${t.usuario.agent_id || 'N/A'},${t.tipo},${t.tipo_caixa},${t.valor},${t.categoria.nome},${new Date(t.data_transacao).toLocaleDateString('pt-BR')},${t.tipo_entrada},${descricao}`
         );
       });
 

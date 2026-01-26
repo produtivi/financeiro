@@ -9,9 +9,12 @@ export async function GET(request: NextRequest) {
   if (!session) {
     const authError = validateApiKey(request);
     if (authError) return authError;
+    return transacaoController.listar(request);
   }
 
-  return transacaoController.listar(request);
+  // Se tem sessão, passa os agentIds para filtrar
+  const agentIds = session.user.role === 'master' ? undefined : session.user.agentIds;
+  return transacaoController.listar(request, agentIds);
 }
 
 export async function POST(request: NextRequest) {

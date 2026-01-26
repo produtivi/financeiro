@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { CriarTransacaoDTO, AtualizarTransacaoDTO, FiltrosTransacaoDTO } from '@/validators/transacao.validator';
 
 export class TransacaoService {
-  async listar(filtros?: FiltrosTransacaoDTO) {
+  async listar(filtros?: FiltrosTransacaoDTO, agentIds?: number[]) {
     const where: Record<string, unknown> = { deletado_em: null };
 
     if (filtros?.usuario_id) {
@@ -36,6 +36,14 @@ export class TransacaoService {
       };
     }
 
+    // Filtrar por agentIds se fornecido
+    if (agentIds && agentIds.length > 0) {
+      where.usuario = {
+        agent_id: { in: agentIds },
+        deletado_em: null,
+      };
+    }
+
     return await prisma.transacao.findMany({
       where,
       include: {
@@ -44,6 +52,12 @@ export class TransacaoService {
             id: true,
             nome: true,
             chat_id: true,
+            agent_id: true,
+            grupo: {
+              select: {
+                nome: true,
+              },
+            },
           },
         },
         categoria: {
