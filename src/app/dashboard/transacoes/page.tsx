@@ -10,6 +10,7 @@ import {
   Calendar,
   Wallet,
   Briefcase,
+  Download,
 } from 'lucide-react';
 
 interface Transacao {
@@ -100,6 +101,31 @@ export default function TransacoesPage() {
     return new Date(dataSemHora + 'T00:00:00').toLocaleDateString('pt-BR');
   };
 
+  const exportarTransacoes = async () => {
+    try {
+      const response = await fetch('/api/v1/transacoes/exportar', {
+        headers: { 'x-api-key': API_KEY },
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao exportar transações');
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `transacoes-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Erro ao exportar transações:', error);
+      alert('Erro ao exportar transações. Tente novamente.');
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -150,15 +176,24 @@ export default function TransacoesPage() {
 
       <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
         <div className="flex flex-col gap-4 mb-6">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              value={busca}
-              onChange={(e) => setBusca(e.target.value)}
-              placeholder="Buscar por descrição, categoria ou usuário..."
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-11 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
-            />
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                placeholder="Buscar por descrição, categoria ou usuário..."
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg pl-11 pr-4 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <button
+              onClick={exportarTransacoes}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors whitespace-nowrap"
+            >
+              <Download className="w-4 h-4" />
+              Exportar CSV
+            </button>
           </div>
 
           <div className="flex flex-wrap gap-2">

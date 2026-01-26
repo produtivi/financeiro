@@ -440,9 +440,6 @@ export class DashboardService {
           categoria: {
             select: { id: true, nome: true },
           },
-          usuario: {
-            select: { id: true, nome: true, chat_id: true, agent_id: true },
-          },
         },
         orderBy: { data_transacao: 'desc' },
       }),
@@ -454,14 +451,36 @@ export class DashboardService {
             lte: endDate,
           },
         },
-        include: {
-          usuario: {
-            select: { id: true, nome: true, chat_id: true, agent_id: true },
-          },
-        },
         orderBy: { data_inicio: 'desc' },
       }),
     ]);
+
+    // Mapear usuários por ID para acesso rápido
+    const usuariosMap = new Map(usuarios.map((u) => [u.id, u]));
+
+    // Adicionar dados do usuário às transações
+    const transacoesComUsuario = transacoes.map((t) => ({
+      ...t,
+      usuario: usuariosMap.get(t.usuario_id) || {
+        id: t.usuario_id,
+        nome: 'Usuário não encontrado',
+        chat_id: null,
+        agent_id: 0,
+        grupo: null,
+      },
+    }));
+
+    // Adicionar dados do usuário às metas
+    const metasComUsuario = metas.map((m) => ({
+      ...m,
+      usuario: usuariosMap.get(m.usuario_id) || {
+        id: m.usuario_id,
+        nome: 'Usuário não encontrado',
+        chat_id: null,
+        agent_id: 0,
+        grupo: null,
+      },
+    }));
 
     const AGENT_API_URL = process.env.AGENT_API_URL;
     const mensagens: any[] = [];
@@ -529,8 +548,8 @@ export class DashboardService {
 
     return {
       usuarios,
-      transacoes,
-      metas,
+      transacoes: transacoesComUsuario,
+      metas: metasComUsuario,
       mensagens,
     };
   }
