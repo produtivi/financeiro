@@ -26,8 +26,10 @@ import {
   ThumbsUp,
   ThumbsDown,
   Minus,
+  Lightbulb,
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { MetricTooltip } from '@/components/MetricTooltip';
 
 interface DashboardMetrics {
   usuarios: {
@@ -158,6 +160,17 @@ interface GoalsTemplateLatencyData {
   message?: string;
 }
 
+interface KnowledgePillLatencyData {
+  period: {
+    start_date: string;
+    end_date: string;
+  };
+  total_responses: number;
+  unique_contacts: number;
+  latency_metrics: LatenciaMetrics | null;
+  message?: string;
+}
+
 interface Grupo {
   id: number;
   nome: string;
@@ -224,8 +237,13 @@ export default function DashboardPage() {
   const [usuarioSelecionado, setUsuarioSelecionado] = useState('');
   const [responseLatency, setResponseLatency] = useState<ResponseLatencyData | null>(null);
   const [goalsTemplateLatency, setGoalsTemplateLatency] = useState<GoalsTemplateLatencyData | null>(null);
-
-  const AGENT_API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL;
+  const [knowledgePillLatency, setKnowledgePillLatency] = useState<KnowledgePillLatencyData | null>(null);
+  const [loadingResponseLatency, setLoadingResponseLatency] = useState(false);
+  const [loadingGoalsLatency, setLoadingGoalsLatency] = useState(false);
+  const [loadingKnowledgePillLatency, setLoadingKnowledgePillLatency] = useState(false);
+  const [errorResponseLatency, setErrorResponseLatency] = useState(false);
+  const [errorGoalsLatency, setErrorGoalsLatency] = useState(false);
+  const [errorKnowledgePillLatency, setErrorKnowledgePillLatency] = useState(false);
 
   const getDomingoAnterior = (data: Date): Date => {
     const dia = data.getDay();
@@ -326,24 +344,7 @@ export default function DashboardPage() {
         params.append('usuarioId', usuarioSelecionado);
       }
 
-      const promises = [
-        fetch(`/api/v1/dashboard/metricas?${params}`).catch(() => null)
-      ];
-
-      if (AGENT_API_URL && dataInicio && dataFim) {
-        const apiParams = new URLSearchParams({
-          startDate: dataInicio,
-          endDate: dataFim,
-        });
-
-        promises.push(
-          fetch(`${AGENT_API_URL}/public/agent-metrics/response-latency?${apiParams}`).catch(() => null),
-          fetch(`${AGENT_API_URL}/public/agent-metrics/goals-template-latency?${apiParams}`).catch(() => null)
-        );
-      }
-
-      const results = await Promise.all(promises);
-      const [metricsRes, responseLatencyRes, goalsTemplateLatencyRes] = results;
+      const metricsRes = await fetch(`/api/v1/dashboard/metricas?${params}`);
 
       if (!metricsRes || !metricsRes.ok) {
         throw new Error('Erro ao carregar métricas');
@@ -353,24 +354,116 @@ export default function DashboardPage() {
       if (data.success) {
         setMetrics(data.data);
       }
-
-      if (responseLatencyRes && responseLatencyRes.ok) {
-        const responseLatencyData = await responseLatencyRes.json();
-        if (responseLatencyData.success) {
-          setResponseLatency(responseLatencyData.data);
-        }
-      }
-
-      if (goalsTemplateLatencyRes && goalsTemplateLatencyRes.ok) {
-        const goalsTemplateLatencyData = await goalsTemplateLatencyRes.json();
-        if (goalsTemplateLatencyData.success) {
-          setGoalsTemplateLatency(goalsTemplateLatencyData.data);
-        }
-      }
     } catch (error) {
       console.error('Erro ao carregar métricas:', error);
     } finally {
       setLoading(false);
+    }
+
+    carregarLatencias();
+  };
+
+  const carregarLatencias = async () => {
+    const AGENT_API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL;
+
+    if (!AGENT_API_URL) {
+      console.error('AGENT_API_URL não configurada');
+      return;
+    }
+
+    const params = new URLSearchParams({
+      startDate: dataInicio,
+      endDate: dataFim,
+    });
+
+    if (grupoSelecionado) {
+      params.append('grupo_id', grupoSelecionado);
+    }
+
+    if (usuarioSelecionado) {
+      params.append('usuario_id', usuarioSelecionado);
+    }
+
+    carregarResponseLatency(AGENT_API_URL, params);
+    carregarGoalsLatency(AGENT_API_URL, params);
+    carregarKnowledgePillLatency(AGENT_API_URL, params);
+  };
+
+  const carregarResponseLatency = async (agentApiUrl: string, params: URLSearchParams) => {
+    setLoadingResponseLatency(true);
+    setResponseLatency(null);
+    setErrorResponseLatency(false);
+
+    try {
+      const response = await fetch(`${agentApiUrl}/public/agent-metrics/response-latency?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setResponseLatency(data.data);
+          setErrorResponseLatency(false);
+        }
+      } else {
+        console.error('Erro ao carregar latência de registro:', response.status, response.statusText);
+        setErrorResponseLatency(true);
+      }
+    } catch (err) {
+      console.error('Erro ao carregar latência de registro:', err);
+      setErrorResponseLatency(true);
+    } finally {
+      setLoadingResponseLatency(false);
+    }
+  };
+
+  const carregarGoalsLatency = async (agentApiUrl: string, params: URLSearchParams) => {
+    setLoadingGoalsLatency(true);
+    setGoalsTemplateLatency(null);
+    setErrorGoalsLatency(false);
+
+    try {
+      const response = await fetch(`${agentApiUrl}/public/agent-metrics/goals-template-latency?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setGoalsTemplateLatency(data.data);
+          setErrorGoalsLatency(false);
+        }
+      } else {
+        console.error('Erro ao carregar latência de metas:', response.status, response.statusText);
+        setErrorGoalsLatency(true);
+      }
+    } catch (err) {
+      console.error('Erro ao carregar latência de metas:', err);
+      setErrorGoalsLatency(true);
+    } finally {
+      setLoadingGoalsLatency(false);
+    }
+  };
+
+  const carregarKnowledgePillLatency = async (agentApiUrl: string, params: URLSearchParams) => {
+    setLoadingKnowledgePillLatency(true);
+    setKnowledgePillLatency(null);
+    setErrorKnowledgePillLatency(false);
+
+    try {
+      const response = await fetch(`${agentApiUrl}/public/agent-metrics/knowledge-pill-latency?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setKnowledgePillLatency(data.data);
+          setErrorKnowledgePillLatency(false);
+        }
+      } else {
+        console.error('Erro ao carregar latência de pílulas:', response.status, response.statusText);
+        setErrorKnowledgePillLatency(true);
+      }
+    } catch (err) {
+      console.error('Erro ao carregar latência de pílulas:', err);
+      setErrorKnowledgePillLatency(true);
+    } finally {
+      setLoadingKnowledgePillLatency(false);
     }
   };
 
@@ -384,6 +477,13 @@ export default function DashboardPage() {
   const handleGrupoChange = (grupoId: string) => {
     setGrupoSelecionado(grupoId);
     setUsuarioSelecionado('');
+    // Limpa as métricas antigas para não mostrar dados incorretos
+    setResponseLatency(null);
+    setGoalsTemplateLatency(null);
+    setKnowledgePillLatency(null);
+    setErrorResponseLatency(false);
+    setErrorGoalsLatency(false);
+    setErrorKnowledgePillLatency(false);
   };
 
   const formatarMoeda = (valor: number) => {
@@ -492,7 +592,13 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Período Rápido</label>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+              Período Rápido
+              <MetricTooltip
+                title="Período Rápido"
+                description="Escolha um período pré-definido para ver os dados. Última Semana mostra desde domingo até hoje. Último Mês mostra o mês atual. Último Ano mostra o ano atual. Personalizado permite escolher datas específicas."
+              />
+            </label>
             <div className="flex gap-2 flex-wrap mb-4">
               <button
                 onClick={() => handlePeriodoChange('semana')}
@@ -538,7 +644,13 @@ export default function DashboardPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Data Início</label>
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+                  Data Início
+                  <MetricTooltip
+                    title="Data Início"
+                    description="A partir de qual data você quer ver os dados. Por exemplo, se escolher 01/01/2024, vai mostrar informações desde esse dia até a Data Fim."
+                  />
+                </label>
                 <input
                   type="date"
                   value={dataInicio}
@@ -550,7 +662,13 @@ export default function DashboardPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Data Fim</label>
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+                  Data Fim
+                  <MetricTooltip
+                    title="Data Fim"
+                    description="Até qual data você quer ver os dados. Por exemplo, se escolher hoje, vai mostrar informações desde a Data Início até hoje."
+                  />
+                </label>
                 <input
                   type="date"
                   value={dataFim}
@@ -565,7 +683,13 @@ export default function DashboardPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Filtrar por Grupo</label>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+              Filtrar por Grupo
+              <MetricTooltip
+                title="Filtrar por Grupo"
+                description="Escolha um grupo experimental específico para ver só os dados desse grupo. Se deixar 'Todos os Grupos', mostra dados de todos os participantes juntos."
+              />
+            </label>
             <select
               value={grupoSelecionado}
               onChange={(e) => handleGrupoChange(e.target.value)}
@@ -579,7 +703,13 @@ export default function DashboardPage() {
               ))}
             </select>
 
-            <label className="block text-sm font-medium text-gray-300 mb-2">Filtrar por Usuário</label>
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-300 mb-2">
+              Filtrar por Usuário
+              <MetricTooltip
+                title="Filtrar por Usuário"
+                description="Escolha um usuário específico para ver só os dados dessa pessoa. Você precisa primeiro escolher um grupo para poder selecionar um usuário."
+              />
+            </label>
             <select
               value={usuarioSelecionado}
               onChange={(e) => setUsuarioSelecionado(e.target.value)}
@@ -603,7 +733,13 @@ export default function DashboardPage() {
             <div className="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center">
               <Users className="w-6 h-6 text-blue-500" />
             </div>
-            <span className="text-xs text-gray-400">Total</span>
+            <div className="flex items-center gap-2">
+              <MetricTooltip
+                title="Usuários Cadastrados"
+                description="Número total de usuários cadastrados no sistema, incluindo ativos e inativos. Usuários ativos são aqueles com status 'active'."
+              />
+              <span className="text-xs text-gray-400">Total</span>
+            </div>
           </div>
           <p className="text-3xl font-bold text-white mb-1">{metrics?.usuarios.total}</p>
           <p className="text-sm text-gray-400">Usuários Cadastrados</p>
@@ -617,7 +753,13 @@ export default function DashboardPage() {
             <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center">
               <ArrowUpCircle className="w-6 h-6 text-green-500" />
             </div>
-            <span className="text-xs text-gray-400">Receitas</span>
+            <div className="flex items-center gap-2">
+              <MetricTooltip
+                title="Receitas"
+                description="Soma de todas as transações de entrada (receitas) registradas no período selecionado, incluindo caixa pessoal e negócio."
+              />
+              <span className="text-xs text-gray-400">Receitas</span>
+            </div>
           </div>
           <p className="text-3xl font-bold text-white mb-1">
             {formatarMoeda(metrics?.transacoes.totalReceitas || 0)}
@@ -630,7 +772,13 @@ export default function DashboardPage() {
             <div className="w-12 h-12 bg-red-500/10 rounded-lg flex items-center justify-center">
               <ArrowDownCircle className="w-6 h-6 text-red-500" />
             </div>
-            <span className="text-xs text-gray-400">Despesas</span>
+            <div className="flex items-center gap-2">
+              <MetricTooltip
+                title="Despesas"
+                description="Soma de todas as transações de saída (despesas) registradas no período selecionado, incluindo caixa pessoal e negócio."
+              />
+              <span className="text-xs text-gray-400">Despesas</span>
+            </div>
           </div>
           <p className="text-3xl font-bold text-white mb-1">
             {formatarMoeda(metrics?.transacoes.totalDespesas || 0)}
@@ -651,7 +799,13 @@ export default function DashboardPage() {
                 }`}
               />
             </div>
-            <span className="text-xs text-gray-400">Saldo</span>
+            <div className="flex items-center gap-2">
+              <MetricTooltip
+                title="Saldo Total"
+                description="Diferença entre receitas e despesas (Receitas - Despesas). Representa o fluxo de caixa líquido no período, somando caixa pessoal e negócio."
+              />
+              <span className="text-xs text-gray-400">Saldo</span>
+            </div>
           </div>
           <p
             className={`text-3xl font-bold mb-1 ${
@@ -668,7 +822,13 @@ export default function DashboardPage() {
             <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center">
               <TrendingUp className="w-6 h-6 text-orange-500" />
             </div>
-            <span className="text-xs text-gray-400">Ranking</span>
+            <div className="flex items-center gap-2">
+              <MetricTooltip
+                title="Meta Mais Solicitada"
+                description="Tipo de meta mais criada pelos usuários no período. Exemplos: Reserva Financeira, Meta de Vendas, Pagamento de Contas, etc."
+              />
+              <span className="text-xs text-gray-400">Ranking</span>
+            </div>
           </div>
           {tipoMetaMaisSolicitado ? (
             <>
@@ -692,6 +852,10 @@ export default function DashboardPage() {
           <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
             <MessageCircle className="w-6 h-6 text-cyan-500" />
             Engajamento de Conversas
+            <MetricTooltip
+              title="Engajamento de Conversas"
+              description="Mostra o quanto os usuários estão conversando com o chatbot. Alto (mais de 2 mensagens): usuário está bem envolvido e responde bastante. Médio (1 ou 2 mensagens): usuário responde algumas vezes. Baixo (nenhuma mensagem): usuário não está respondendo."
+            />
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
             <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 border border-cyan-500/30 rounded-lg p-4">
@@ -783,56 +947,228 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {goalsTemplateLatency && goalsTemplateLatency.latency_metrics && (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {loadingGoalsLatency && !goalsTemplateLatency ? (
+          <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Target className="w-5 h-5 text-purple-400 animate-pulse" />
+              Tempo de Resposta - Acompanhamento de Metas
+              <MetricTooltip
+                title="Tempo de Resposta - Metas"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem templates de WhatsApp sobre acompanhamento de metas. O sistema envia templates automáticos perguntando sobre as metas financeiras ('novo_acompahamentometas_formal' ou 'novo_acompahamentometas_padro') e calcula o tempo até a primeira resposta. Tempo mais curto = pessoa mais engajada."
+              />
+            </h2>
+            <div className="flex flex-col items-center justify-center h-32 space-y-3">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400"></div>
+              <p className="text-gray-400 text-sm text-center">
+                Carregando... Esta métrica pode demorar um pouco pois analisa mensagens específicas de WhatsApp
+              </p>
+            </div>
+          </div>
+        ) : errorGoalsLatency ? (
+          <div className="bg-gradient-to-br from-red-500/10 to-orange-600/10 border border-red-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-400" />
+              Tempo de Resposta - Acompanhamento de Metas
+              <MetricTooltip
+                title="Tempo de Resposta - Metas"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem templates de WhatsApp sobre acompanhamento de metas. O sistema envia templates automáticos perguntando sobre as metas financeiras ('novo_acompahamentometas_formal' ou 'novo_acompahamentometas_padro') e calcula o tempo até a primeira resposta. Tempo mais curto = pessoa mais engajada."
+              />
+            </h2>
+            <div className="flex flex-col items-center justify-center h-32 space-y-3">
+              <p className="text-red-400 text-sm text-center">
+                Não foi possível carregar os dados. A busca demorou muito ou o serviço está indisponível. Tente novamente com um período menor.
+              </p>
+            </div>
+          </div>
+        ) : goalsTemplateLatency && goalsTemplateLatency.latency_metrics ? (
           <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-xl p-6">
             <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
               <Target className="w-5 h-5 text-purple-400" />
-              Latência de Templates de Metas
+              Tempo de Resposta - Acompanhamento de Metas
+              <MetricTooltip
+                title="Tempo de Resposta - Metas"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem templates de WhatsApp sobre acompanhamento de metas. O sistema envia templates automáticos perguntando sobre as metas financeiras ('novo_acompahamentometas_formal' ou 'novo_acompahamentometas_padro') e calcula o tempo até a primeira resposta. Tempo mais curto = pessoa mais engajada."
+              />
             </h2>
             <p className="text-gray-400 text-xs mb-4">
-              Tempo de resposta após envio de templates de acompanhamento de metas
+              Tempo após enviar templates de WhatsApp sobre check-in de metas
             </p>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="text-center bg-gray-900/50 rounded-lg p-3">
-                <p className="text-gray-400 text-xs mb-1">Respostas</p>
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <p className="text-gray-400 text-xs">Total Respostas</p>
+                  <MetricTooltip
+                    title="Total de Respostas"
+                    description="Quantas vezes as pessoas responderam aos templates de WhatsApp sobre acompanhamento de metas no período selecionado."
+                  />
+                </div>
                 <p className="text-xl font-bold text-white">{goalsTemplateLatency.total_responses}</p>
               </div>
               <div className="text-center bg-gray-900/50 rounded-lg p-3">
-                <p className="text-gray-400 text-xs mb-1">Latência Média</p>
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <p className="text-gray-400 text-xs">Tempo Médio</p>
+                  <MetricTooltip
+                    title="Tempo Médio de Resposta"
+                    description="Média de tempo (em minutos) que as pessoas levam para responder após receber o template de metas. É calculado somando o tempo entre o envio do template e a primeira resposta de cada pessoa, depois dividindo pelo total de respostas."
+                  />
+                </div>
                 <p className="text-xl font-bold text-green-400">
                   {goalsTemplateLatency.latency_metrics.average_minutes.toFixed(1)}min
                 </p>
               </div>
             </div>
           </div>
-        )}
+        ) : null}
 
-        {responseLatency && responseLatency.latency_metrics && (
+        {loadingResponseLatency && !responseLatency ? (
+          <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-blue-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-blue-400 animate-pulse" />
+              Tempo de Resposta - Lembretes de Registro
+              <MetricTooltip
+                title="Tempo de Resposta - Lembretes"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem lembretes para registrar entradas e saídas de dinheiro. O sistema procura por mensagens como 'Dá uma olhada nos seus registros', 'Revise suas anotações' ou 'Registro diário', e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais comprometida."
+              />
+            </h2>
+            <div className="flex flex-col items-center justify-center h-32 space-y-3">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+              <p className="text-gray-400 text-sm text-center">
+                Carregando... Esta métrica demora mais pois busca por palavras-chave específicas nas mensagens
+              </p>
+            </div>
+          </div>
+        ) : errorResponseLatency ? (
+          <div className="bg-gradient-to-br from-red-500/10 to-orange-600/10 border border-red-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Clock className="w-5 h-5 text-red-400" />
+              Tempo de Resposta - Lembretes de Registro
+              <MetricTooltip
+                title="Tempo de Resposta - Lembretes"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem lembretes para registrar entradas e saídas de dinheiro. O sistema procura por mensagens como 'Dá uma olhada nos seus registros', 'Revise suas anotações' ou 'Registro diário', e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais comprometida."
+              />
+            </h2>
+            <div className="flex flex-col items-center justify-center h-32 space-y-3">
+              <p className="text-red-400 text-sm text-center">
+                Não foi possível carregar os dados. A busca demorou muito ou o serviço está indisponível. Tente novamente com um período menor.
+              </p>
+            </div>
+          </div>
+        ) : responseLatency && responseLatency.latency_metrics ? (
           <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-blue-500/30 rounded-xl p-6">
             <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
               <Clock className="w-5 h-5 text-blue-400" />
-              Latência de Lembretes de Registro
+              Tempo de Resposta - Lembretes de Registro
+              <MetricTooltip
+                title="Tempo de Resposta - Lembretes"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem lembretes para registrar entradas e saídas de dinheiro. O sistema procura por mensagens como 'Dá uma olhada nos seus registros', 'Revise suas anotações' ou 'Registro diário', e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais comprometida."
+              />
             </h2>
             <p className="text-gray-400 text-xs mb-4">
-              Tempo de resposta após lembretes de registro de entradas/saídas
+              Tempo após enviar lembretes automáticos de registro diário
             </p>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="text-center bg-gray-900/50 rounded-lg p-3">
-                <p className="text-gray-400 text-xs mb-1">Respostas</p>
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <p className="text-gray-400 text-xs">Total Respostas</p>
+                  <MetricTooltip
+                    title="Total de Respostas"
+                    description="Quantas vezes as pessoas responderam às mensagens de lembrete de registro (como 'Dá uma olhada nos seus registros') no período selecionado."
+                  />
+                </div>
                 <p className="text-xl font-bold text-white">{responseLatency.total_responses}</p>
               </div>
               <div className="text-center bg-gray-900/50 rounded-lg p-3">
-                <p className="text-gray-400 text-xs mb-1">Latência Média</p>
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <p className="text-gray-400 text-xs">Tempo Médio</p>
+                  <MetricTooltip
+                    title="Tempo Médio de Resposta"
+                    description="Média de tempo (em minutos) que as pessoas levam para responder após receber o lembrete de registro. É calculado somando o tempo entre o envio do lembrete e a primeira resposta de cada pessoa, depois dividindo pelo total de respostas."
+                  />
+                </div>
                 <p className="text-xl font-bold text-green-400">
                   {responseLatency.latency_metrics.average_minutes.toFixed(1)}min
                 </p>
               </div>
             </div>
           </div>
-        )}
+        ) : null}
+
+        {loadingKnowledgePillLatency && !knowledgePillLatency ? (
+          <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-amber-400 animate-pulse" />
+              Tempo de Resposta - Pílulas do Conhecimento
+              <MetricTooltip
+                title="Tempo de Resposta - Pílulas"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem pílulas do conhecimento (dicas e informações educacionais). O sistema envia conteúdos educativos e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais interessada no conteúdo."
+              />
+            </h2>
+            <div className="flex flex-col items-center justify-center h-32 space-y-3">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400"></div>
+              <p className="text-gray-400 text-sm text-center">
+                Carregando... Esta métrica pode demorar pois analisa mensagens de pílulas do conhecimento
+              </p>
+            </div>
+          </div>
+        ) : errorKnowledgePillLatency ? (
+          <div className="bg-gradient-to-br from-red-500/10 to-orange-600/10 border border-red-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-red-400" />
+              Tempo de Resposta - Pílulas do Conhecimento
+              <MetricTooltip
+                title="Tempo de Resposta - Pílulas"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem pílulas do conhecimento (dicas e informações educacionais). O sistema envia conteúdos educativos e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais interessada no conteúdo."
+              />
+            </h2>
+            <div className="flex flex-col items-center justify-center h-32 space-y-3">
+              <p className="text-red-400 text-sm text-center">
+                Não foi possível carregar os dados. A busca demorou muito ou o serviço está indisponível. Tente novamente com um período menor.
+              </p>
+            </div>
+          </div>
+        ) : knowledgePillLatency && knowledgePillLatency.latency_metrics ? (
+          <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-amber-400" />
+              Tempo de Resposta - Pílulas do Conhecimento
+              <MetricTooltip
+                title="Tempo de Resposta - Pílulas"
+                description="Mede quanto tempo as pessoas demoram para responder depois que recebem pílulas do conhecimento (dicas e informações educacionais). O sistema envia conteúdos educativos e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais interessada no conteúdo."
+              />
+            </h2>
+            <p className="text-gray-400 text-xs mb-4">
+              Tempo após enviar pílulas do conhecimento (conteúdo educativo)
+            </p>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="text-center bg-gray-900/50 rounded-lg p-3">
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <p className="text-gray-400 text-xs">Total Respostas</p>
+                  <MetricTooltip
+                    title="Total de Respostas"
+                    description="Quantas vezes as pessoas responderam às pílulas do conhecimento enviadas no período selecionado."
+                  />
+                </div>
+                <p className="text-xl font-bold text-white">{knowledgePillLatency.total_responses}</p>
+              </div>
+              <div className="text-center bg-gray-900/50 rounded-lg p-3">
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <p className="text-gray-400 text-xs">Tempo Médio</p>
+                  <MetricTooltip
+                    title="Tempo Médio de Resposta"
+                    description="Média de tempo (em minutos) que as pessoas levam para responder após receber uma pílula do conhecimento. É calculado somando o tempo entre o envio e a primeira resposta de cada pessoa, depois dividindo pelo total de respostas."
+                  />
+                </div>
+                <p className="text-xl font-bold text-green-400">
+                  {knowledgePillLatency.latency_metrics.average_minutes.toFixed(1)}min
+                </p>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -841,6 +1177,10 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2">
               <Wallet className="w-6 h-6 text-blue-400" />
               <h3 className="text-lg font-bold text-white">Caixa Pessoal</h3>
+              <MetricTooltip
+                title="Caixa Pessoal"
+                description="Transações financeiras de uso pessoal do usuário. Inclui receitas e despesas pessoais separadas do caixa de negócio."
+              />
             </div>
             <span className="text-xs text-blue-300">
               {metrics?.transacoes.percentualPessoal.toFixed(1)}% dos registros
@@ -874,6 +1214,10 @@ export default function DashboardPage() {
             <div className="flex items-center gap-2">
               <Briefcase className="w-6 h-6 text-purple-400" />
               <h3 className="text-lg font-bold text-white">Caixa Negócio</h3>
+              <MetricTooltip
+                title="Caixa Negócio"
+                description="Transações financeiras relacionadas ao negócio/empresa do usuário. Inclui receitas e despesas empresariais separadas do caixa pessoal."
+              />
             </div>
             <span className="text-xs text-purple-300">
               {metrics?.transacoes.percentualNegocio.toFixed(1)}% dos registros
@@ -1033,6 +1377,10 @@ export default function DashboardPage() {
           <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
             <Target className="w-6 h-6 text-purple-500" />
             Metas
+            <MetricTooltip
+              title="Status de Metas"
+              description="Acompanhamento das metas financeiras definidas. Cumpridas: atingiram o objetivo. Não Cumpridas: não atingiram na data limite. Pendentes: ainda dentro do prazo."
+            />
           </h2>
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 bg-gray-800/50 rounded-lg">

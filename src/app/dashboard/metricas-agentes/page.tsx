@@ -19,7 +19,10 @@ import {
   XCircle,
   DollarSign,
   PieChart,
+  Download,
+  Filter,
 } from 'lucide-react';
+import { MetricTooltip } from '@/components/MetricTooltip';
 
 interface Usuario {
   id: number;
@@ -76,8 +79,15 @@ const TIPOS_META: Record<string, string> = {
   outro: 'Outro',
 };
 
+interface Grupo {
+  id: number;
+  nome: string;
+}
+
 export default function MetricasAgentesPage() {
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [grupos, setGrupos] = useState<Grupo[]>([]);
+  const [grupoSelecionado, setGrupoSelecionado] = useState('');
   const [usuarioSelecionado, setUsuarioSelecionado] = useState('');
   const [metricas, setMetricas] = useState<MetricasSummary | null>(null);
   const [metricasDiarias, setMetricasDiarias] = useState<MetricasDaily | null>(null);
@@ -90,6 +100,7 @@ export default function MetricasAgentesPage() {
   const AGENT_API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL;
 
   useEffect(() => {
+    carregarGrupos();
     carregarUsuarios();
     const hoje = new Date();
     const seteDiasAtras = new Date(hoje.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -97,9 +108,32 @@ export default function MetricasAgentesPage() {
     setDataInicio(seteDiasAtras.toISOString().split('T')[0]);
   }, []);
 
+  useEffect(() => {
+    if (grupoSelecionado) {
+      carregarUsuarios();
+    }
+  }, [grupoSelecionado]);
+
+  const carregarGrupos = async () => {
+    try {
+      const res = await fetch('/api/v1/dashboard/grupos');
+      const data = await res.json();
+      if (data.success) {
+        setGrupos(data.data);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar grupos:', error);
+    }
+  };
+
   const carregarUsuarios = async () => {
     try {
-      const res = await fetch('/api/v1/usuarios');
+      const params = new URLSearchParams();
+      if (grupoSelecionado) {
+        params.append('grupoId', grupoSelecionado);
+      }
+
+      const res = await fetch(`/api/v1/dashboard/usuarios?${params}`);
       const data = await res.json();
       if (data.success) {
         setUsuarios(data.data);
@@ -296,6 +330,39 @@ export default function MetricasAgentesPage() {
     return colors[tipo] || 'text-gray-400';
   };
 
+  const exportarDados = async () => {
+    if (!usuarioSelecionado) return;
+
+    try {
+      const params = new URLSearchParams({
+        startDate: dataInicio,
+        endDate: dataFim,
+      });
+
+      if (grupoSelecionado) {
+        params.append('grupoId', grupoSelecionado);
+      }
+
+      if (usuarioSelecionado) {
+        params.append('usuarioId', usuarioSelecionado);
+      }
+
+      const response = await fetch(`/api/v1/dashboard/exportar?${params}`);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `metricas-usuario-${usuarioSelecionado}-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Erro ao exportar dados:', error);
+      alert('Erro ao exportar dados');
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -307,7 +374,43 @@ export default function MetricasAgentesPage() {
       </div>
 
       <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <Filter className="w-5 h-5 text-blue-400" />
+            <h2 className="text-lg font-semibold text-white">Filtros</h2>
+          </div>
+          <button
+            onClick={exportarDados}
+            disabled={!usuarioSelecionado}
+            className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Download className="w-4 h-4" />
+            Exportar Dados
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Filtrar por Grupo
+            </label>
+            <select
+              value={grupoSelecionado}
+              onChange={(e) => {
+                setGrupoSelecionado(e.target.value);
+                setUsuarioSelecionado('');
+              }}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
+            >
+              <option value="">Todos os Grupos</option>
+              {grupos.map((grupo) => (
+                <option key={grupo.id} value={grupo.id}>
+                  {grupo.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Selecione o Usuário
@@ -320,7 +423,7 @@ export default function MetricasAgentesPage() {
               <option value="">Selecione um usuário</option>
               {usuarios.map((u) => (
                 <option key={u.id} value={u.id}>
-                  {u.nome || `Usuário #${u.id}`} (Agent ID: {u.agent_id})
+                  {u.nome || `Usuário #${u.id}`}
                 </option>
               ))}
             </select>
@@ -361,7 +464,13 @@ export default function MetricasAgentesPage() {
             <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 border border-blue-500/30 rounded-xl p-6">
               <div className="flex items-center justify-between mb-3">
                 <Wallet className="w-8 h-8 text-blue-400" />
-                <span className="text-xs text-blue-300">Caixa Pessoal</span>
+                <div className="flex items-center gap-2">
+                  <MetricTooltip
+                    title="Caixa Pessoal"
+                    description="Transações financeiras de uso pessoal do usuário. Inclui receitas e despesas pessoais separadas do caixa de negócio."
+                  />
+                  <span className="text-xs text-blue-300">Caixa Pessoal</span>
+                </div>
               </div>
               <p className={`text-3xl font-bold ${saldoPessoal >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                 {formatarMoeda(saldoPessoal)}
@@ -385,7 +494,13 @@ export default function MetricasAgentesPage() {
             <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 border border-purple-500/30 rounded-xl p-6">
               <div className="flex items-center justify-between mb-3">
                 <Briefcase className="w-8 h-8 text-purple-400" />
-                <span className="text-xs text-purple-300">Caixa Negócio</span>
+                <div className="flex items-center gap-2">
+                  <MetricTooltip
+                    title="Caixa Negócio"
+                    description="Transações financeiras relacionadas ao negócio/empresa do usuário. Inclui receitas e despesas empresariais separadas do caixa pessoal."
+                  />
+                  <span className="text-xs text-purple-300">Caixa Negócio</span>
+                </div>
               </div>
               <p className={`text-3xl font-bold ${saldoNegocio >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                 {formatarMoeda(saldoNegocio)}
@@ -440,6 +555,10 @@ export default function MetricasAgentesPage() {
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               <Target className="w-6 h-6 text-purple-400" />
               Metas no Período
+              <MetricTooltip
+                title="Metas no Período"
+                description="Resumo das metas financeiras definidas pelo usuário. Taxa de Sucesso = (Cumpridas / (Cumpridas + Não Cumpridas)) × 100."
+              />
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="text-center">
@@ -471,6 +590,10 @@ export default function MetricasAgentesPage() {
               <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                 <PieChart className="w-6 h-6 text-orange-400" />
                 Top 5 Categorias de Gastos
+                <MetricTooltip
+                  title="Top 5 Categorias"
+                  description="As cinco categorias com maior volume de despesas no período. Mostra onde o usuário está gastando mais dinheiro."
+                />
               </h2>
               <div className="space-y-3">
                 {topCategorias.map(([categoria, valor], index) => {
@@ -507,6 +630,10 @@ export default function MetricasAgentesPage() {
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               <MessageSquare className="w-6 h-6 text-blue-400" />
               Mensagens Recebidas
+              <MetricTooltip
+                title="Mensagens Recebidas"
+                description="Total de mensagens enviadas pelo usuário ao chatbot, separadas por tipo: texto, áudio, imagem, vídeo e documento."
+              />
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
               <div className="text-center">

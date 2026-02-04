@@ -9,6 +9,8 @@ import {
   Activity,
   Calendar,
   Target,
+  Lightbulb,
+  Download,
 } from 'lucide-react';
 
 interface Latencia {
@@ -34,6 +36,16 @@ interface Estatisticas {
   latencia_minima: number;
   latencia_maxima: number;
   taxa_resposta: number;
+}
+
+interface Grupo {
+  id: number;
+  nome: string;
+}
+
+interface Usuario {
+  id: number;
+  nome: string;
 }
 
 interface LatenciaMetrics {
@@ -86,6 +98,17 @@ interface GoalsTemplateLatencyData {
   message?: string;
 }
 
+interface KnowledgePillLatencyData {
+  period: {
+    start_date: string;
+    end_date: string;
+  };
+  total_responses: number;
+  unique_contacts: number;
+  latency_metrics: LatenciaMetrics | null;
+  message?: string;
+}
+
 type PeriodoRapido = 'semana' | 'mes' | 'ano' | 'custom';
 
 const getDomingoAnterior = (data: Date): Date => {
@@ -102,7 +125,15 @@ export default function LatenciasPage() {
   const [estatisticas, setEstatisticas] = useState<Estatisticas | null>(null);
   const [responseLatency, setResponseLatency] = useState<ResponseLatencyData | null>(null);
   const [goalsTemplateLatency, setGoalsTemplateLatency] = useState<GoalsTemplateLatencyData | null>(null);
+  const [knowledgePillLatency, setKnowledgePillLatency] = useState<KnowledgePillLatencyData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadingResponseLatency, setLoadingResponseLatency] = useState(false);
+  const [loadingGoalsLatency, setLoadingGoalsLatency] = useState(false);
+  const [loadingKnowledgePillLatency, setLoadingKnowledgePillLatency] = useState(false);
+  const [grupos, setGrupos] = useState<Grupo[]>([]);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [grupoSelecionado, setGrupoSelecionado] = useState('');
+  const [usuarioSelecionado, setUsuarioSelecionado] = useState('');
   const [usuarioFiltro, setUsuarioFiltro] = useState('');
   const [dataInicio, setDataInicio] = useState('');
   const [dataFim, setDataFim] = useState('');
@@ -137,7 +168,55 @@ export default function LatenciasPage() {
 
   useEffect(() => {
     calcularPeriodo('semana');
+    carregarGrupos();
   }, [calcularPeriodo]);
+
+  useEffect(() => {
+    if (grupoSelecionado) {
+      carregarUsuarios();
+    } else {
+      setUsuarios([]);
+      setUsuarioSelecionado('');
+    }
+  }, [grupoSelecionado]);
+
+  const carregarGrupos = async () => {
+    try {
+      const res = await fetch('/api/v1/dashboard/grupos');
+      const data = await res.json();
+      if (data.success) {
+        setGrupos(data.data);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar grupos:', error);
+    }
+  };
+
+  const carregarUsuarios = async () => {
+    try {
+      const params = new URLSearchParams();
+      if (grupoSelecionado) {
+        params.append('grupoId', grupoSelecionado);
+      }
+
+      const res = await fetch(`/api/v1/dashboard/usuarios?${params}`);
+      const data = await res.json();
+      if (data.success) {
+        setUsuarios(data.data);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar usuários:', error);
+    }
+  };
+
+  const handleGrupoChange = (grupoId: string) => {
+    setGrupoSelecionado(grupoId);
+    setUsuarioSelecionado('');
+    // Limpa as métricas antigas para não mostrar dados incorretos
+    setResponseLatency(null);
+    setGoalsTemplateLatency(null);
+    setKnowledgePillLatency(null);
+  };
 
   const handlePeriodoChange = (tipo: PeriodoRapido) => {
     setPeriodoSelecionado(tipo);
@@ -148,6 +227,11 @@ export default function LatenciasPage() {
 
   const carregarDados = useCallback(async () => {
     if (!dataInicio || !dataFim) return;
+
+    // Valida se as datas estão no formato correto (YYYY-MM-DD com 10 caracteres)
+    if (dataInicio.length !== 10 || dataFim.length !== 10) {
+      return;
+    }
 
     try {
       setLoading(true);
@@ -162,21 +246,9 @@ export default function LatenciasPage() {
         fetch(`/api/v1/latencias/estatisticas?${params}`).catch(() => null),
       ];
 
-      if (AGENT_API_URL) {
-        const apiParams = new URLSearchParams({
-          startDate: dataInicio,
-          endDate: dataFim,
-        });
-
-        promises.push(
-          fetch(`${AGENT_API_URL}/public/agent-metrics/response-latency?${apiParams}`).catch(() => null),
-          fetch(`${AGENT_API_URL}/public/agent-metrics/goals-template-latency?${apiParams}`).catch(() => null)
-        );
-      }
-
       const results = await Promise.all(promises);
 
-      const [latenciasRes, estatisticasRes, responseLatencyRes, goalsTemplateLatencyRes] = results;
+      const [latenciasRes, estatisticasRes] = results;
 
       if (latenciasRes && latenciasRes.ok) {
         const latenciasData = await latenciasRes.json();
@@ -191,30 +263,104 @@ export default function LatenciasPage() {
           setEstatisticas(estatisticasData.data);
         }
       }
-
-      if (responseLatencyRes && responseLatencyRes.ok) {
-        const responseLatencyData = await responseLatencyRes.json();
-        if (responseLatencyData.success) {
-          setResponseLatency(responseLatencyData.data);
-        }
-      } else {
-        setResponseLatency(null);
-      }
-
-      if (goalsTemplateLatencyRes && goalsTemplateLatencyRes.ok) {
-        const goalsTemplateLatencyData = await goalsTemplateLatencyRes.json();
-        if (goalsTemplateLatencyData.success) {
-          setGoalsTemplateLatency(goalsTemplateLatencyData.data);
-        }
-      } else {
-        setGoalsTemplateLatency(null);
-      }
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
     } finally {
       setLoading(false);
     }
-  }, [usuarioFiltro, dataInicio, dataFim, AGENT_API_URL]);
+  }, [usuarioFiltro, dataInicio, dataFim]);
+
+  const carregarLatencias = useCallback(() => {
+    if (!AGENT_API_URL || !dataInicio || !dataFim) return;
+
+    // Valida se as datas estão no formato correto (YYYY-MM-DD com 10 caracteres)
+    if (dataInicio.length !== 10 || dataFim.length !== 10) {
+      return;
+    }
+
+    const apiParams = new URLSearchParams({
+      startDate: dataInicio,
+      endDate: dataFim,
+    });
+
+    if (grupoSelecionado) {
+      apiParams.append('grupo_id', grupoSelecionado);
+    }
+
+    if (usuarioSelecionado) {
+      apiParams.append('usuario_id', usuarioSelecionado);
+    }
+
+    carregarResponseLatency(apiParams);
+    carregarGoalsLatency(apiParams);
+    carregarKnowledgePillLatency(apiParams);
+  }, [AGENT_API_URL, dataInicio, dataFim, grupoSelecionado, usuarioSelecionado]);
+
+  useEffect(() => {
+    if (dataInicio && dataFim && dataInicio.length === 10 && dataFim.length === 10) {
+      carregarLatencias();
+    }
+  }, [dataInicio, dataFim, grupoSelecionado, usuarioSelecionado, carregarLatencias]);
+
+  const carregarResponseLatency = async (params: URLSearchParams) => {
+    setLoadingResponseLatency(true);
+    setResponseLatency(null);
+
+    try {
+      const response = await fetch(`${AGENT_API_URL}/public/agent-metrics/response-latency?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setResponseLatency(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao carregar latência de registro:', err);
+    } finally {
+      setLoadingResponseLatency(false);
+    }
+  };
+
+  const carregarGoalsLatency = async (params: URLSearchParams) => {
+    setLoadingGoalsLatency(true);
+    setGoalsTemplateLatency(null);
+
+    try {
+      const response = await fetch(`${AGENT_API_URL}/public/agent-metrics/goals-template-latency?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setGoalsTemplateLatency(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao carregar latência de metas:', err);
+    } finally {
+      setLoadingGoalsLatency(false);
+    }
+  };
+
+  const carregarKnowledgePillLatency = async (params: URLSearchParams) => {
+    setLoadingKnowledgePillLatency(true);
+    setKnowledgePillLatency(null);
+
+    try {
+      const response = await fetch(`${AGENT_API_URL}/public/agent-metrics/knowledge-pill-latency?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setKnowledgePillLatency(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao carregar latência de pílulas:', err);
+    } finally {
+      setLoadingKnowledgePillLatency(false);
+    }
+  };
 
   useEffect(() => {
     carregarDados();
@@ -244,63 +390,159 @@ export default function LatenciasPage() {
     });
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-gray-400">Carregando latências...</p>
-      </div>
-    );
-  }
+  const baixarCSV = () => {
+    const rows: string[] = [];
+
+    // Obter nomes de grupo e usuário
+    const grupoNome = grupoSelecionado
+      ? grupos.find(g => g.id.toString() === grupoSelecionado)?.nome || 'Todos os Grupos'
+      : 'Todos os Grupos';
+
+    const usuarioNome = usuarioSelecionado
+      ? usuarios.find(u => u.id.toString() === usuarioSelecionado)?.nome || 'Todos os Usuários'
+      : 'Todos os Usuários';
+
+    // Cabeçalho
+    rows.push('Tipo de Latência,Grupo,Usuário,Período Início,Período Fim,Total Respostas,Contatos Únicos Responderam,Taxa de Resposta (%),Tempo Mínimo (segundos),Tempo Mediano (segundos),Tempo Médio (segundos),Tempo Máximo (segundos),Tempo Médio (minutos),Tempo Médio (horas)');
+
+    // Response Latency
+    if (responseLatency && responseLatency.latency_metrics) {
+      const metrics = responseLatency.latency_metrics;
+      rows.push([
+        'Lembretes de Registro',
+        grupoNome,
+        usuarioNome,
+        responseLatency.period.start_date,
+        responseLatency.period.end_date,
+        responseLatency.total_responses,
+        responseLatency.unique_contacts_responded,
+        responseLatency.response_rate_percent.toFixed(2),
+        metrics.min_seconds,
+        metrics.median_seconds,
+        metrics.average_seconds,
+        metrics.max_seconds,
+        metrics.average_minutes.toFixed(2),
+        metrics.average_hours.toFixed(2),
+      ].join(','));
+    }
+
+    // Goals Template Latency
+    if (goalsTemplateLatency && goalsTemplateLatency.latency_metrics) {
+      const metrics = goalsTemplateLatency.latency_metrics;
+      rows.push([
+        'Templates de Metas',
+        grupoNome,
+        usuarioNome,
+        goalsTemplateLatency.period.start_date,
+        goalsTemplateLatency.period.end_date,
+        goalsTemplateLatency.total_responses,
+        goalsTemplateLatency.unique_contacts_responded,
+        goalsTemplateLatency.response_rate_percent.toFixed(2),
+        metrics.min_seconds,
+        metrics.median_seconds,
+        metrics.average_seconds,
+        metrics.max_seconds,
+        metrics.average_minutes.toFixed(2),
+        metrics.average_hours.toFixed(2),
+      ].join(','));
+    }
+
+    // Knowledge Pill Latency
+    if (knowledgePillLatency && knowledgePillLatency.latency_metrics) {
+      const metrics = knowledgePillLatency.latency_metrics;
+      rows.push([
+        'Pílulas do Conhecimento',
+        grupoNome,
+        usuarioNome,
+        knowledgePillLatency.period.start_date,
+        knowledgePillLatency.period.end_date,
+        knowledgePillLatency.total_responses,
+        knowledgePillLatency.unique_contacts,
+        '', // não tem taxa de resposta
+        metrics.min_seconds,
+        metrics.median_seconds,
+        metrics.average_seconds,
+        metrics.max_seconds,
+        metrics.average_minutes.toFixed(2),
+        metrics.average_hours.toFixed(2),
+      ].join(','));
+    }
+
+    const csvContent = rows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    const dataFormatada = new Date().toISOString().split('T')[0];
+    link.setAttribute('href', url);
+    link.setAttribute('download', `latencias_${dataFormatada}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Latências</h1>
-        <p className="text-gray-400">
-          Tempo de resposta entre lembretes e respostas dos usuários
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-white mb-2">Latências</h1>
+          <p className="text-gray-400">
+            Tempo de resposta entre lembretes e respostas dos usuários
+          </p>
+        </div>
+        <button
+          onClick={baixarCSV}
+          disabled={!responseLatency && !goalsTemplateLatency && !knowledgePillLatency}
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors"
+        >
+          <Download className="w-5 h-5" />
+          Baixar CSV
+        </button>
       </div>
 
       <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Período Rápido</label>
-          <div className="flex gap-2 flex-wrap mb-4">
-            <button
-              onClick={() => handlePeriodoChange('semana')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'semana'
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Período Rápido</label>
+            <div className="flex gap-2 flex-wrap mb-4">
+              <button
+                onClick={() => handlePeriodoChange('semana')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'semana'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-            >
-              Última Semana
-            </button>
-            <button
-              onClick={() => handlePeriodoChange('mes')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'mes'
+                  }`}
+              >
+                Última Semana
+              </button>
+              <button
+                onClick={() => handlePeriodoChange('mes')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'mes'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-            >
-              Último Mês
-            </button>
-            <button
-              onClick={() => handlePeriodoChange('ano')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'ano'
+                  }`}
+              >
+                Último Mês
+              </button>
+              <button
+                onClick={() => handlePeriodoChange('ano')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'ano'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-            >
-              Último Ano
-            </button>
-            <button
-              onClick={() => handlePeriodoChange('custom')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'custom'
+                  }`}
+              >
+                Último Ano
+              </button>
+              <button
+                onClick={() => handlePeriodoChange('custom')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'custom'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-            >
-              Personalizado
-            </button>
+                  }`}
+              >
+                Personalizado
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -330,6 +572,37 @@ export default function LatenciasPage() {
               />
             </div>
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Filtrar por Grupo</label>
+            <select
+              value={grupoSelecionado}
+              onChange={(e) => handleGrupoChange(e.target.value)}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500 mb-4"
+            >
+              <option value="">Todos os Grupos</option>
+              {grupos.map((grupo) => (
+                <option key={grupo.id} value={grupo.id}>
+                  {grupo.nome}
+                </option>
+              ))}
+            </select>
+
+            <label className="block text-sm font-medium text-gray-300 mb-2">Filtrar por Usuário</label>
+            <select
+              value={usuarioSelecionado}
+              onChange={(e) => setUsuarioSelecionado(e.target.value)}
+              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
+              disabled={!grupoSelecionado}
+            >
+              <option value="">Todos os Usuários</option>
+              {usuarios.map((usuario) => (
+                <option key={usuario.id} value={usuario.id}>
+                  {usuario.nome || `Usuário #${usuario.id}`}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -341,15 +614,20 @@ export default function LatenciasPage() {
         </div>
       )}
 
-      {AGENT_API_URL && !responseLatency && !goalsTemplateLatency && !loading && (
-        <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-          <p className="text-blue-400 text-sm">
-            Nenhuma métrica de latência disponível para o período selecionado.
-          </p>
+      {loadingResponseLatency && !responseLatency ? (
+        <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-blue-500/30 rounded-xl p-6">
+          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <Clock className="w-6 h-6 text-blue-400 animate-pulse" />
+            Latência de Lembretes de Registro
+          </h2>
+          <div className="flex flex-col items-center justify-center h-32 space-y-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+            <p className="text-gray-400 text-sm text-center">
+              Carregando... Esta métrica pode demorar pois busca por palavras-chave específicas nas mensagens
+            </p>
+          </div>
         </div>
-      )}
-
-      {responseLatency && responseLatency.latency_metrics && (
+      ) : responseLatency && responseLatency.latency_metrics && (
         <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-blue-500/30 rounded-xl p-6">
           <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
             <Clock className="w-6 h-6 text-blue-400" />
@@ -420,17 +698,30 @@ export default function LatenciasPage() {
             <div className="bg-gray-900/50 rounded-lg p-4">
               <p className="text-gray-400 text-sm mb-2">Período</p>
               <p className="text-sm font-semibold text-white">
-                {new Date(responseLatency.period.start_date).toLocaleDateString('pt-BR')}
+                {new Date(dataInicio).toLocaleDateString('pt-BR')}
               </p>
               <p className="text-sm font-semibold text-white">
-                até {new Date(responseLatency.period.end_date).toLocaleDateString('pt-BR')}
+                até {new Date(dataFim).toLocaleDateString('pt-BR')}
               </p>
             </div>
           </div>
         </div>
       )}
 
-      {goalsTemplateLatency && goalsTemplateLatency.latency_metrics && (
+      {loadingGoalsLatency && !goalsTemplateLatency ? (
+        <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-xl p-6">
+          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <Target className="w-6 h-6 text-purple-400 animate-pulse" />
+            Latência de Templates de Metas
+          </h2>
+          <div className="flex flex-col items-center justify-center h-32 space-y-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-400"></div>
+            <p className="text-gray-400 text-sm text-center">
+              Carregando... Esta métrica pode demorar pois analisa mensagens específicas de WhatsApp
+            </p>
+          </div>
+        </div>
+      ) : goalsTemplateLatency && goalsTemplateLatency.latency_metrics && (
         <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-xl p-6">
           <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
             <Target className="w-6 h-6 text-purple-400" />
@@ -510,6 +801,72 @@ export default function LatenciasPage() {
               </p>
               <p className="text-xs text-gray-500 mt-1">
                 ({goalsTemplateLatency.latency_metrics.average_seconds}s)
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {loadingKnowledgePillLatency && !knowledgePillLatency ? (
+        <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
+          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <Lightbulb className="w-6 h-6 text-amber-400 animate-pulse" />
+            Latência de Pílulas do Conhecimento
+          </h2>
+          <div className="flex flex-col items-center justify-center h-32 space-y-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-400"></div>
+            <p className="text-gray-400 text-sm text-center">
+              Carregando... Esta métrica pode demorar pois analisa mensagens de pílulas do conhecimento
+            </p>
+          </div>
+        </div>
+      ) : knowledgePillLatency && knowledgePillLatency.latency_metrics && (
+        <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
+          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+            <Lightbulb className="w-6 h-6 text-amber-400" />
+            Latência de Pílulas do Conhecimento
+          </h2>
+          <p className="text-gray-400 text-sm mb-6">
+            Tempo de resposta após envio de pílulas do conhecimento (conteúdo educativo)
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+            <div className="text-center bg-gray-900/50 rounded-lg p-4">
+              <p className="text-gray-400 text-sm mb-2">Total Respostas</p>
+              <p className="text-3xl font-bold text-white">{knowledgePillLatency.total_responses}</p>
+            </div>
+            <div className="text-center bg-gray-900/50 rounded-lg p-4">
+              <p className="text-gray-400 text-sm mb-2">Contatos Únicos</p>
+              <p className="text-3xl font-bold text-white">{knowledgePillLatency.unique_contacts}</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="bg-gray-900/50 rounded-lg p-4">
+              <p className="text-gray-400 text-sm mb-2">Tempo Mínimo</p>
+              <p className="text-2xl font-bold text-green-400">
+                {knowledgePillLatency.latency_metrics.min_minutes.toFixed(0)} min
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                ({knowledgePillLatency.latency_metrics.min_seconds}s)
+              </p>
+            </div>
+            <div className="bg-gray-900/50 rounded-lg p-4">
+              <p className="text-gray-400 text-sm mb-2">Tempo Mediano</p>
+              <p className="text-2xl font-bold text-blue-400">
+                {knowledgePillLatency.latency_metrics.median_hours.toFixed(2)} horas
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                ({knowledgePillLatency.latency_metrics.median_minutes.toFixed(0)}min)
+              </p>
+            </div>
+            <div className="bg-gray-900/50 rounded-lg p-4">
+              <p className="text-gray-400 text-sm mb-2">Tempo Médio</p>
+              <p className="text-2xl font-bold text-white">
+                {knowledgePillLatency.latency_metrics.average_hours.toFixed(2)} horas
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                ({knowledgePillLatency.latency_metrics.average_minutes.toFixed(0)}min)
               </p>
             </div>
           </div>

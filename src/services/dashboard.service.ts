@@ -67,10 +67,12 @@ export class DashboardService {
           taxaCumprimento: 0,
           porTipoMeta: {},
         },
+        mensagens: { total: 0, porTipo: {} },
+        engagementStats: null,
       };
     }
 
-    const [usuarios, transacoes, metas] = await Promise.all([
+    const [usuarios, transacoes, metas, mensagens, engagementStats] = await Promise.all([
       prisma.usuario.findMany({
         where: {
           id: { in: usuarioIds },
@@ -91,7 +93,13 @@ export class DashboardService {
             lte: endDate,
           },
         },
-        include: {
+        select: {
+          id: true,
+          tipo: true,
+          tipo_caixa: true,
+          tipo_entrada: true,
+          valor: true,
+          data_transacao: true,
           categoria: {
             select: { nome: true },
           },
@@ -105,7 +113,16 @@ export class DashboardService {
             lte: endDate,
           },
         },
+        select: {
+          id: true,
+          tipo_meta: true,
+          cumprida: true,
+          data_inicio: true,
+          data_fim: true,
+        },
       }),
+      this.obterMetricasMensagens(filters),
+      this.obterEngagementStats(filters),
     ]);
 
     const porGrupo: Record<string, number> = {};
@@ -159,11 +176,6 @@ export class DashboardService {
     metas.forEach((m) => {
       porTipoMeta[m.tipo_meta] = (porTipoMeta[m.tipo_meta] || 0) + 1;
     });
-
-    const [mensagens, engagementStats] = await Promise.all([
-      this.obterMetricasMensagens(filters),
-      this.obterEngagementStats(filters),
-    ]);
 
     return {
       usuarios: {
@@ -265,12 +277,18 @@ export class DashboardService {
       const agentId = 437;
       const url = `${AGENT_API_URL}/public/agents/${agentId}/engagement-stats`;
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
       const response = await fetch(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0',
           'Accept': 'application/json',
         },
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         return null;
@@ -279,7 +297,9 @@ export class DashboardService {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Erro ao buscar engagement stats:', error);
+      if (error instanceof Error && error.name === 'AbortError') {
+        return null;
+      }
       return null;
     }
   }
