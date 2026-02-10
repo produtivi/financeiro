@@ -390,8 +390,12 @@ export default function LatenciasPage() {
     });
   };
 
-  const baixarCSV = () => {
+  const baixarCSV = async () => {
+    const bom = '\uFEFF'; // BOM para UTF-8
     const rows: string[] = [];
+
+    // ===== SEÇÃO 1: ESTATÍSTICAS COMPILADAS =====
+    rows.push('');
 
     // Obter nomes de grupo e usuário
     const grupoNome = grupoSelecionado
@@ -468,7 +472,58 @@ export default function LatenciasPage() {
       ].join(','));
     }
 
-    const csvContent = rows.join('\n');
+    // ===== SEÇÃO 2: DADOS INDIVIDUAIS DE LATÊNCIA =====
+
+
+    // Buscar dados detalhados da API
+    try {
+      const params = new URLSearchParams();
+      if (grupoSelecionado) {
+        params.append('grupoId', grupoSelecionado);
+      }
+      if (usuarioSelecionado) {
+        params.append('usuario_id', usuarioSelecionado);
+      }
+      if (dataInicio && dataFim) {
+        params.append('data_inicio', dataInicio);
+        params.append('data_fim', dataFim);
+      }
+
+      const response = await fetch(`/api/v1/latencias?${params}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data && data.data.length > 0) {
+          rows.push('ID,Usuário,Grupo,Agent ID,Tipo Lembrete,Momento Lembrete,Momento Resposta,Latência (segundos),Latência (minutos),Latência (horas),Respondeu');
+
+          data.data.forEach((l: Latencia & { usuario: { nome: string; grupo?: { nome: string } } }) => {
+            const latenciaMinutos = (l.latencia_segundos / 60).toFixed(2);
+            const latenciaHoras = (l.latencia_segundos / 3600).toFixed(2);
+            const grupo = l.usuario?.grupo?.nome || 'Sem Grupo';
+
+            rows.push([
+              l.id,
+              l.usuario?.nome || `Usuário #${l.usuario_id}`,
+              grupo,
+              l.agent_id,
+              l.tipo_lembrete || 'N/A',
+              new Date(l.momento_lembrete).toLocaleString('pt-BR'),
+              new Date(l.momento_resposta).toLocaleString('pt-BR'),
+              l.latencia_segundos,
+              latenciaMinutos,
+              latenciaHoras,
+              l.respondeu ? 'Sim' : 'Não'
+            ].join(','));
+          });
+        } else {
+          rows.push('');
+        }
+      }
+    } catch (error) {
+      console.error('Erro ao buscar dados individuais:', error);
+      rows.push('Erro ao buscar dados individuais de latência.');
+    }
+
+    const csvContent = bom + rows.join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -820,58 +875,75 @@ export default function LatenciasPage() {
             </p>
           </div>
         </div>
-      ) : knowledgePillLatency && knowledgePillLatency.latency_metrics && (
-        <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
-          <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-            <Lightbulb className="w-6 h-6 text-amber-400" />
-            Latência de Pílulas do Conhecimento
-          </h2>
-          <p className="text-gray-400 text-sm mb-6">
-            Tempo de resposta após envio de pílulas do conhecimento (conteúdo educativo)
-          </p>
+      ) : knowledgePillLatency ? (
+        knowledgePillLatency.latency_metrics ? (
+          <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
+            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <Lightbulb className="w-6 h-6 text-amber-400" />
+              Latência de Pílulas do Conhecimento
+            </h2>
+            <p className="text-gray-400 text-sm mb-6">
+              Tempo de resposta após envio de pílulas do conhecimento (conteúdo educativo)
+            </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
-            <div className="text-center bg-gray-900/50 rounded-lg p-4">
-              <p className="text-gray-400 text-sm mb-2">Total Respostas</p>
-              <p className="text-3xl font-bold text-white">{knowledgePillLatency.total_responses}</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              <div className="text-center bg-gray-900/50 rounded-lg p-4">
+                <p className="text-gray-400 text-sm mb-2">Total Respostas</p>
+                <p className="text-3xl font-bold text-white">{knowledgePillLatency.total_responses}</p>
+              </div>
+              <div className="text-center bg-gray-900/50 rounded-lg p-4">
+                <p className="text-gray-400 text-sm mb-2">Contatos Únicos</p>
+                <p className="text-3xl font-bold text-white">{knowledgePillLatency.unique_contacts}</p>
+              </div>
             </div>
-            <div className="text-center bg-gray-900/50 rounded-lg p-4">
-              <p className="text-gray-400 text-sm mb-2">Contatos Únicos</p>
-              <p className="text-3xl font-bold text-white">{knowledgePillLatency.unique_contacts}</p>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="bg-gray-900/50 rounded-lg p-4">
+                <p className="text-gray-400 text-sm mb-2">Tempo Mínimo</p>
+                <p className="text-2xl font-bold text-green-400">
+                  {knowledgePillLatency.latency_metrics.min_minutes.toFixed(0)} min
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  ({knowledgePillLatency.latency_metrics.min_seconds}s)
+                </p>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-4">
+                <p className="text-gray-400 text-sm mb-2">Tempo Mediano</p>
+                <p className="text-2xl font-bold text-blue-400">
+                  {knowledgePillLatency.latency_metrics.median_hours.toFixed(2)} horas
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  ({knowledgePillLatency.latency_metrics.median_minutes.toFixed(0)}min)
+                </p>
+              </div>
+              <div className="bg-gray-900/50 rounded-lg p-4">
+                <p className="text-gray-400 text-sm mb-2">Tempo Médio</p>
+                <p className="text-2xl font-bold text-white">
+                  {knowledgePillLatency.latency_metrics.average_hours.toFixed(2)} horas
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  ({knowledgePillLatency.latency_metrics.average_minutes.toFixed(0)}min)
+                </p>
+              </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="bg-gray-900/50 rounded-lg p-4">
-              <p className="text-gray-400 text-sm mb-2">Tempo Mínimo</p>
-              <p className="text-2xl font-bold text-green-400">
-                {knowledgePillLatency.latency_metrics.min_minutes.toFixed(0)} min
+        ) : (
+          <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
+            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+              <Lightbulb className="w-6 h-6 text-amber-400" />
+              Latência de Pílulas do Conhecimento
+            </h2>
+            <div className="flex flex-col items-center justify-center h-32">
+              <p className="text-gray-400 text-center">
+                {knowledgePillLatency.message || 'Nenhum dado disponível para o período selecionado'}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
-                ({knowledgePillLatency.latency_metrics.min_seconds}s)
-              </p>
-            </div>
-            <div className="bg-gray-900/50 rounded-lg p-4">
-              <p className="text-gray-400 text-sm mb-2">Tempo Mediano</p>
-              <p className="text-2xl font-bold text-blue-400">
-                {knowledgePillLatency.latency_metrics.median_hours.toFixed(2)} horas
-              </p>
-              <p className="text-xs text-gray-500 mt-1">
-                ({knowledgePillLatency.latency_metrics.median_minutes.toFixed(0)}min)
-              </p>
-            </div>
-            <div className="bg-gray-900/50 rounded-lg p-4">
-              <p className="text-gray-400 text-sm mb-2">Tempo Médio</p>
-              <p className="text-2xl font-bold text-white">
-                {knowledgePillLatency.latency_metrics.average_hours.toFixed(2)} horas
-              </p>
-              <p className="text-xs text-gray-500 mt-1">
-                ({knowledgePillLatency.latency_metrics.average_minutes.toFixed(0)}min)
+              <p className="text-gray-500 text-sm mt-2">
+                Total de respostas: {knowledgePillLatency.total_responses || 0}
               </p>
             </div>
           </div>
-        </div>
-      )}
+        )
+      ) : null}
 
 
     </div>

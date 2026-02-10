@@ -28,7 +28,7 @@ export class LatenciaService {
     });
   }
 
-  async listar(agentIds?: number[], usuarioId?: number) {
+  async listar(agentIds?: number[], usuarioId?: number, grupoId?: number, dataInicio?: string, dataFim?: string) {
     const where: any = {};
 
     if (agentIds && agentIds.length > 0) {
@@ -39,6 +39,28 @@ export class LatenciaService {
       where.usuario_id = usuarioId;
     }
 
+    if (grupoId) {
+      where.usuario = {
+        ...where.usuario,
+        grupo_id: grupoId,
+      };
+    }
+
+    if (dataInicio && dataFim) {
+      where.momento_lembrete = {
+        gte: new Date(dataInicio),
+        lte: new Date(dataFim + 'T23:59:59.999Z'),
+      };
+    } else if (dataInicio) {
+      where.momento_lembrete = {
+        gte: new Date(dataInicio),
+      };
+    } else if (dataFim) {
+      where.momento_lembrete = {
+        lte: new Date(dataFim + 'T23:59:59.999Z'),
+      };
+    }
+
     return await prisma.latencia.findMany({
       where,
       include: {
@@ -47,6 +69,12 @@ export class LatenciaService {
             id: true,
             nome: true,
             agent_id: true,
+            grupo: {
+              select: {
+                id: true,
+                nome: true,
+              },
+            },
           },
         },
       },

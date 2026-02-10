@@ -460,6 +460,16 @@ export class DashboardService {
           categoria: {
             select: { id: true, nome: true },
           },
+          usuario: {
+            select: {
+              id: true,
+              nome: true,
+              criado_em: true,
+              grupo: {
+                select: { nome: true }
+              }
+            },
+          },
         },
         orderBy: { data_transacao: 'desc' },
       }),
@@ -470,6 +480,18 @@ export class DashboardService {
             gte: startDate,
             lte: endDate,
           },
+        },
+        include: {
+          usuario: {
+            select: {
+              id: true,
+              nome: true,
+              criado_em: true,
+              grupo: {
+                select: { nome: true }
+              }
+            }
+          }
         },
         orderBy: { data_inicio: 'desc' },
       }),
@@ -504,6 +526,9 @@ export class DashboardService {
 
     const AGENT_API_URL = process.env.AGENT_API_URL;
     const mensagens: any[] = [];
+    const pilulas: any[] = [];
+    const solicitacoesAtivas: any[] = [];
+    const visualizacoesPainel: any[] = [];
 
     if (AGENT_API_URL) {
       const params = new URLSearchParams({
@@ -513,6 +538,10 @@ export class DashboardService {
 
       // Usar endpoint batch
       const chatIds = usuarios.map((u) => u.chat_id).filter((id) => id !== null);
+
+      console.log('[MENSAGENS] Total de usuários:', usuarios.length);
+      console.log('[MENSAGENS] Chat IDs encontrados:', chatIds.length);
+      console.log('[MENSAGENS] AGENT_API_URL:', AGENT_API_URL);
 
       if (chatIds.length > 0) {
         try {
@@ -524,24 +553,34 @@ export class DashboardService {
             batches.push(chatIds.slice(i, i + BATCH_SIZE));
           }
 
+          console.log('[MENSAGENS] Número de batches:', batches.length);
+
           for (const batch of batches) {
             try {
-              const response = await fetch(
-                `${AGENT_API_URL}/public/agent-metrics/users/batch-summary?${params}`,
-                {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ chatIds: batch }),
-                }
-              );
+              const url = `${AGENT_API_URL}/public/agent-metrics/users/batch-summary?${params}`;
+              console.log('[MENSAGENS] Fazendo requisição para:', url);
+              console.log('[MENSAGENS] Batch size:', batch.length);
+
+              const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chatIds: batch }),
+              });
+
+              console.log('[MENSAGENS] Response status:', response.status);
 
               if (response.ok) {
                 const data = await response.json();
+                console.log('[MENSAGENS] Response data.success:', data.success);
+                console.log('[MENSAGENS] Response data.data length:', data.data?.length || 0);
+
                 if (data.success && Array.isArray(data.data)) {
                   data.data.forEach((metrica: any) => {
                     const usuario = usuarios.find((u) => u.chat_id === metrica.chat_id);
+                    console.log('[MENSAGENS] Métrica para chat_id:', metrica.chat_id, 'inbound_by_type:', metrica.inbound_by_type);
                     if (usuario && metrica.inbound_by_type) {
                       Object.entries(metrica.inbound_by_type).forEach(([tipo, quantidade]) => {
+                        console.log('[MENSAGENS] Adicionando:', { tipo, quantidade, usuario: usuario.nome });
                         mensagens.push({
                           usuario_id: usuario.id,
                           usuario_nome: usuario.nome,
@@ -555,22 +594,122 @@ export class DashboardService {
                     }
                   });
                 }
+              } else {
+                console.error('[MENSAGENS] Response não ok:', response.statusText);
               }
             } catch (error) {
-              console.error('Erro ao buscar batch de mensagens:', error);
+              console.error('[MENSAGENS] Erro ao buscar batch de mensagens:', error);
             }
           }
         } catch (error) {
-          console.error('Erro ao processar batches de mensagens:', error);
+          console.error('[MENSAGENS] Erro ao processar batches de mensagens:', error);
         }
+      } else {
+        console.log('[MENSAGENS] Nenhum chat_id encontrado para buscar mensagens');
+      }
+
+      console.log('[MENSAGENS] Total de mensagens coletadas:', mensagens.length);
+
+      // Buscar métricas de pílulas, solicitações ativas e visualizações de painel
+      try {
+        const [resPilulas, resAtivas, resPainel] = await Promise.all([
+          fetch(`${AGENT_API_URL}/public/agent-metrics/knowledge-pill-latency?${params}`).catch(() => null),
+          fetch(`${AGENT_API_URL}/public/agent-metrics/active-requests?${params}`).catch(() => null),
+          fetch(`${AGENT_API_URL}/public/agent-metrics/panel-views?${params}`).catch(() => null),
+        ]);
+
+        if (resPilulas && resPilulas.ok) {
+          const data = await resPilulas.json();
+          if (data.success && data.data.responses_by_chat) {
+            data.data.responses_by_chat.forEach((resp: any) => {
+              const usuario = usuarios.find((u) => u.chat_id === resp.chat_id);
+              if (usuario) {
+                pilulas.push({
+                  usuario_id: usuario.id,
+                  usuario_nome: usuario.nome,
+                  grupo: usuario.grupo?.nome || 'Sem Grupo',
+                  chat_id: resp.chat_id,
+                  timestamp: resp.timestamp,
+                  latency_seconds: resp.latency_seconds,
+                });
+              }
+            });
+          }
+        }
+
+        if (resAtivas && resAtivas.ok) {
+          const data = await resAtivas.json();
+          if (data.success && data.data.requests_by_chat) {
+            data.data.requests_by_chat.forEach((req: any) => {
+              const usuario = usuarios.find((u) => u.grupo_id === req.grupo_id);
+              if (usuario) {
+                solicitacoesAtivas.push({
+                  usuario_id: usuario.id,
+                  usuario_nome: usuario.nome,
+                  grupo: req.grupo_nome,
+                  tipo_solicitacao: req.request_type,
+                  timestamp: req.timestamp,
+                });
+              }
+            });
+          }
+        }
+
+        if (resPainel && resPainel.ok) {
+          const data = await resPainel.json();
+          if (data.success && data.data.views_by_chat) {
+            data.data.views_by_chat.forEach((view: any) => {
+              const usuario = usuarios.find((u) => u.grupo_id === view.grupo_id);
+              if (usuario) {
+                visualizacoesPainel.push({
+                  usuario_id: usuario.id,
+                  usuario_nome: usuario.nome,
+                  grupo: view.grupo_nome,
+                  tipo_visualizacao: view.view_type,
+                  timestamp: view.timestamp,
+                });
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao buscar métricas adicionais:', error);
       }
     }
+
+    // Buscar latências
+    const latencias = await prisma.latencia.findMany({
+      where: {
+        usuario_id: { in: usuarioIds },
+        momento_lembrete: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nome: true,
+            agent_id: true,
+            grupo: {
+              select: { nome: true }
+            }
+          }
+        }
+      },
+      orderBy: { momento_lembrete: 'desc' },
+    });
 
     return {
       usuarios,
       transacoes: transacoesComUsuario,
       metas: metasComUsuario,
       mensagens,
+      latencias,
+      pilulas,
+      solicitacoesAtivas,
+      visualizacoesPainel,
     };
   }
 }

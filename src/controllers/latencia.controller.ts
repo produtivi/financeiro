@@ -61,10 +61,16 @@ export class LatenciaController {
     try {
       const { searchParams } = new URL(request.url);
       const usuarioId = searchParams.get('usuario_id');
+      const grupoId = searchParams.get('grupoId');
+      const dataInicio = searchParams.get('data_inicio');
+      const dataFim = searchParams.get('data_fim');
 
       const latencias = await latenciaService.listar(
         agentIds,
-        usuarioId ? Number(usuarioId) : undefined
+        usuarioId ? Number(usuarioId) : undefined,
+        grupoId ? Number(grupoId) : undefined,
+        dataInicio || undefined,
+        dataFim || undefined
       );
 
       return NextResponse.json({

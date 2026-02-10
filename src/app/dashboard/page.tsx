@@ -27,6 +27,9 @@ import {
   ThumbsDown,
   Minus,
   Lightbulb,
+  HelpCircle,
+  Eye,
+  Activity,
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { MetricTooltip } from '@/components/MetricTooltip';
@@ -171,6 +174,31 @@ interface KnowledgePillLatencyData {
   message?: string;
 }
 
+interface ActiveRequestsData {
+  total_active_requests: number;
+  requests_by_type: {
+    resumo: number;
+    ajuda: number;
+    suporte: number;
+  };
+  unique_users: number;
+}
+
+interface PanelViewsData {
+  total_panel_views: number;
+  via_button: number;
+  via_direct_request: number;
+  unique_users: number;
+}
+
+interface GoalsFrequencyData {
+  total_goals_registered: number;
+  total_goals_completed: number;
+  total_goals_not_completed: number;
+  completion_rate_percent: number;
+  unique_users: number;
+}
+
 interface Grupo {
   id: number;
   nome: string;
@@ -244,6 +272,12 @@ export default function DashboardPage() {
   const [errorResponseLatency, setErrorResponseLatency] = useState(false);
   const [errorGoalsLatency, setErrorGoalsLatency] = useState(false);
   const [errorKnowledgePillLatency, setErrorKnowledgePillLatency] = useState(false);
+  const [activeRequests, setActiveRequests] = useState<ActiveRequestsData | null>(null);
+  const [panelViews, setPanelViews] = useState<PanelViewsData | null>(null);
+  const [goalsFrequency, setGoalsFrequency] = useState<GoalsFrequencyData | null>(null);
+  const [loadingActiveRequests, setLoadingActiveRequests] = useState(false);
+  const [loadingPanelViews, setLoadingPanelViews] = useState(false);
+  const [loadingGoalsFrequency, setLoadingGoalsFrequency] = useState(false);
 
   const getDomingoAnterior = (data: Date): Date => {
     const dia = data.getDay();
@@ -387,6 +421,9 @@ export default function DashboardPage() {
     carregarResponseLatency(AGENT_API_URL, params);
     carregarGoalsLatency(AGENT_API_URL, params);
     carregarKnowledgePillLatency(AGENT_API_URL, params);
+    carregarActiveRequests(AGENT_API_URL, params);
+    carregarPanelViews(AGENT_API_URL, params);
+    carregarGoalsFrequency(AGENT_API_URL, params);
   };
 
   const carregarResponseLatency = async (agentApiUrl: string, params: URLSearchParams) => {
@@ -464,6 +501,66 @@ export default function DashboardPage() {
       setErrorKnowledgePillLatency(true);
     } finally {
       setLoadingKnowledgePillLatency(false);
+    }
+  };
+
+  const carregarActiveRequests = async (agentApiUrl: string, params: URLSearchParams) => {
+    setLoadingActiveRequests(true);
+    setActiveRequests(null);
+
+    try {
+      const response = await fetch(`${agentApiUrl}/public/agent-metrics/active-requests?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setActiveRequests(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao carregar solicitações ativas:', err);
+    } finally {
+      setLoadingActiveRequests(false);
+    }
+  };
+
+  const carregarPanelViews = async (agentApiUrl: string, params: URLSearchParams) => {
+    setLoadingPanelViews(true);
+    setPanelViews(null);
+
+    try {
+      const response = await fetch(`${agentApiUrl}/public/agent-metrics/panel-views?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setPanelViews(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao carregar visualizações de painel:', err);
+    } finally {
+      setLoadingPanelViews(false);
+    }
+  };
+
+  const carregarGoalsFrequency = async (agentApiUrl: string, params: URLSearchParams) => {
+    setLoadingGoalsFrequency(true);
+    setGoalsFrequency(null);
+
+    try {
+      const response = await fetch(`${agentApiUrl}/public/agent-metrics/goals-frequency?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setGoalsFrequency(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao carregar frequência de metas:', err);
+    } finally {
+      setLoadingGoalsFrequency(false);
     }
   };
 
@@ -847,6 +944,146 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Novas Métricas: Solicitações Ativas, Visualização de Painel e Frequência de Metas */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Solicitações Ativas */}
+        {loadingActiveRequests ? (
+          <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 border border-cyan-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-cyan-400 animate-pulse" />
+              Solicitações Ativas
+              <MetricTooltip
+                title="Solicitações Ativas"
+                description="Conta quantas vezes os usuários pediram ajuda por conta própria. COMO FUNCIONA: (1) Sistema busca mensagens que o usuário enviou contendo as palavras: 'resumo', 'ajuda' ou 'suporte'; (2) Separa cada pedido por tipo; (3) Identifica o grupo experimental de cada pessoa. RESULTADO: Total de pedidos, quantos foram de resumo/ajuda/suporte, e quantas pessoas únicas pediram. IMPORTANTE: Mede quando a pessoa tomou INICIATIVA sozinha, sem ter recebido nenhum lembrete antes. Ideal para avaliar o grupo controle."
+              />
+            </h2>
+            <div className="flex items-center justify-center h-32">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-400"></div>
+            </div>
+          </div>
+        ) : activeRequests ? (
+          <div className="bg-gradient-to-br from-cyan-500/10 to-cyan-600/10 border border-cyan-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-cyan-400" />
+              Solicitações Ativas
+              <MetricTooltip
+                title="Solicitações Ativas"
+                description="Conta quantas vezes os usuários pediram ajuda por conta própria. COMO FUNCIONA: (1) Sistema busca mensagens que o usuário enviou contendo as palavras: 'resumo', 'ajuda' ou 'suporte'; (2) Separa cada pedido por tipo; (3) Identifica o grupo experimental de cada pessoa. RESULTADO: Total de pedidos, quantos foram de resumo/ajuda/suporte, e quantas pessoas únicas pediram. IMPORTANTE: Mede quando a pessoa tomou INICIATIVA sozinha, sem ter recebido nenhum lembrete antes. Ideal para avaliar o grupo controle."
+              />
+            </h2>
+            <p className="text-4xl font-bold text-cyan-400 mb-4">{activeRequests.total_active_requests}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Resumos:</span>
+                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.resumo}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Ajuda:</span>
+                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.ajuda}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Suporte:</span>
+                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.suporte}</span>
+              </div>
+              <div className="flex justify-between text-sm pt-2 border-t border-cyan-500/20">
+                <span className="text-gray-300">Usuários únicos:</span>
+                <span className="text-white font-bold">{activeRequests.unique_users}</span>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {/* Visualização de Painel */}
+        {loadingPanelViews ? (
+          <div className="bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 border border-indigo-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Eye className="w-5 h-5 text-indigo-400 animate-pulse" />
+              Visualização de Painel
+              <MetricTooltip
+                title="Visualização de Painel"
+                description="Conta quantas vezes os usuários pediram para ver o resumo financeiro, e como pediram. COMO FUNCIONA: (1) Sistema busca quando as pessoas pediram resumo de duas formas: clicando no botão 'Ver resumo semanal' OU escrevendo uma mensagem pedindo o resumo; (2) Separa em duas categorias: via botão ou via mensagem escrita; (3) Identifica o grupo experimental. RESULTADO: Total de visualizações, quantas foram via botão, quantas via mensagem escrita, e quantas pessoas únicas. INTERPRETAÇÃO: Via botão = pessoa viu o lembrete e clicou. Via mensagem = pessoa pediu por conta própria (típico do grupo controle)."
+              />
+            </h2>
+            <div className="flex items-center justify-center h-32">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-400"></div>
+            </div>
+          </div>
+        ) : panelViews ? (
+          <div className="bg-gradient-to-br from-indigo-500/10 to-indigo-600/10 border border-indigo-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Eye className="w-5 h-5 text-indigo-400" />
+              Visualização de Painel
+              <MetricTooltip
+                title="Visualização de Painel"
+                description="Conta quantas vezes os usuários pediram para ver o resumo financeiro, e como pediram. COMO FUNCIONA: (1) Sistema busca quando as pessoas pediram resumo de duas formas: clicando no botão 'Ver resumo semanal' OU escrevendo uma mensagem pedindo o resumo; (2) Separa em duas categorias: via botão ou via mensagem escrita; (3) Identifica o grupo experimental. RESULTADO: Total de visualizações, quantas foram via botão, quantas via mensagem escrita, e quantas pessoas únicas. INTERPRETAÇÃO: Via botão = pessoa viu o lembrete e clicou. Via mensagem = pessoa pediu por conta própria (típico do grupo controle)."
+              />
+            </h2>
+            <p className="text-4xl font-bold text-indigo-400 mb-4">{panelViews.total_panel_views}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Via Botão:</span>
+                <span className="text-indigo-300 font-semibold">{panelViews.via_button}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Pedido Direto:</span>
+                <span className="text-indigo-300 font-semibold">{panelViews.via_direct_request}</span>
+              </div>
+              <div className="flex justify-between text-sm pt-2 border-t border-indigo-500/20">
+                <span className="text-gray-300">Usuários únicos:</span>
+                <span className="text-white font-bold">{panelViews.unique_users}</span>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {/* Frequência de Metas */}
+        {loadingGoalsFrequency ? (
+          <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-emerald-400 animate-pulse" />
+              Frequência de Metas
+              <MetricTooltip
+                title="Frequência de Metas"
+                description="Conta quantas vezes os usuários criaram metas e responderam se conseguiram cumprir. COMO FUNCIONA: (1) REGISTRO: Sistema conta quando aparece a confirmação 'Meta registrada com sucesso'; (2) CUMPRIMENTO: Conta quando a pessoa clica em 'Sim, registrar próxima' (meta cumprida) ou 'Não, registrar próxima' (não cumprida); (3) Calcula taxa de cumprimento = metas cumpridas dividido por total de respostas × 100. RESULTADO: Total de metas criadas, quantas foram cumpridas, quantas não foram, taxa de cumprimento em %, e quantas pessoas únicas. Mostra se as pessoas estão criando o hábito de definir e acompanhar suas metas financeiras."
+              />
+            </h2>
+            <div className="flex items-center justify-center h-32">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-400"></div>
+            </div>
+          </div>
+        ) : goalsFrequency ? (
+          <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 border border-emerald-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-emerald-400" />
+              Frequência de Metas
+              <MetricTooltip
+                title="Frequência de Metas"
+                description="Conta quantas vezes os usuários criaram metas e responderam se conseguiram cumprir. COMO FUNCIONA: (1) REGISTRO: Sistema conta quando aparece a confirmação 'Meta registrada com sucesso'; (2) CUMPRIMENTO: Conta quando a pessoa clica em 'Sim, registrar próxima' (meta cumprida) ou 'Não, registrar próxima' (não cumprida); (3) Calcula taxa de cumprimento = metas cumpridas dividido por total de respostas × 100. RESULTADO: Total de metas criadas, quantas foram cumpridas, quantas não foram, taxa de cumprimento em %, e quantas pessoas únicas. Mostra se as pessoas estão criando o hábito de definir e acompanhar suas metas financeiras."
+              />
+            </h2>
+            <p className="text-4xl font-bold text-emerald-400 mb-4">{goalsFrequency.total_goals_registered}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Cumpridas:</span>
+                <span className="text-green-400 font-semibold">{goalsFrequency.total_goals_completed}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Não Cumpridas:</span>
+                <span className="text-red-400 font-semibold">{goalsFrequency.total_goals_not_completed}</span>
+              </div>
+              <div className="flex justify-between text-sm pt-2 border-t border-emerald-500/20">
+                <span className="text-gray-300">Taxa de Cumprimento:</span>
+                <span className="text-white font-bold">{goalsFrequency.completion_rate_percent.toFixed(1)}%</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-300">Usuários únicos:</span>
+                <span className="text-white font-semibold">{goalsFrequency.unique_users}</span>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </div>
+
       {metrics?.engagementStats && (
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
@@ -954,8 +1191,8 @@ export default function DashboardPage() {
               <Target className="w-5 h-5 text-purple-400 animate-pulse" />
               Tempo de Resposta - Acompanhamento de Metas
               <MetricTooltip
-                title="Tempo de Resposta - Metas"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem templates de WhatsApp sobre acompanhamento de metas. O sistema envia templates automáticos perguntando sobre as metas financeiras ('novo_acompahamentometas_formal' ou 'novo_acompahamentometas_padro') e calcula o tempo até a primeira resposta. Tempo mais curto = pessoa mais engajada."
+                title="Tempo de Resposta - Templates de Metas"
+                description="Mede quanto tempo os usuários levam para responder às mensagens sobre acompanhamento de metas. COMO FUNCIONA: (1) Sistema identifica quando enviou mensagens perguntando sobre metas (exemplos: 'novo_acompahamentometas_formal', 'meta_grupo_padrao'); (2) Para cada mensagem, busca a primeira resposta que o usuário enviou; (3) Separa por grupo: Grupo 2 (mensagens formais) vs Grupo 3 (mensagens informais). RESULTADO: Total de mensagens enviadas, quantas pessoas responderam, tempo médio de resposta, tempo mínimo e máximo. Mostra qual mensagem específica foi enviada e o grupo experimental de cada pessoa."
               />
             </h2>
             <div className="flex flex-col items-center justify-center h-32 space-y-3">
@@ -971,8 +1208,8 @@ export default function DashboardPage() {
               <Target className="w-5 h-5 text-red-400" />
               Tempo de Resposta - Acompanhamento de Metas
               <MetricTooltip
-                title="Tempo de Resposta - Metas"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem templates de WhatsApp sobre acompanhamento de metas. O sistema envia templates automáticos perguntando sobre as metas financeiras ('novo_acompahamentometas_formal' ou 'novo_acompahamentometas_padro') e calcula o tempo até a primeira resposta. Tempo mais curto = pessoa mais engajada."
+                title="Tempo de Resposta - Templates de Metas"
+                description="Mede quanto tempo os usuários levam para responder às mensagens sobre acompanhamento de metas. COMO FUNCIONA: (1) Sistema identifica quando enviou mensagens perguntando sobre metas (exemplos: 'novo_acompahamentometas_formal', 'meta_grupo_padrao'); (2) Para cada mensagem, busca a primeira resposta que o usuário enviou; (3) Separa por grupo: Grupo 2 (mensagens formais) vs Grupo 3 (mensagens informais). RESULTADO: Total de mensagens enviadas, quantas pessoas responderam, tempo médio de resposta, tempo mínimo e máximo. Mostra qual mensagem específica foi enviada e o grupo experimental de cada pessoa."
               />
             </h2>
             <div className="flex flex-col items-center justify-center h-32 space-y-3">
@@ -987,8 +1224,8 @@ export default function DashboardPage() {
               <Target className="w-5 h-5 text-purple-400" />
               Tempo de Resposta - Acompanhamento de Metas
               <MetricTooltip
-                title="Tempo de Resposta - Metas"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem templates de WhatsApp sobre acompanhamento de metas. O sistema envia templates automáticos perguntando sobre as metas financeiras ('novo_acompahamentometas_formal' ou 'novo_acompahamentometas_padro') e calcula o tempo até a primeira resposta. Tempo mais curto = pessoa mais engajada."
+                title="Tempo de Resposta - Templates de Metas"
+                description="Mede quanto tempo os usuários levam para responder às mensagens sobre acompanhamento de metas. COMO FUNCIONA: (1) Sistema identifica quando enviou mensagens perguntando sobre metas (exemplos: 'novo_acompahamentometas_formal', 'meta_grupo_padrao'); (2) Para cada mensagem, busca a primeira resposta que o usuário enviou; (3) Separa por grupo: Grupo 2 (mensagens formais) vs Grupo 3 (mensagens informais). RESULTADO: Total de mensagens enviadas, quantas pessoas responderam, tempo médio de resposta, tempo mínimo e máximo. Mostra qual mensagem específica foi enviada e o grupo experimental de cada pessoa."
               />
             </h2>
             <p className="text-gray-400 text-xs mb-4">
@@ -1028,8 +1265,8 @@ export default function DashboardPage() {
               <Clock className="w-5 h-5 text-blue-400 animate-pulse" />
               Tempo de Resposta - Lembretes de Registro
               <MetricTooltip
-                title="Tempo de Resposta - Lembretes"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem lembretes para registrar entradas e saídas de dinheiro. O sistema procura por mensagens como 'Dá uma olhada nos seus registros', 'Revise suas anotações' ou 'Registro diário', e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais comprometida."
+                title="Tempo de Resposta - Lembretes de Registro"
+                description="Mede quanto tempo os usuários levam para responder aos lembretes de registro financeiro. COMO FUNCIONA: (1) Sistema identifica quando enviou lembretes com 'Oi! Tudo bem? Faz um tempo que você não registra...'; (2) Para cada lembrete, busca a primeira mensagem que o usuário enviou depois; (3) Calcula quanto tempo passou entre o lembrete e a resposta. RESULTADO: Tempo médio, tempo mínimo, tempo máximo. Taxa de resposta = quantos responderam dividido por quantos receberam o lembrete × 100. Dados separados por grupo experimental."
               />
             </h2>
             <div className="flex flex-col items-center justify-center h-32 space-y-3">
@@ -1045,8 +1282,8 @@ export default function DashboardPage() {
               <Clock className="w-5 h-5 text-red-400" />
               Tempo de Resposta - Lembretes de Registro
               <MetricTooltip
-                title="Tempo de Resposta - Lembretes"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem lembretes para registrar entradas e saídas de dinheiro. O sistema procura por mensagens como 'Dá uma olhada nos seus registros', 'Revise suas anotações' ou 'Registro diário', e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais comprometida."
+                title="Tempo de Resposta - Lembretes de Registro"
+                description="Mede quanto tempo os usuários levam para responder aos lembretes de registro financeiro. COMO FUNCIONA: (1) Sistema identifica quando enviou lembretes com 'Oi! Tudo bem? Faz um tempo que você não registra...'; (2) Para cada lembrete, busca a primeira mensagem que o usuário enviou depois; (3) Calcula quanto tempo passou entre o lembrete e a resposta. RESULTADO: Tempo médio, tempo mínimo, tempo máximo. Taxa de resposta = quantos responderam dividido por quantos receberam o lembrete × 100. Dados separados por grupo experimental."
               />
             </h2>
             <div className="flex flex-col items-center justify-center h-32 space-y-3">
@@ -1061,8 +1298,8 @@ export default function DashboardPage() {
               <Clock className="w-5 h-5 text-blue-400" />
               Tempo de Resposta - Lembretes de Registro
               <MetricTooltip
-                title="Tempo de Resposta - Lembretes"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem lembretes para registrar entradas e saídas de dinheiro. O sistema procura por mensagens como 'Dá uma olhada nos seus registros', 'Revise suas anotações' ou 'Registro diário', e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais comprometida."
+                title="Tempo de Resposta - Lembretes de Registro"
+                description="Mede quanto tempo os usuários levam para responder aos lembretes de registro financeiro. COMO FUNCIONA: (1) Sistema identifica quando enviou lembretes com 'Oi! Tudo bem? Faz um tempo que você não registra...'; (2) Para cada lembrete, busca a primeira mensagem que o usuário enviou depois; (3) Calcula quanto tempo passou entre o lembrete e a resposta. RESULTADO: Tempo médio, tempo mínimo, tempo máximo. Taxa de resposta = quantos responderam dividido por quantos receberam o lembrete × 100. Dados separados por grupo experimental."
               />
             </h2>
             <p className="text-gray-400 text-xs mb-4">
@@ -1102,8 +1339,8 @@ export default function DashboardPage() {
               <Lightbulb className="w-5 h-5 text-amber-400 animate-pulse" />
               Tempo de Resposta - Pílulas do Conhecimento
               <MetricTooltip
-                title="Tempo de Resposta - Pílulas"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem pílulas do conhecimento (dicas e informações educacionais). O sistema envia conteúdos educativos e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais interessada no conteúdo."
+                title="Tempo de Resposta - Pílulas do Conhecimento"
+                description="Mede quanto tempo os usuários levam para responder às dicas educacionais. COMO FUNCIONA: (1) Sistema identifica quando enviou pílulas educativas (exemplos: 'pilula_h13_formal', 'pilulah9_padrao'); (2) Para cada pílula, busca a primeira mensagem que o usuário enviou depois; (3) Separa por grupo: Grupo 2 (pílulas formais) vs Grupo 3 (pílulas informais). RESULTADO: Total de pílulas enviadas, quantas pessoas responderam, tempo médio de resposta, tempo mínimo e máximo. Mostra o interesse das pessoas no conteúdo educativo financeiro."
               />
             </h2>
             <div className="flex flex-col items-center justify-center h-32 space-y-3">
@@ -1119,8 +1356,8 @@ export default function DashboardPage() {
               <Lightbulb className="w-5 h-5 text-red-400" />
               Tempo de Resposta - Pílulas do Conhecimento
               <MetricTooltip
-                title="Tempo de Resposta - Pílulas"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem pílulas do conhecimento (dicas e informações educacionais). O sistema envia conteúdos educativos e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais interessada no conteúdo."
+                title="Tempo de Resposta - Pílulas do Conhecimento"
+                description="Mede quanto tempo os usuários levam para responder às dicas educacionais. COMO FUNCIONA: (1) Sistema identifica quando enviou pílulas educativas (exemplos: 'pilula_h13_formal', 'pilulah9_padrao'); (2) Para cada pílula, busca a primeira mensagem que o usuário enviou depois; (3) Separa por grupo: Grupo 2 (pílulas formais) vs Grupo 3 (pílulas informais). RESULTADO: Total de pílulas enviadas, quantas pessoas responderam, tempo médio de resposta, tempo mínimo e máximo. Mostra o interesse das pessoas no conteúdo educativo financeiro."
               />
             </h2>
             <div className="flex flex-col items-center justify-center h-32 space-y-3">
@@ -1135,8 +1372,8 @@ export default function DashboardPage() {
               <Lightbulb className="w-5 h-5 text-amber-400" />
               Tempo de Resposta - Pílulas do Conhecimento
               <MetricTooltip
-                title="Tempo de Resposta - Pílulas"
-                description="Mede quanto tempo as pessoas demoram para responder depois que recebem pílulas do conhecimento (dicas e informações educacionais). O sistema envia conteúdos educativos e calcula o tempo até a primeira resposta da pessoa. Tempo mais curto = pessoa mais interessada no conteúdo."
+                title="Tempo de Resposta - Pílulas do Conhecimento"
+                description="Mede quanto tempo os usuários levam para responder às dicas educacionais. COMO FUNCIONA: (1) Sistema identifica quando enviou pílulas educativas (exemplos: 'pilula_h13_formal', 'pilulah9_padrao'); (2) Para cada pílula, busca a primeira mensagem que o usuário enviou depois; (3) Separa por grupo: Grupo 2 (pílulas formais) vs Grupo 3 (pílulas informais). RESULTADO: Total de pílulas enviadas, quantas pessoas responderam, tempo médio de resposta, tempo mínimo e máximo. Mostra o interesse das pessoas no conteúdo educativo financeiro."
               />
             </h2>
             <p className="text-gray-400 text-xs mb-4">

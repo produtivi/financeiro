@@ -224,13 +224,21 @@ export class TransacaoController {
       const transacoes = await transacaoService.listar(validated, agentIds);
 
       const csvLines: string[] = [];
-      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo,Tipo Caixa,Valor,Categoria,Data Transação,Tipo Entrada,Descrição');
+      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo,Tipo Caixa,Valor,Categoria,Data Transação,Semana Usuário,Tipo Entrada,Descrição');
 
       transacoes.forEach((t: any) => {
         const descricao = (t.descricao || '').replace(/,/g, ';').replace(/\n/g, ' ');
         const grupoNome = t.usuario.grupo?.nome || 'Sem Grupo';
+
+        // Calcular semana desde início do usuário
+        const inicioUsuario = new Date(t.usuario.criado_em);
+        const dataTransacao = new Date(t.data_transacao);
+        const diffMs = dataTransacao.getTime() - inicioUsuario.getTime();
+        const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const semanaUsuario = Math.max(1, Math.floor(diffDias / 7) + 1);
+
         csvLines.push(
-          `${t.id},${t.usuario.nome || `Usuário #${t.usuario.id}`},${grupoNome},${t.usuario.agent_id || 'N/A'},${t.tipo},${t.tipo_caixa},${t.valor},${t.categoria.nome},${new Date(t.data_transacao).toLocaleDateString('pt-BR')},${t.tipo_entrada},${descricao}`
+          `${t.id},${t.usuario.nome || `Usuário #${t.usuario.id}`},${grupoNome},${t.usuario.agent_id || 'N/A'},${t.tipo},${t.tipo_caixa},${t.valor},${t.categoria.nome},${new Date(t.data_transacao).toLocaleDateString('pt-BR')},${semanaUsuario},${t.tipo_entrada},${descricao}`
         );
       });
 

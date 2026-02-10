@@ -53,6 +53,7 @@ export class TransacaoService {
             nome: true,
             chat_id: true,
             agent_id: true,
+            criado_em: true,
             grupo: {
               select: {
                 nome: true,

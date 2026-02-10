@@ -154,19 +154,33 @@ export class DashboardController {
 
       csvLines.push('');
       csvLines.push('=== TRANSAÇÕES ===');
-      csvLines.push('ID,Usuário,Grupo,Tipo,Tipo Caixa,Valor,Categoria,Tipo Entrada,Data Transação,Descrição');
+      csvLines.push('ID,Usuário,Grupo,Tipo,Tipo Caixa,Valor,Categoria,Tipo Entrada,Data Transação,Semana Usuário,Descrição');
       dados.transacoes.forEach((t: any) => {
+        // Calcular semana desde início do usuário
+        const inicioUsuario = new Date(t.usuario.criado_em);
+        const dataTransacao = new Date(t.data_transacao);
+        const diffMs = dataTransacao.getTime() - inicioUsuario.getTime();
+        const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const semanaUsuario = Math.max(1, Math.floor(diffDias / 7) + 1); // Semana 1, 2, 3...
+
         csvLines.push(
-          `${t.id},${t.usuario.nome},${t.usuario.grupo?.nome || 'N/A'},${t.tipo},${t.tipo_caixa},${t.valor},${t.categoria.nome},${t.tipo_entrada},${new Date(t.data_transacao).toLocaleDateString('pt-BR')},${(t.descricao || '').replace(/,/g, ';')}`
+          `${t.id},${t.usuario.nome},${t.usuario.grupo?.nome || 'N/A'},${t.tipo},${t.tipo_caixa},${t.valor},${t.categoria.nome},${t.tipo_entrada},${new Date(t.data_transacao).toLocaleDateString('pt-BR')},${semanaUsuario},${(t.descricao || '').replace(/,/g, ';')}`
         );
       });
 
       csvLines.push('');
       csvLines.push('=== METAS ===');
-      csvLines.push('ID,Usuário,Grupo,Tipo Meta,Cumprida,Data Início,Data Fim,Valor Alvo');
+      csvLines.push('ID,Usuário,Grupo,Tipo Meta,Cumprida,Data Início,Data Fim,Semana Usuário,Valor Alvo');
       dados.metas.forEach((m: any) => {
+        // Calcular semana desde início do usuário
+        const inicioUsuario = new Date(m.usuario.criado_em);
+        const dataInicio = new Date(m.data_inicio);
+        const diffMs = dataInicio.getTime() - inicioUsuario.getTime();
+        const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const semanaUsuario = Math.max(1, Math.floor(diffDias / 7) + 1); // Semana 1, 2, 3...
+
         csvLines.push(
-          `${m.id},${m.usuario.nome},${m.usuario.grupo?.nome || 'N/A'},${m.tipo_meta},${m.cumprida === null ? 'Pendente' : m.cumprida ? 'Sim' : 'Não'},${new Date(m.data_inicio).toLocaleDateString('pt-BR')},${new Date(m.data_fim).toLocaleDateString('pt-BR')},${m.valor_alvo || 'N/A'}`
+          `${m.id},${m.usuario.nome},${m.usuario.grupo?.nome || 'N/A'},${m.tipo_meta},${m.cumprida === null ? 'Pendente' : m.cumprida ? 'Sim' : 'Não'},${new Date(m.data_inicio).toLocaleDateString('pt-BR')},${new Date(m.data_fim).toLocaleDateString('pt-BR')},${semanaUsuario},${m.valor_alvo || 'N/A'}`
         );
       });
 
@@ -178,6 +192,54 @@ export class DashboardController {
           `${msg.usuario_nome},${msg.chat_id},${msg.agent_id},${msg.grupo},${msg.tipo_mensagem},${msg.quantidade}`
         );
       });
+
+      csvLines.push('');
+      csvLines.push('=== LATÊNCIAS ===');
+      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo Lembrete,Momento Lembrete,Momento Resposta,Latência (segundos),Latência (minutos),Respondeu');
+      if (dados.latencias && dados.latencias.length > 0) {
+        dados.latencias.forEach((l: any) => {
+          const latenciaMinutos = (l.latencia_segundos / 60).toFixed(2);
+          csvLines.push(
+            `${l.id},${l.usuario.nome},${l.usuario.grupo?.nome || 'N/A'},${l.agent_id},${l.tipo_lembrete || 'N/A'},${new Date(l.momento_lembrete).toLocaleString('pt-BR')},${new Date(l.momento_resposta).toLocaleString('pt-BR')},${l.latencia_segundos},${latenciaMinutos},${l.respondeu ? 'Sim' : 'Não'}`
+          );
+        });
+      }
+
+      csvLines.push('');
+      csvLines.push('=== PÍLULAS DO CONHECIMENTO ===');
+      csvLines.push('Usuário,Grupo,Chat ID,Timestamp,Latência (segundos)');
+      if (dados.pilulas && dados.pilulas.length > 0) {
+        dados.pilulas.forEach((p: any) => {
+          const dataFormatada = new Date(p.timestamp * 1000).toLocaleString('pt-BR');
+          csvLines.push(
+            `${p.usuario_nome},${p.grupo},${p.chat_id},${dataFormatada},${p.latency_seconds}`
+          );
+        });
+      }
+
+      csvLines.push('');
+      csvLines.push('=== SOLICITAÇÕES ATIVAS ===');
+      csvLines.push('Usuário,Grupo,Tipo Solicitação,Timestamp');
+      if (dados.solicitacoesAtivas && dados.solicitacoesAtivas.length > 0) {
+        dados.solicitacoesAtivas.forEach((s: any) => {
+          const dataFormatada = new Date(s.timestamp * 1000).toLocaleString('pt-BR');
+          csvLines.push(
+            `${s.usuario_nome},${s.grupo},${s.tipo_solicitacao},${dataFormatada}`
+          );
+        });
+      }
+
+      csvLines.push('');
+      csvLines.push('=== VISUALIZAÇÕES DE PAINEL ===');
+      csvLines.push('Usuário,Grupo,Tipo Visualização,Timestamp');
+      if (dados.visualizacoesPainel && dados.visualizacoesPainel.length > 0) {
+        dados.visualizacoesPainel.forEach((v: any) => {
+          const dataFormatada = new Date(v.timestamp * 1000).toLocaleString('pt-BR');
+          csvLines.push(
+            `${v.usuario_nome},${v.grupo},${v.tipo_visualizacao},${dataFormatada}`
+          );
+        });
+      }
 
       const csv = csvLines.join('\n');
       const bom = '\uFEFF';

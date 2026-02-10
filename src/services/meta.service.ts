@@ -69,6 +69,58 @@ export const metaService = {
     });
   },
 
+  async listarTodas(filtros?: {
+    data_inicio?: string;
+    data_fim?: string;
+    tipo_meta?: string;
+    cumprida?: boolean;
+  }, agentIds?: number[]) {
+    const where: Prisma.MetaWhereInput = {};
+
+    if (agentIds && agentIds.length > 0) {
+      where.usuario = {
+        agent_id: { in: agentIds }
+      };
+    }
+
+    if (filtros?.data_inicio) {
+      where.data_inicio = { gte: new Date(filtros.data_inicio) };
+    }
+
+    if (filtros?.data_fim) {
+      where.data_fim = { lte: new Date(filtros.data_fim) };
+    }
+
+    if (filtros?.tipo_meta) {
+      where.tipo_meta = filtros.tipo_meta as 'reserva_financeira' | 'controle_inventario' | 'meta_vendas' | 'pagamento_contas' | 'outro';
+    }
+
+    if (filtros?.cumprida !== undefined) {
+      where.cumprida = filtros.cumprida;
+    }
+
+    return await prisma.meta.findMany({
+      where,
+      orderBy: { data_inicio: 'desc' },
+      include: {
+        usuario: {
+          select: {
+            id: true,
+            nome: true,
+            agent_id: true,
+            criado_em: true,
+            grupo: {
+              select: {
+                id: true,
+                nome: true
+              }
+            }
+          }
+        }
+      }
+    });
+  },
+
   async buscarPorId(id: number, usuario_id: number) {
     const meta = await prisma.meta.findFirst({
       where: { id, usuario_id },

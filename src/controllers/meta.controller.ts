@@ -339,5 +339,72 @@ export const metaController = {
         { status: 500 }
       );
     }
+  },
+
+  async exportarMetas(req: NextRequest, agentIds?: number[]): Promise<NextResponse> {
+    try {
+      const { searchParams } = new URL(req.url);
+      const usuario_id = searchParams.get('usuario_id');
+      const data_inicio = searchParams.get('data_inicio');
+      const data_fim = searchParams.get('data_fim');
+      const tipo_meta = searchParams.get('tipo_meta');
+      const cumprida = searchParams.get('cumprida');
+
+      const filtros: Record<string, string | boolean> = {};
+      if (data_inicio) filtros.data_inicio = data_inicio;
+      if (data_fim) filtros.data_fim = data_fim;
+      if (tipo_meta) filtros.tipo_meta = tipo_meta;
+      if (cumprida) filtros.cumprida = cumprida === 'true';
+
+      let metas;
+      if (usuario_id) {
+        metas = await metaService.listar(Number(usuario_id), filtros);
+      } else {
+        // Se não tiver usuario_id, buscar de todos os usuários
+        metas = await metaService.listarTodas(filtros, agentIds);
+      }
+
+      const csvLines: string[] = [];
+      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo Meta,Cumprida,Data Início,Data Fim,Semana Usuário,Valor Alvo,Descrição');
+
+      metas.forEach((m: any) => {
+        // Calcular semana desde início do usuário
+        const inicioUsuario = new Date(m.usuario.criado_em);
+        const dataInicio = new Date(m.data_inicio);
+        const diffMs = dataInicio.getTime() - inicioUsuario.getTime();
+        const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const semanaUsuario = Math.max(1, Math.floor(diffDias / 7) + 1);
+
+        const descricao = (m.descricao || '').replace(/,/g, ';').replace(/\n/g, ' ');
+        const grupoNome = m.usuario.grupo?.nome || 'Sem Grupo';
+        const statusCumprida = m.cumprida === null ? 'Pendente' : m.cumprida ? 'Sim' : 'Não';
+        const valorAlvo = m.valor_alvo || 'N/A';
+
+        csvLines.push(
+          `${m.id},${m.usuario.nome || `Usuário #${m.usuario.id}`},${grupoNome},${m.usuario.agent_id || 'N/A'},${m.tipo_meta},${statusCumprida},${new Date(m.data_inicio).toLocaleDateString('pt-BR')},${new Date(m.data_fim).toLocaleDateString('pt-BR')},${semanaUsuario},${valorAlvo},${descricao}`
+        );
+      });
+
+      const csv = csvLines.join('\n');
+      const bom = '\uFEFF';
+      const csvWithBom = bom + csv;
+
+      return new NextResponse(csvWithBom, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/csv; charset=utf-8',
+          'Content-Disposition': `attachment; filename="metas-${new Date().toISOString().split('T')[0]}.csv"`,
+        },
+      });
+    } catch (error) {
+      console.error('Erro ao exportar metas:', error);
+      return NextResponse.json(
+        {
+          success: false,
+          message: error instanceof Error ? error.message : 'Erro ao exportar metas',
+        },
+        { status: 500 }
+      );
+    }
   }
 };

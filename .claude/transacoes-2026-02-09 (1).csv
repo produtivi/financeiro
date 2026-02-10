@@ -1,0 +1,1074 @@
+﻿ID,Usuário,Grupo,Agent ID,Tipo,Tipo Caixa,Valor,Categoria,Data Transação,Semana Usuário,Tipo Entrada,Descrição
+1024,Amanda Santos,Grupo informativo/formal,437,receita,negocio,40,Serviços,13/06/2026,28,texto,Receita de sobrancelha e bulso do dia 14/06
+1087,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,100,Outras Despesas,08/02/2026,11,texto,Compra de panos de prato
+1088,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,100,Outras Despesas,08/02/2026,11,texto,Compra de tênis
+1089,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,58,Outras Despesas,08/02/2026,11,texto,Pagamento Claro
+1090,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,1000,Cartão de Crédito,08/02/2026,11,texto,Pagamento de empréstimo
+1091,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,200,Outras Despesas,08/02/2026,11,texto,Dinheiro para filha
+1092,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,pessoal,1600,Outras Receitas,08/02/2026,11,texto,Recebido CLT
+1079,Adriana de Paula,Sem Grupo,437,receita,negocio,150,Vendas,06/02/2026,0,texto,Venda de produtos
+1080,Adriana de Paula,Sem Grupo,437,despesa,negocio,163.97,Outras Despesas,06/02/2026,0,texto,Conta de água da loja
+1083,Amanda Santos,Grupo informativo/formal,437,receita,negocio,168,Serviços,06/02/2026,10,texto,Recebido do dia 07/02
+1076,Raphaela Reis,Grupo Padrão/acolhedor,437,receita,negocio,305,Outras Despesas,05/02/2026,11,texto,Entrada 3 de fevereiro
+1077,Raphaela Reis,Grupo Padrão/acolhedor,437,receita,negocio,320,Outras Despesas,05/02/2026,11,texto,Entrada 6 de fevereiro
+1078,Raphaela Reis,Grupo Padrão/acolhedor,437,despesa,negocio,49.9,Outras Despesas,05/02/2026,11,texto,Aplicativo Psicoplaneer
+1082,Amanda Santos,Grupo informativo/formal,437,receita,negocio,245,Serviços,05/02/2026,9,texto,Recebido do dia 06/02
+1084,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,50,Alimentação,05/02/2026,10,texto,Alimentação
+1086,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,45,Transporte,05/02/2026,10,texto,Uber
+1081,Amanda Santos,Grupo informativo/formal,437,receita,negocio,50,Serviços,04/02/2026,9,texto,Recebido do dia 05/02
+1085,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,1775,Vendas,04/02/2026,10,texto,Vendas evento de sexta a sábado
+1070,Amanda Santos,Grupo informativo/formal,437,receita,negocio,220,Serviços,03/02/2026,9,texto,Recebido do dia 04/02
+1071,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,14.35,Matéria Prima,03/02/2026,9,texto,Lençol para maca
+1072,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,19.98,Matéria Prima,03/02/2026,9,texto,Henna para trabalho
+1073,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,19.88,Matéria Prima,03/02/2026,9,texto,Lápis dermatográfico
+1074,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,78.83,Cartão de Crédito,03/02/2026,9,texto,Parcela 1/12 da maca nova
+1075,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,75.9,Matéria Prima,03/02/2026,9,texto,Cola para cílios
+1069,Amanda Santos,Grupo informativo/formal,437,receita,negocio,160,Serviços,02/02/2026,9,texto,Recebido do dia 03/02
+1065,Adriana de Paula ,Grupo Padrão/acolhedor,437,receita,negocio,30,Serviços,01/02/2026,10,texto,Serviço prestado
+1066,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,450,Vendas,01/02/2026,10,texto,Venda de marmitas na mercearia
+1067,Adriana de Paula ,Grupo Padrão/acolhedor,437,receita,negocio,40,Serviços,01/02/2026,10,texto,Serviço prestado
+1064,Raphaela Reis,Grupo Padrão/acolhedor,437,receita,negocio,431.22,Outras Despesas,31/01/2026,10,texto,Saldo inicial do mês
+1068,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,360,Vendas,31/01/2026,10,texto,Vendas no evento de domingo
+1060,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,186.87,Outras Despesas,30/01/2026,10,texto,Pagamento de conta da Enel
+1061,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,89,Outras Despesas,30/01/2026,10,texto,Despesa do negócio
+1062,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,186.87,Outras Despesas,30/01/2026,10,texto,Conta de energia do negócio
+1063,Amanda Santos,Grupo informativo/formal,437,receita,negocio,145,Serviços,30/01/2026,9,texto,Recebido do dia 31/01
+1007,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,1400,Aluguel,29/01/2026,9,texto,Aluguel
+1059,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,1400,Aluguel,29/01/2026,9,texto,Aluguel da loja/ateliê
+1054,Germana Zaicaner,Grupo informativo/formal,437,receita,negocio,600,Vendas,28/01/2026,8,texto,Transferência Pix recebida
+1055,Germana Zaicaner,Grupo informativo/formal,437,receita,negocio,270,Vendas,28/01/2026,8,texto,Transferência Pix recebida
+1056,Adriana de Paula ,Grupo Padrão/acolhedor,437,receita,negocio,141,Serviços,28/01/2026,9,texto,Serviços prestados
+1057,Amanda Santos,Grupo informativo/formal,437,receita,negocio,45,Serviços,28/01/2026,8,texto,Recebido do dia 29/01
+1051,Adriana de Paula ,Grupo Padrão/acolhedor,437,receita,negocio,315,Serviços,27/01/2026,9,texto,Serviços prestados
+1052,Adriana de Paula ,Grupo Padrão/acolhedor,437,receita,negocio,130,Serviços,27/01/2026,9,texto,Serviços prestados
+1053,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,250,Outras Despesas,27/01/2026,9,texto,Investimento em curso
+1058,Amanda Santos,Grupo informativo/formal,437,receita,negocio,45,Serviços,27/01/2026,8,texto,Recebido do dia 28/01
+1009,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,68,Outras Despesas,25/01/2026,9,texto,Luz
+1047,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,960,Vendas,25/01/2026,9,texto,Pedido de cliente 1 - 30 marmitas
+1048,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,150,Vendas,25/01/2026,9,texto,Pedido de cliente 2 - 10 marmitas
+1049,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,negocio,300,Matéria Prima,25/01/2026,9,texto,Gasto com insumos
+1050,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,200,Outras Despesas,25/01/2026,9,texto,Gasto pessoal
+1042,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,400,Vendas,24/01/2026,9,texto,Vendas Feira Ilê Ifé
+1043,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,1000,Vendas,24/01/2026,9,texto,Vendas Feira Bloco do Beco
+1044,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,40,Outras Despesas,24/01/2026,9,texto,Mimo pessoal
+1045,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,50,Transporte,24/01/2026,9,texto,Gasolina
+1046,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,50,Alimentação,24/01/2026,9,texto,Alimentação
+1041,Amanda Santos,Grupo informativo/formal,437,receita,negocio,218,Serviços,22/01/2026,7,texto,Ganhos do dia 23/01
+1032,Amanda Santos,Grupo informativo/formal,437,receita,negocio,40,Serviços,20/01/2026,7,texto,Receita por Design com Henna - Leda
+1033,Amanda Santos,Grupo informativo/formal,437,receita,negocio,40,Serviços,20/01/2026,7,texto,Receita por Design com Henna - Viviane
+1034,Amanda Santos,Grupo informativo/formal,437,receita,negocio,25,Serviços,20/01/2026,7,texto,Receita por Design Personalizado - Deri
+1035,Amanda Santos,Grupo informativo/formal,437,receita,negocio,20,Serviços,20/01/2026,7,texto,Receita por Remoção de Cílios - Bárbara Suelane
+1037,Amanda Santos,Grupo informativo/formal,437,receita,negocio,125,Serviços,20/01/2026,7,texto,Ganhos do dia 21/01 corrigido
+890,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1100,Cartão de Crédito,19/01/2026,8,texto,Cartão Mercado Pago
+1028,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,81.9,Outras Despesas,19/01/2026,8,texto,Pagamento do MEI
+1029,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,76.99,Outras Despesas,19/01/2026,8,texto,Pagamento de celular
+1030,Rosimere Feliciana ,Grupo Padrão/acolhedor,437,despesa,pessoal,34,Alimentação,19/01/2026,8,texto,Gastos no mercado
+1031,Rosimere Feliciana ,Grupo Padrão/acolhedor,437,despesa,pessoal,6,Alimentação,19/01/2026,8,texto,Lanche na lanchonete
+1027,Myckaella,Grupo Controle,437,despesa,pessoal,50,Transporte,18/01/2026,8,texto,Combustível
+1036,Amanda Santos,Grupo informativo/formal,437,receita,negocio,50,Serviços,18/01/2026,7,texto,Ganhos do dia 19/01
+1020,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,864.03,Serviços,17/01/2026,8,texto,Serviços prestados
+1021,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,112.5,Lazer/Informação,17/01/2026,8,texto,Lanche
+1015,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,1000,Cartão de Crédito,16/01/2026,8,texto,Pagamento cartão de crédito
+1016,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,155.77,Matéria Prima,16/01/2026,8,texto,Compra de material
+1017,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,29,Lazer/Informação,16/01/2026,8,texto,Chup chup
+1018,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,519,Serviços,16/01/2026,8,texto,Serviços prestados
+1019,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,218,Serviços,16/01/2026,8,texto,Serviços prestados
+1022,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,1000,Vendas,16/01/2026,8,texto,Vendas no evento
+1026,Amanda Santos,Grupo informativo/formal,437,receita,negocio,115,Serviços,16/01/2026,7,texto,Receita por cílios do dia 17/01
+893,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,600,Cartão de Crédito,15/01/2026,7,texto,Cartão Porto Seguro
+1013,Adriana de Paula ,Grupo Padrão/acolhedor,437,receita,negocio,616,Serviços,15/01/2026,7,texto,Serviços prestados
+1014,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,105.1,Matéria Prima,15/01/2026,7,texto,Materiais usados em serviço
+1023,Amanda Santos,Grupo informativo/formal,437,receita,negocio,115,Serviços,15/01/2026,6,texto,Receita por cílios do dia 16/01
+1025,Amanda Santos,Grupo informativo/formal,437,receita,negocio,40,Serviços,15/01/2026,6,texto,Receita por sobrancelha com henna do dia 16/01
+1011,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,28.45,Transporte,14/01/2026,7,texto,Pagamento Uber
+1012,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,200,Alimentação,14/01/2026,7,texto,Feira da semana
+996,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,244,Vendas,13/01/2026,7,texto,Recebimento de clientes pendentes
+997,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,822,Vendas,13/01/2026,7,texto,Vendas loja Rua Augusta
+998,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1088,Cartão de Crédito,13/01/2026,7,texto,Pagamento Mercado Pago
+1002,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,10,Transporte,13/01/2026,7,texto,Transporte
+1003,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,69,Lazer/Informação,13/01/2026,7,texto,Compra de bíblia
+1004,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,despesa,negocio,120,Outras Despesas,13/01/2026,6,texto,Pagamento parcial de empréstimo
+1005,Adriana de Paula ,Grupo Padrão/acolhedor,437,receita,negocio,218,Vendas,13/01/2026,7,texto,Receitas acumuladas
+1006,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,650,Outras Despesas,13/01/2026,7,texto,Concerto da máquina - 1ª parcela via PIX
+981,Erica Ns,Grupo informativo/formal,437,despesa,negocio,279.36,Outras Despesas,12/01/2026,7,texto,Pagamento fornecedor Ancora
+982,Erica Ns,Grupo informativo/formal,437,receita,negocio,699,Vendas,12/01/2026,7,texto,Recebimento Shopee
+983,Erica Ns,Grupo informativo/formal,437,receita,negocio,323,Vendas,12/01/2026,7,texto,Recebimento Shopee
+984,Erica Ns,Grupo informativo/formal,437,despesa,negocio,150,Cartão de Crédito,12/01/2026,7,texto,Pagamento conta de celular
+985,Erica Ns,Grupo informativo/formal,437,despesa,negocio,12,Transporte,12/01/2026,7,texto,Frete Felix
+986,Erica Ns,Grupo informativo/formal,437,despesa,negocio,468,Outras Despesas,12/01/2026,7,texto,Pagamento fornecedor Adair
+987,Erica Ns,Grupo informativo/formal,437,despesa,pessoal,166.66,Outras Despesas,12/01/2026,7,texto,Compra Monjaro
+988,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,55.05,Alimentação,12/01/2026,7,texto,Mercado
+989,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,12,Transporte,12/01/2026,7,texto,Transporte
+990,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,229.69,Lazer/Informação,12/01/2026,7,texto,Lanche
+991,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,525,Serviços,12/01/2026,7,texto,Serviços prestados
+992,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,95.88,Matéria Prima,12/01/2026,7,texto,Compra para o negócio via PIX
+995,Erica Ns,Grupo informativo/formal,437,despesa,negocio,40,Transporte,12/01/2026,7,texto,Frete Santa Maria
+1010,Amanda Santos,Grupo informativo/formal,437,receita,negocio,115,Serviços,12/01/2026,6,texto,Recebimento do dia 13/01
+898,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,202,Saúde,11/01/2026,7,texto,Celular
+966,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,35,Lazer/Informação,11/01/2026,7,texto,Débito automático Canva
+967,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,14.9,Lazer/Informação,11/01/2026,7,texto,Débito automático Google Fotos
+968,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,22.9,Lazer/Informação,11/01/2026,7,texto,Débito automático Minha Agenda
+969,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,44,Lazer/Informação,11/01/2026,7,texto,Sorvete
+970,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,10,Transporte,11/01/2026,7,texto,Passagem
+971,Erica Ns,Grupo informativo/formal,437,receita,negocio,384.73,Vendas,11/01/2026,7,texto,Recebimento Shopee
+972,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,pessoal,4360,Outras Receitas,11/01/2026,7,texto,Recebido CLT
+973,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,130,Outras Despesas,11/01/2026,7,texto,Despesa adicional
+974,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,300,Outras Despesas,11/01/2026,7,texto,Compra de panela de pressão
+975,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,negocio,45,Outras Despesas,11/01/2026,7,texto,Despesas do negócio adicionais
+976,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,580,Outras Receitas,11/01/2026,7,texto,Recebido
+977,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,2800,Cartão de Crédito,11/01/2026,7,texto,Pagamento de empréstimo
+978,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,negocio,345,Outras Despesas,11/01/2026,7,texto,Despesas do negócio
+979,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,190,Outras Receitas,11/01/2026,7,texto,Recebido
+980,Erica Ns,Grupo informativo/formal,437,despesa,negocio,60,Transporte,11/01/2026,7,texto,Frete Santa Maria
+999,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,1809,Vendas,11/01/2026,7,texto,Faturamento bruto loja física colaborativa
+1000,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,507,Outras Despesas,11/01/2026,7,texto,Taxa de 28% sobre vendas
+1001,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,480,Aluguel,11/01/2026,7,texto,Aluguel loja física colaborativa
+1039,Amanda Santos,Grupo informativo/formal,437,receita,negocio,151,Serviços,11/01/2026,6,texto,Ganhos do dia 12/01
+899,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1100,Cartão de Crédito,10/01/2026,7,texto,Empréstimo (11/01)
+957,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,negocio,100,Vendas,10/01/2026,6,texto,Receita 06/01
+958,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,negocio,75,Vendas,10/01/2026,6,texto,Receita 05/01
+959,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,negocio,100,Vendas,10/01/2026,6,texto,Receita 07/01
+960,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,negocio,138,Vendas,10/01/2026,6,texto,Receita 08/01
+961,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,despesa,negocio,361.75,Outras Despesas,10/01/2026,6,texto,Investimento Inicial
+962,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,negocio,217.75,Vendas,10/01/2026,6,texto,Receita 09/01
+963,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,70,Vendas,10/01/2026,7,texto,Vendas em evento
+964,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,10.8,Alimentação,10/01/2026,7,texto,Refrigerante
+965,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,30,Transporte,10/01/2026,7,texto,Uber evento
+943,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,40,Matéria Prima,09/01/2026,7,texto,Compra de coloração via PIX
+944,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,414.49,Matéria Prima,09/01/2026,7,texto,Compra de ativadores em dinheiro
+945,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,1071.76,Serviços,09/01/2026,7,texto,Serviços feitos
+946,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,50,Serviços,09/01/2026,7,texto,Pagamento de serviços
+947,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,50,Lazer/Informação,09/01/2026,7,texto,Alemão
+948,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,34,Vendas,09/01/2026,7,texto,Lanche
+949,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,13,Matéria Prima,09/01/2026,7,texto,Compra de isqueiro
+950,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,300,Serviços,09/01/2026,7,texto,Pagamento semanal funcionário
+951,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,574.73,Serviços,09/01/2026,7,texto,Serviços feitos
+952,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,640,Serviços,09/01/2026,7,texto,Serviços feitos
+953,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,135,Vendas,09/01/2026,7,texto,Venda de produto
+954,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,100,Lazer/Informação,09/01/2026,7,texto,Pagamento de patinação
+955,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,pessoal,200,Lazer/Informação,09/01/2026,7,texto,Pagamento academia e personal
+956,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,41.48,Matéria Prima,09/01/2026,6,texto,Material
+1008,Adriana de Paula ,Grupo Padrão/acolhedor,437,despesa,negocio,158,Outras Despesas,09/01/2026,7,texto,Água
+900,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1110,Cartão de Crédito,08/01/2026,6,texto,Empréstimo (09/01)
+942,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,50.49,Cartão de Crédito,08/01/2026,6,texto,Pagamento de dívida via PIX - Acordo
+1038,Amanda Santos,Grupo informativo/formal,437,receita,negocio,255,Serviços,08/01/2026,5,texto,Ganhos do dia 09/01
+937,Naralice maria santos Nascimento ,Grupo Controle,437,receita,negocio,130,Vendas,07/01/2026,6,texto,Venda de kit Nutrology via PIX
+938,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,37.98,Transporte,07/01/2026,6,texto,Uber dos filhos via PIX
+941,Naralice maria santos Nascimento ,Grupo Controle,437,despesa,negocio,179.24,Matéria Prima,07/01/2026,6,texto,Compra de equipamento via PIX
+1040,Amanda Santos,Grupo informativo/formal,437,receita,negocio,118,Serviços,07/01/2026,5,texto,Ganhos do dia 08/01
+936,Amanda Santos,Grupo informativo/formal,437,receita,negocio,140,Serviços,06/01/2026,5,texto,Ganhos do dia 07/01
+939,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,196.71,Vendas,06/01/2026,6,texto,Venda Elo7 BA
+940,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,54.78,Outras Despesas,06/01/2026,6,texto,Pagamento de Comissão
+926,Dayane Cristina de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,70,Outras Despesas,05/01/2026,6,texto,Pagamento colaborador
+927,Dayane Cristina de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,180,Vendas,05/01/2026,6,texto,Pix de cliente
+928,Dayane Cristina de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,65,Outras Despesas,05/01/2026,6,texto,Retirada pessoal
+929,Cristiane Gouvea ,Grupo Padrão/acolhedor,437,despesa,negocio,20,Transporte,05/01/2026,6,texto,Estacionamento
+930,Cristiane Gouvea ,Grupo Padrão/acolhedor,437,receita,negocio,38,Vendas,05/01/2026,6,texto,Venda
+931,Cristiane Gouvea ,Grupo Padrão/acolhedor,437,receita,negocio,35,Vendas,05/01/2026,6,texto,Venda
+934,Amanda Santos,Grupo informativo/formal,437,receita,negocio,140,Serviços,05/01/2026,5,texto,Ganhos do dia 06/01
+935,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,109.94,Matéria Prima,05/01/2026,5,texto,Reposição de material
+909,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,despesa,negocio,30,Matéria Prima,04/01/2026,6,texto,Compra de óleo para Kombi
+910,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,despesa,negocio,30,Transporte,04/01/2026,6,texto,Abastecimento da Kombi
+911,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,despesa,negocio,33.73,Matéria Prima,04/01/2026,6,texto,Compra de fita isolante e parafusos brocantes
+920,Rhayssa Carvalho Coelho Nagata ,Grupo Controle,437,despesa,pessoal,116,Alimentação,04/01/2026,6,texto,Mercado
+921,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,7,Outras Receitas,04/01/2026,6,texto,Compra pessoal
+922,Rhayssa Carvalho Coelho Nagata ,Grupo Controle,437,despesa,negocio,2000,Outras Despesas,04/01/2026,6,texto,Pagamento da funcionária
+923,Rhayssa Carvalho Coelho Nagata ,Grupo Controle,437,despesa,pessoal,2230,Cartão de Crédito,04/01/2026,6,texto,Pagamento do cartão de crédito
+924,Rhayssa Carvalho Coelho Nagata ,Grupo Controle,437,despesa,pessoal,100,Cartão de Crédito,04/01/2026,6,texto,Entrada do parcelamento do cartão de crédito
+925,Rhayssa Carvalho Coelho Nagata ,Grupo Controle,437,despesa,pessoal,714,Cartão de Crédito,04/01/2026,6,texto,Parcelamento de cartão de crédito (7 x R$ 102)
+901,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,300,Outras Despesas,03/01/2026,6,texto,Terreiro
+902,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,610,Transporte,03/01/2026,6,texto,Carro
+903,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,200,Outras Despesas,03/01/2026,6,texto,Giza
+904,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1200,Saúde,03/01/2026,6,texto,Injeção
+905,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,152.8,Transporte,03/01/2026,6,texto,IPVA (1/5)
+906,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,122.65,Outras Receitas,03/01/2026,6,texto,Compras pessoais no mercado
+907,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,86.48,Outras Receitas,03/01/2026,6,texto,Compras pessoais no mercado
+908,Daniela dos santos da Silva,Grupo informativo/formal,437,receita,negocio,200,Outras Receitas,03/01/2026,5,texto,Outras receitas
+891,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,240,Cartão de Crédito,02/01/2026,6,texto,Cartão Nubank PF
+894,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,740,Cartão de Crédito,02/01/2026,6,texto,Cartão Nubank PJ
+896,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,308,Cartão de Crédito,02/01/2026,6,texto,Empréstimo (03/01)
+916,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,54.78,Outras Despesas,02/01/2026,6,texto,Pagamento de Taxa
+917,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,196.71,Vendas,02/01/2026,6,texto,Venda Elo7 SLL
+918,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,11.17,Vendas,02/01/2026,6,texto,Venda Elo7 BA
+919,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,39.24,Outras Despesas,02/01/2026,6,texto,Pagamento de Taxa
+885,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,49,Outras Receitas,01/01/2026,5,texto,Despesas pessoais com jet
+886,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,16,Outras Receitas,01/01/2026,5,texto,Despesas pessoais com picolé
+887,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,30,Matéria Prima,01/01/2026,9,texto,Leite condensado
+888,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,20,Matéria Prima,01/01/2026,9,texto,Açúcar
+889,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,50,Matéria Prima,01/01/2026,9,texto,Farinha
+932,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,receita,negocio,500,Serviços,01/01/2026,5,texto,Consultoria
+933,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,150,Transporte,01/01/2026,5,texto,Transporte
+884,Janiely,Grupo Controle,437,despesa,negocio,1100,Outras Despesas,31/12/2025,4,texto,Pagamento de Empréstimo
+892,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,63,Saúde,31/12/2025,5,texto,Sabesp
+895,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,100,Saúde,31/12/2025,5,texto,Internet
+897,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,222,Saúde,31/12/2025,5,texto,Enel
+883,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,100,Outras Receitas,30/12/2025,5,texto,Despesas pessoais com gasolina
+560,Gabriela Nunes,Grupo Controle,437,despesa,pessoal,1150,Vendas,29/12/2025,4,texto,Aluguel
+873,MaCecilia Nuñez,Grupo informativo/formal,437,receita,negocio,1000,Vendas,29/12/2025,9,texto,Venda de bolos
+874,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,500,Outras Despesas,29/12/2025,9,texto,Despesa
+875,Janiely,Grupo Controle,437,despesa,negocio,1120,Matéria Prima,29/12/2025,4,texto,Compra de Galeto
+876,Janiely,Grupo Controle,437,despesa,negocio,197,Matéria Prima,29/12/2025,4,texto,Compra de Costela
+877,Janiely,Grupo Controle,437,despesa,negocio,50,Matéria Prima,29/12/2025,4,texto,Compra de Carvão
+878,Janiely,Grupo Controle,437,despesa,negocio,24,Matéria Prima,29/12/2025,4,texto,Compra de Prato
+879,Janiely,Grupo Controle,437,despesa,negocio,27,Matéria Prima,29/12/2025,4,texto,Compra de Tempero
+880,Janiely,Grupo Controle,437,despesa,negocio,30,Outras Despesas,29/12/2025,4,texto,Transporte de Galeto
+881,Janiely,Grupo Controle,437,despesa,negocio,110,Matéria Prima,29/12/2025,4,texto,Compra de Linguiça
+882,Janiely,Grupo Controle,437,despesa,negocio,25,Matéria Prima,29/12/2025,4,texto,Compra de Pratos de Alumínio
+868,Germana Zaicaner,Grupo informativo/formal,437,receita,negocio,65,Vendas,28/12/2025,4,texto,Recebimento em Pix da empresa
+869,Germana Zaicaner,Grupo informativo/formal,437,despesa,negocio,4.4,Transporte,28/12/2025,4,texto,Gasto de envio da empresa
+871,Germana Zaicaner,Grupo informativo/formal,437,receita,negocio,158,Vendas,28/12/2025,4,texto,Entrada de 50% de um pedido
+872,Germana Zaicaner,Grupo informativo/formal,437,receita,negocio,85,Vendas,28/12/2025,4,texto,Entrada de 50% de um pedido
+862,Janiely,Grupo Controle,437,despesa,negocio,164,Alimentação,27/12/2025,4,texto,Despesas com Amigo Secreto
+863,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,12,Outras Receitas,27/12/2025,5,texto,Despesa pessoal com água de coco
+864,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,31,Outras Receitas,27/12/2025,5,texto,Despesa pessoal no mercado
+865,Leandra Abreu ,Grupo Padrão/acolhedor,437,despesa,pessoal,130,Outras Despesas,27/12/2025,5,texto,Perfumaria
+866,Leandra Abreu ,Grupo Padrão/acolhedor,437,despesa,pessoal,30,Outras Despesas,27/12/2025,5,texto,Maquiagem
+867,Andrea Martins dos Santos ,Grupo Padrão/acolhedor,437,despesa,pessoal,4.95,Alimentação,27/12/2025,5,texto,Macarrão
+912,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,187.01,Vendas,27/12/2025,5,texto,Venda Elo7 SLL
+913,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,107.47,Vendas,27/12/2025,5,texto,Venda Elo7 SLL
+914,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,54,Outras Despesas,27/12/2025,5,texto,Pagamento de Taxa
+915,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,37.57,Outras Despesas,27/12/2025,5,texto,Pagamento de Taxa
+856,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,31,Outras Receitas,26/12/2025,5,texto,Gastos pessoais com Uber
+857,Janiely,Grupo Controle,437,despesa,negocio,150,Matéria Prima,26/12/2025,4,texto,Compra de Carvão
+858,Janiely,Grupo Controle,437,despesa,negocio,714.09,Matéria Prima,26/12/2025,4,texto,Compra de Frango
+859,Janiely,Grupo Controle,437,despesa,negocio,20,Matéria Prima,26/12/2025,4,texto,Compra de Linguiça
+860,Janiely,Grupo Controle,437,despesa,negocio,83,Matéria Prima,26/12/2025,4,texto,Compra de Carne
+861,Janiely,Grupo Controle,437,receita,negocio,138,Vendas,26/12/2025,4,texto,Receita do Dia
+870,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,500,Vendas,26/12/2025,5,texto,Vendas evento de sábado
+852,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,50,Outras Receitas,25/12/2025,4,texto,Despesas pessoais com gasolina
+853,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,23,Outras Receitas,25/12/2025,4,texto,Despesas pessoais com creme
+854,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,pessoal,200,Outras Receitas,25/12/2025,4,texto,Presente da filha
+855,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,180,Outras Receitas,25/12/2025,4,texto,Recebimento da empresa
+684,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,700,Cartão de Crédito,24/12/2025,4,texto,Cartão Nubank
+835,Janiely,Grupo Controle,437,despesa,negocio,30,Outras Despesas,24/12/2025,3,texto,Pagamento para Larissa
+836,Janiely,Grupo Controle,437,despesa,negocio,360,Aluguel,24/12/2025,3,texto,Pagamento de Aluguel
+837,Janiely,Grupo Controle,437,despesa,negocio,75,Outras Despesas,24/12/2025,3,texto,Pagamento para Bia
+838,Janiely,Grupo Controle,437,despesa,negocio,100,Outras Despesas,24/12/2025,3,texto,Pagamento para Mãe
+839,Janiely,Grupo Controle,437,despesa,negocio,100,Outras Despesas,24/12/2025,3,texto,Pagamento para Painho
+840,Janiely,Grupo Controle,437,despesa,negocio,10,Outras Despesas,24/12/2025,3,texto,Pagamento para João
+841,Janiely,Grupo Controle,437,despesa,negocio,20,Alimentação,24/12/2025,3,texto,Compra de Sobremesa
+842,Janiely,Grupo Controle,437,despesa,negocio,30,Alimentação,24/12/2025,3,texto,Compra de Coca-Cola
+843,Janiely,Grupo Controle,437,despesa,negocio,86,Alimentação,24/12/2025,3,texto,Despesa com Ceia de Natal
+828,Janiely,Grupo Controle,437,despesa,negocio,20,Matéria Prima,23/12/2025,3,texto,Compra de Carvão
+829,Janiely,Grupo Controle,437,receita,negocio,280.8,Vendas,23/12/2025,3,texto,Receita dos Rocamboles
+830,Janiely,Grupo Controle,437,despesa,negocio,12,Outras Despesas,23/12/2025,3,texto,Gasto de Entrega
+831,Janiely,Grupo Controle,437,despesa,negocio,90,Alimentação,23/12/2025,3,texto,Despesa de Feira
+832,Janiely,Grupo Controle,437,despesa,negocio,55.5,Outras Despesas,23/12/2025,3,texto,Gasto com Carvão
+833,Janiely,Grupo Controle,437,despesa,negocio,99,Outras Despesas,23/12/2025,3,texto,Compra de Sandália para João
+834,Janiely,Grupo Controle,437,despesa,negocio,36,Alimentação,23/12/2025,3,texto,Despesa com Almoço
+848,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,pessoal,211.89,Outras Despesas,22/12/2025,4,texto,Plano Odontológico
+683,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1400,Cartão de Crédito,21/12/2025,4,texto,Cartão Mercado Livre
+803,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,negocio,109,Matéria Prima,21/12/2025,4,texto,Compra de insumos para a cozinha
+825,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,20.8,Transporte,21/12/2025,4,texto,Pagamento trem
+826,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,20.8,Outras Receitas,21/12/2025,4,texto,Empréstimo pai
+846,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,34.2,Outras Despesas,21/12/2025,4,texto,Pagamento ISS
+850,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,46.95,Cartão de Crédito,21/12/2025,4,texto,Pagamento cartão corporativo
+851,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,pessoal,9.94,Alimentação,21/12/2025,4,texto,Lanche
+785,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,60.4,Outras Receitas,20/12/2025,4,texto,Despesas pessoais diversas
+786,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,12,Outras Receitas,20/12/2025,4,texto,Despesas pessoais com estacionamento
+787,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,50,Outras Receitas,20/12/2025,4,texto,Despesas pessoais com gasolina
+788,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,pessoal,1500,Outras Receitas,20/12/2025,4,texto,Receita pessoal
+789,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,pessoal,300,Outras Receitas,20/12/2025,4,texto,Receita pessoal
+790,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,500,Outras Despesas,20/12/2025,4,texto,Pagamento de meio atrasado
+791,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,35,Outras Receitas,20/12/2025,4,texto,Despesas pessoais com feijão
+792,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,1736,Vendas,20/12/2025,3,texto,Calças e Jalecos
+793,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,716,Vendas,20/12/2025,3,texto,Jalecos
+794,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,1380,Vendas,20/12/2025,3,texto,Pijamas
+795,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,760,Vendas,20/12/2025,4,texto,Vendas evento Samba do Querosene
+827,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,100,Outras Despesas,20/12/2025,4,texto,Presente pai - bolo
+745,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,500,Vendas,19/12/2025,4,texto,Vendas evento Terreiro
+746,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1400,Cartão de Crédito,19/12/2025,4,texto,Pagamento cartão Mercado Pago
+747,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,700,Cartão de Crédito,19/12/2025,4,texto,Pagamento cartão Nubank
+748,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,300,Saúde,19/12/2025,4,texto,Pagamento de injeção
+749,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,67,Outras Receitas,19/12/2025,4,texto,IPTU
+750,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,161.28,Outras Receitas,19/12/2025,4,texto,Net
+751,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,1401.3,Aluguel,19/12/2025,4,texto,Escola de Mel
+752,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,310,Outras Receitas,19/12/2025,4,texto,Condomínio
+753,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,501.19,Outras Receitas,19/12/2025,4,texto,Energia
+754,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,80,Outras Receitas,19/12/2025,4,texto,Assistência Médica
+755,Mary Megas,Grupo informativo/formal,437,despesa,negocio,144,Transporte,19/12/2025,4,texto,Compras da loja
+756,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,8.4,Outras Receitas,19/12/2025,4,texto,Despesas pessoais diversas
+810,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,35,Outras Despesas,19/12/2025,4,texto,Recarga celular
+812,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,45,Outras Receitas,19/12/2025,4,texto,Entrada empréstimo pai
+813,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,10.4,Transporte,19/12/2025,4,texto,Pagamento trem
+814,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,8.16,Transporte,19/12/2025,4,texto,Uber
+844,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,50,Transporte,19/12/2025,4,texto,Transporte
+602,Monique Nascimento,Grupo Padrão/acolhedor,437,receita,negocio,500,Vendas,18/12/2025,3,texto,Receita prevista de R$ 500;00
+603,Monique Nascimento,Grupo Padrão/acolhedor,437,receita,negocio,10000,Vendas,18/12/2025,3,texto,Receita prevista de R$ 10.000;00
+742,Leandra Abreu ,Grupo Padrão/acolhedor,437,despesa,pessoal,32,Transporte,18/12/2025,3,texto,Uber
+743,Leandra Abreu ,Grupo Padrão/acolhedor,437,despesa,pessoal,9,Alimentação,18/12/2025,3,texto,Mercado
+744,Leandra Abreu ,Grupo Padrão/acolhedor,437,despesa,pessoal,24,Outras Despesas,18/12/2025,3,texto,Conta de água
+782,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,23,Transporte,18/12/2025,2,texto,Passagem Sto Amaro
+783,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,18,Alimentação,18/12/2025,2,texto,Lanche
+784,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,308,Vendas,18/12/2025,2,texto,Pijamas
+807,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,264,Cartão de Crédito,18/12/2025,4,texto,Pagamento cartão
+811,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,11.59,Alimentação,18/12/2025,4,texto,Mercado
+816,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,300,Outras Receitas,18/12/2025,4,texto,Entrada empréstimo pai
+845,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,150,Outras Despesas,18/12/2025,3,texto,Contabilidade
+849,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,receita,negocio,220,Serviços,18/12/2025,3,texto,Laserterapia
+728,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,50,Alimentação,17/12/2025,3,texto,Alimentação pessoal
+729,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,negocio,40,Outras Despesas,17/12/2025,3,texto,Descaráveis para o negócio
+740,Marinalva,Grupo Controle,437,despesa,negocio,97.4,Matéria Prima,17/12/2025,3,texto,A&P Aliança despesas
+741,Marinalva,Grupo Controle,437,despesa,pessoal,5,Alimentação,17/12/2025,3,texto,Despesa pessoal
+773,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,175,Vendas,17/12/2025,2,texto,Jaleco
+774,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,149,Vendas,17/12/2025,2,texto,Pijama
+775,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,114,Vendas,17/12/2025,2,texto,Jaleco
+776,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,329,Vendas,17/12/2025,2,texto,Jaleco e Pijama
+777,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,154,Vendas,17/12/2025,2,texto,Jaleco
+778,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,155,Vendas,17/12/2025,2,texto,Jaleco
+779,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,23,Transporte,17/12/2025,2,texto,Passagem Sto Amaro
+780,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,12,Alimentação,17/12/2025,2,texto,Lanche
+781,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,5.69,Transporte,17/12/2025,2,texto,Transporte Circular
+796,Angélica Costa,Grupo Padrão/acolhedor,437,despesa,negocio,40,Alimentação,17/12/2025,3,texto,Compra de alimentos
+815,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,1.53,Outras Despesas,17/12/2025,3,texto,Pagamento oferta
+818,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,102.95,Outras Despesas,17/12/2025,3,texto,Pagamento internet
+847,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,166.98,Outras Despesas,17/12/2025,3,texto,Pagamento INSS
+680,Alice Dourado,Grupo Padrão/acolhedor,437,receita,negocio,4000,Vendas,16/12/2025,3,texto,Vendas totais na feira
+681,Luana Andrade,Grupo informativo/formal,437,receita,negocio,230,Vendas,16/12/2025,3,texto,Venda de produtos
+682,Luana Andrade,Grupo informativo/formal,437,despesa,negocio,50,Matéria Prima,16/12/2025,3,texto,Compra de matéria prima
+685,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,600,Saúde,16/12/2025,3,texto,Injeção
+686,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,pessoal,2110,Serviços,16/12/2025,3,texto,Recebimento de aula
+687,Esméria Baptista,Grupo Padrão/acolhedor,437,despesa,pessoal,415.35,Cartão de Crédito,16/12/2025,3,texto,Saque Nubank - Faltam 7
+688,Esméria Baptista,Grupo Padrão/acolhedor,437,receita,pessoal,1900,Outras Receitas,16/12/2025,3,texto,Salário
+689,Esméria Baptista,Grupo Padrão/acolhedor,437,despesa,pessoal,793.96,Cartão de Crédito,16/12/2025,3,texto,Saque Nubank - Faltam 3
+690,Esméria Baptista,Grupo Padrão/acolhedor,437,receita,pessoal,250,Serviços,16/12/2025,3,texto,Limpeza Escritório
+691,Esméria Baptista,Grupo Padrão/acolhedor,437,despesa,pessoal,67.99,Outras Despesas,16/12/2025,3,texto,Tim Sergipe
+692,Esméria Baptista,Grupo Padrão/acolhedor,437,despesa,pessoal,47.2,Outras Despesas,16/12/2025,3,texto,Tim Rio
+693,Esméria Baptista,Grupo Padrão/acolhedor,437,despesa,pessoal,141,Saúde,16/12/2025,3,texto,Academia
+694,Esméria Baptista,Grupo Padrão/acolhedor,437,despesa,pessoal,560,Aluguel,16/12/2025,3,texto,Aluguel
+695,Esméria Baptista,Grupo Padrão/acolhedor,437,despesa,pessoal,712.89,Cartão de Crédito,16/12/2025,3,texto,Cartão - Até Julho
+696,Regiane Chan ,Grupo Padrão/acolhedor,437,receita,pessoal,20,Outras Receitas,16/12/2025,3,texto,Economia da semana
+697,Leandra Abreu ,Grupo Padrão/acolhedor,437,despesa,pessoal,92,Outras Despesas,16/12/2025,3,texto,Conta de luz
+698,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,23,Transporte,16/12/2025,2,texto,Transporte Sto Amaro
+699,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,579,Outras Despesas,16/12/2025,2,texto,Bordado Taty
+700,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,796.9,Matéria Prima,16/12/2025,2,texto,Pagamento JLM Tecido
+701,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,49.3,Matéria Prima,16/12/2025,2,texto,Aviamento
+702,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,31.72,Alimentação,16/12/2025,2,texto,Almoço
+703,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,172.9,Aluguel,16/12/2025,2,texto,Luz
+704,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,94,Vendas,16/12/2025,2,texto,Blusa Pijama
+705,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,5.69,Transporte,16/12/2025,2,texto,Transporte Circular
+706,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,480,Vendas,16/12/2025,2,texto,Jalecos Sociais
+707,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,159,Vendas,16/12/2025,2,texto,Jaleco
+708,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,334,Vendas,16/12/2025,2,texto,Jaleco Social
+709,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,145,Vendas,16/12/2025,2,texto,Pijama
+710,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,400,Vendas,16/12/2025,2,texto,Jaleco Social
+711,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,9,Vendas,16/12/2025,2,texto,Resto do Jaleco
+712,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,164,Vendas,16/12/2025,2,texto,Jaleco
+713,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,290,Vendas,16/12/2025,2,texto,Pijama Cirúrgico
+714,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,290,Vendas,16/12/2025,2,texto,Pijama Cirúrgico
+715,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,620,Vendas,16/12/2025,2,texto,Jalecos
+716,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,136,Vendas,16/12/2025,2,texto,Jaleco
+717,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,159,Vendas,16/12/2025,2,texto,Jaleco
+718,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,298,Vendas,16/12/2025,2,texto,Jaleco Social
+719,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,121,Vendas,16/12/2025,2,texto,Jaleco
+720,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,210,Vendas,16/12/2025,2,texto,Jaleco Social
+721,Mary Megas,Grupo informativo/formal,437,despesa,negocio,876.3,Matéria Prima,16/12/2025,3,texto,Gastos da empresa no cartão
+722,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,480,Outras Receitas,16/12/2025,3,texto,Gastos pessoais
+723,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,215,Outras Receitas,16/12/2025,3,texto,Gastos pessoais via Pix
+724,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,79.9,Aluguel,16/12/2025,3,texto,Presente de Mel pago com cartão
+725,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,89.9,Aluguel,16/12/2025,3,texto,Presente de Laura pago com cartão
+726,Mary Megas,Grupo informativo/formal,437,despesa,negocio,25,Transporte,16/12/2025,3,texto,Compra de bolo para o negócio
+727,Mary Megas,Grupo informativo/formal,437,despesa,negocio,7,Transporte,16/12/2025,3,texto,Compra de suco para o negócio
+799,Angélica Costa,Grupo Padrão/acolhedor,437,despesa,negocio,35,Outras Despesas,16/12/2025,2,texto,Manicure
+804,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,650,Outras Receitas,16/12/2025,3,texto,Entrada bolsa família
+805,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,20.8,Transporte,16/12/2025,3,texto,Trem
+806,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,19,Matéria Prima,16/12/2025,3,texto,Aviamentos
+808,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,447.8,Matéria Prima,16/12/2025,3,texto,Tecidos Vinatex
+809,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,35,Alimentação,16/12/2025,3,texto,Lanche
+817,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,20.99,Lazer/Informação,16/12/2025,3,texto,Pagamento shopping
+819,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,7.73,Alimentação,16/12/2025,3,texto,Pagamento padaria
+820,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,3,Saúde,16/12/2025,3,texto,Pagamento nutriles
+821,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,53.21,Saúde,16/12/2025,3,texto,Pagamento ultrafarma
+822,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,44.18,Matéria Prima,16/12/2025,3,texto,Pagamento armarim Fernando
+824,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,20,Outras Despesas,16/12/2025,3,texto,Pagamento maquiagem
+666,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,1556,Outras Receitas,15/12/2025,3,texto,Gastos pessoais para casa com cartão
+667,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,2100,Outras Despesas,15/12/2025,2,texto,Talhadora Arnita
+668,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,1518,Outras Despesas,15/12/2025,2,texto,Faz Tudo Silmara
+669,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,4020,Outras Despesas,15/12/2025,2,texto,Pagamento Costureira Célia
+670,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,159,Outras Despesas,15/12/2025,2,texto,Bordado Tania
+671,Monique Nascimento,Grupo Padrão/acolhedor,437,despesa,pessoal,900,Cartão de Crédito,15/12/2025,3,texto,Cartão 900;00 (parcial)
+672,Monique Nascimento,Grupo Padrão/acolhedor,437,despesa,pessoal,668.19,Cartão de Crédito,15/12/2025,3,texto,Parcela 668;19 empréstimo
+673,Monique Nascimento,Grupo Padrão/acolhedor,437,despesa,pessoal,1001.5,Cartão de Crédito,15/12/2025,3,texto,Cartão Itaú R$ 1.001;50
+674,Monique Nascimento,Grupo Padrão/acolhedor,437,despesa,pessoal,200,Cartão de Crédito,15/12/2025,3,texto,Cartão Itaú R$ 200;00
+675,Monique Nascimento,Grupo Padrão/acolhedor,437,despesa,pessoal,616.28,Cartão de Crédito,15/12/2025,3,texto,Cartão Itaú R$ 616;28
+676,Monique Nascimento,Grupo Padrão/acolhedor,437,receita,pessoal,150,Vendas,15/12/2025,3,texto,Guardado na caixinha
+677,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,5.69,Transporte,15/12/2025,2,texto,Transporte Circular
+678,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,25,Alimentação,15/12/2025,2,texto,Almoço
+679,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,23,Transporte,15/12/2025,2,texto,Transporte Sto Amaro
+736,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,receita,negocio,350,Outras Receitas,15/12/2025,3,texto,Entrada
+737,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,receita,negocio,650,Serviços,15/12/2025,3,texto,Consultoria
+739,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,1400,Outras Despesas,15/12/2025,3,texto,Prolabore
+823,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,29.11,Lazer/Informação,15/12/2025,3,texto,Pagamento shopping
+604,MaCecilia Nuñez,Grupo informativo/formal,437,receita,negocio,300,Vendas,14/12/2025,6,texto,Venda
+605,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,200,Outras Despesas,14/12/2025,6,texto,Despesa
+606,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,185.06,Outras Despesas,14/12/2025,3,texto,Retirada Vanessa
+615,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,10,Vendas,14/12/2025,3,texto,Venda Enjoei
+616,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,5.3,Outras Despesas,14/12/2025,3,texto,Taxa Enjoei
+654,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,195.6,Vendas,14/12/2025,3,texto,Venda WhatsApp PIX
+655,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,40,Outras Despesas,14/12/2025,3,texto,Pagamento domínio PIX
+656,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,10.5,Outras Despesas,14/12/2025,3,texto,Pagamento Nuvemshop PIX
+662,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,3,Transporte,14/12/2025,2,texto,Linha
+663,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,5.69,Outras Despesas,14/12/2025,2,texto,Cartão Transporte
+664,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,23,Transporte,14/12/2025,2,texto,Transporte Santo Amaro
+665,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,5.69,Transporte,14/12/2025,2,texto,Passagem Circular
+731,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,25,Transporte,14/12/2025,3,texto,Transporte
+798,Angélica Costa,Grupo Padrão/acolhedor,437,despesa,negocio,50,Outras Despesas,14/12/2025,2,texto,Produtos de beleza
+802,Angélica Costa,Grupo Padrão/acolhedor,437,despesa,negocio,200,Transporte,14/12/2025,2,texto,Gasolina
+599,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,32.97,Alimentação,13/12/2025,2,texto,Mercado
+600,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,152.07,Alimentação,13/12/2025,2,texto,Mercado
+601,Janiely,Grupo Controle,437,despesa,negocio,100,Outras Despesas,13/12/2025,2,texto,Empréstimo a Tio
+608,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,60,Outras Receitas,13/12/2025,3,texto,Empréstimo do pai
+610,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,5,Outras Despesas,13/12/2025,3,texto,Oferta
+611,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,37.29,Outras Despesas,13/12/2025,3,texto,Lanche
+614,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,106.57,Alimentação,13/12/2025,3,texto,Mercado
+800,Angélica Costa,Grupo Padrão/acolhedor,437,despesa,negocio,720,Lazer/Informação,13/12/2025,2,texto,Confraternização
+801,Angélica Costa,Grupo Padrão/acolhedor,437,despesa,negocio,1650,Lazer/Informação,13/12/2025,2,texto,Confraternização
+592,Livia Loregian,Grupo Padrão/acolhedor,437,despesa,negocio,80.33,Outras Despesas,12/12/2025,2,texto,Lançamento do dia 13 de dezembro
+593,Livia Loregian,Grupo Padrão/acolhedor,437,despesa,pessoal,72,Outras Despesas,12/12/2025,2,texto,Despesa pessoal
+594,Janiely,Grupo Controle,437,receita,negocio,513,Vendas,12/12/2025,2,texto,Vendas do Dia 13 de Dezembro
+595,Janiely,Grupo Controle,437,despesa,negocio,50,Outras Despesas,12/12/2025,2,texto,Pagamento de Areia
+596,Janiely,Grupo Controle,437,despesa,negocio,30,Outras Despesas,12/12/2025,2,texto,Pagamento para Igreja
+597,Janiely,Grupo Controle,437,receita,negocio,15,Outras Receitas,12/12/2025,2,texto,A receber de Panhio
+598,Janiely,Grupo Controle,437,despesa,negocio,83,Alimentação,12/12/2025,2,texto,Lanche
+607,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,10.4,Transporte,12/12/2025,3,texto,Trem
+609,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,22.9,Transporte,12/12/2025,3,texto,Uber
+612,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,40,Outras Despesas,12/12/2025,3,texto,Devolução Luisa
+613,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,22.9,Outras Despesas,12/12/2025,3,texto,Shopee
+552,Fernanda,Sem Grupo,443,despesa,pessoal,155,Outras Despesas,11/12/2025,6,texto,Shein (vestidos)
+564,SebelÃ­ Silvana Barbosa de Luna,Grupo Padrão/acolhedor,437,receita,negocio,40,Vendas,11/12/2025,1,texto,Vendas de pães de aveia/Inhame
+565,SebelÃ­ Silvana Barbosa de Luna,Grupo Padrão/acolhedor,437,receita,negocio,26,Vendas,11/12/2025,1,texto,Vendas de bolos na quentinha
+566,SebelÃ­ Silvana Barbosa de Luna,Grupo Padrão/acolhedor,437,receita,negocio,30,Vendas,11/12/2025,1,texto,Vendas de biscoito lolita
+567,Myckaella,Grupo Controle,437,despesa,negocio,97.5,Outras Despesas,11/12/2025,2,texto,Fornecedor
+568,Myckaella,Grupo Controle,437,despesa,negocio,72.46,Outras Despesas,11/12/2025,2,texto,Fornecedor
+569,Myckaella,Grupo Controle,437,despesa,negocio,494.5,Outras Despesas,11/12/2025,2,texto,Fornecedor
+570,Myckaella,Grupo Controle,437,despesa,negocio,200,Outras Despesas,11/12/2025,2,texto,Fornecedor
+571,Myckaella,Grupo Controle,437,despesa,negocio,140,Outras Despesas,11/12/2025,2,texto,Fornecedor
+572,Myckaella,Grupo Controle,437,despesa,negocio,266,Outras Despesas,11/12/2025,2,texto,Fornecedor
+573,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,1500,Aluguel,11/12/2025,2,texto,Aluguel
+574,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,400,Outras Despesas,11/12/2025,2,texto,Curso de inglês
+575,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,1472.5,Saúde,11/12/2025,2,texto,Dentista
+576,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,1274.74,Cartão de Crédito,11/12/2025,2,texto,Cartão de crédito
+577,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,100,Saúde,11/12/2025,2,texto,Psicóloga
+578,Livia Loregian,Grupo Padrão/acolhedor,437,despesa,negocio,61.33,Outras Despesas,11/12/2025,1,texto,DAS Dezembro
+579,Livia Loregian,Grupo Padrão/acolhedor,437,despesa,negocio,214.15,Outras Despesas,11/12/2025,1,texto,DAS Jan e Fev
+580,Livia Loregian,Grupo Padrão/acolhedor,437,despesa,negocio,64.69,Outras Despesas,11/12/2025,1,texto,Dívida ativa
+581,Livia Loregian,Grupo Padrão/acolhedor,437,despesa,negocio,32.72,Outras Despesas,11/12/2025,1,texto,Projeto empresa
+582,Livia Loregian,Grupo Padrão/acolhedor,437,despesa,negocio,29.58,Outras Despesas,11/12/2025,1,texto,Empresa
+583,Livia Loregian,Grupo Padrão/acolhedor,437,receita,pessoal,1000,Outras Despesas,11/12/2025,1,texto,Empréstimo Jucca
+584,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,32.95,Outras Despesas,11/12/2025,3,texto,Perfumaria
+585,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,56.79,Alimentação,11/12/2025,2,texto,Alimentação iFood
+586,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,224,Vendas,11/12/2025,3,texto,Venda WhatsApp - PIX
+587,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,30,Outras Despesas,11/12/2025,3,texto,Retirada Vanessa
+588,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,30,Outras Despesas,11/12/2025,3,texto,Guarda
+589,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,25,Outras Despesas,11/12/2025,2,texto,Sacos de lixo
+590,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,negocio,15,Transporte,11/12/2025,2,texto,Táxi empresa
+591,Rosieni dos Sântos,Grupo Padrão/acolhedor,437,despesa,pessoal,60,Saúde,11/12/2025,2,texto,Unhas pé e mão
+657,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,14,Transporte,11/12/2025,1,texto,Passagem Regional
+658,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,11.5,Transporte,11/12/2025,1,texto,Passagem
+659,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,9,Alimentação,11/12/2025,1,texto,Pastel
+660,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,13.2,Matéria Prima,11/12/2025,1,texto,Botões
+661,Elisetejaleco,Grupo Padrão/acolhedor,437,despesa,negocio,11.5,Transporte,11/12/2025,1,texto,Passagem de Volta Santo Amaro
+738,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,receita,negocio,500,Outras Receitas,11/12/2025,2,texto,Entrada
+797,Angélica Costa,Grupo Padrão/acolhedor,437,despesa,negocio,100,Transporte,11/12/2025,2,texto,Gasolina
+543,Alice Dourado,Grupo Padrão/acolhedor,437,receita,negocio,650,Vendas,10/12/2025,2,texto,Vendas do dia 10/12
+544,Alice Dourado,Grupo Padrão/acolhedor,437,despesa,negocio,100,Transporte,10/12/2025,2,texto,Uber dia 10/12
+545,Alice Dourado,Grupo Padrão/acolhedor,437,despesa,negocio,30,Outras Despesas,10/12/2025,2,texto,Outros gastos dia 10/12
+546,Alice Dourado,Grupo Padrão/acolhedor,437,receita,negocio,1000,Vendas,10/12/2025,2,texto,Fechamento vendas dia 10/12
+554,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,15,Outras Despesas,10/12/2025,2,texto,Recarga TIM
+555,SebelÃ­ Silvana Barbosa de Luna,Grupo Padrão/acolhedor,437,despesa,negocio,80,Aluguel,10/12/2025,1,texto,Aluguel de barraca
+556,SebelÃ­ Silvana Barbosa de Luna,Grupo Padrão/acolhedor,437,receita,negocio,130,Vendas,10/12/2025,1,texto,Retorno do evento
+557,SebelÃ­ Silvana Barbosa de Luna,Grupo Padrão/acolhedor,437,despesa,negocio,49,Matéria Prima,10/12/2025,1,texto,Material de evento
+558,Myckaella,Grupo Controle,437,despesa,negocio,150,Outras Despesas,10/12/2025,2,texto,Pagamento UpSeller
+559,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,70,Transporte,10/12/2025,2,texto,Gasolina
+561,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,1514,Outras Receitas,10/12/2025,2,texto,Despesas da casa
+562,Mary Megas,Grupo informativo/formal,437,despesa,negocio,805,Transporte,10/12/2025,2,texto,Despesas da loja
+563,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,990,Aluguel,10/12/2025,2,texto,Despesas pessoais de Mary
+730,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,25,Transporte,10/12/2025,2,texto,Transporte
+522,Janiely,Grupo Controle,437,despesa,negocio,23,Outras Despesas,09/12/2025,1,texto,Saída de Caixa
+523,Janiely,Grupo Controle,437,despesa,negocio,5,Outras Despesas,09/12/2025,1,texto,Saída de Caixa
+524,Janiely,Grupo Controle,437,receita,negocio,170,Vendas,09/12/2025,1,texto,Entrada de Caixa
+525,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,74.22,Outras Despesas,09/12/2025,2,texto,Retirada Vanessa
+526,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,5.2,Transporte,09/12/2025,2,texto,Trem
+527,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,15,Outras Despesas,09/12/2025,2,texto,Frete
+528,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,45.72,Alimentação,09/12/2025,2,texto,Mercado
+529,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,23.3,Transporte,09/12/2025,2,texto,Uber
+536,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,negocio,150,Alimentação,09/12/2025,2,texto,Compra para a cozinha de marmitas
+537,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,350,Outras Despesas,09/12/2025,2,texto,Despesas da casa
+538,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,21,Outras Despesas,09/12/2025,2,texto,Retirada Vanessa
+539,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,21,Outras Despesas,09/12/2025,2,texto,Sorvete
+541,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,137,Matéria Prima,09/12/2025,2,texto,Compra de resina (Nubank)
+542,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,50,Matéria Prima,09/12/2025,2,texto,Peças chinesas
+735,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,pessoal,237.32,Saúde,09/12/2025,2,texto,Plano de Saúde
+511,Janiely,Grupo Controle,437,receita,negocio,800,Outras Receitas,08/12/2025,1,texto,Empréstimo para Completar Frangos
+512,Janiely,Grupo Controle,437,despesa,negocio,1416,Matéria Prima,08/12/2025,1,texto,Compra de Frangos para Sábado e Domingo
+513,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,394.59,Outras Despesas,08/12/2025,2,texto,Reembolso venda Elo7
+540,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,400.31,Cartão de Crédito,08/12/2025,2,texto,Pagamento Cartão Atacadão
+550,Fernanda,Sem Grupo,443,despesa,pessoal,100,Transporte,08/12/2025,5,texto,Gasolina
+492,Janiely,Grupo Controle,437,despesa,negocio,105,Outras Despesas,07/12/2025,1,texto,Saída de Caixa
+493,Janiely,Grupo Controle,437,despesa,negocio,75,Outras Despesas,07/12/2025,1,texto,Saída de Caixa
+494,Janiely,Grupo Controle,437,despesa,negocio,62.74,Outras Despesas,07/12/2025,1,texto,Saída de Caixa
+495,Janiely,Grupo Controle,437,despesa,negocio,31.9,Outras Despesas,07/12/2025,1,texto,Saída de Caixa
+503,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,224,Vendas,07/12/2025,2,texto,Venda via Instagram - PIX
+506,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,25,Outras Despesas,07/12/2025,2,texto,Superfrete
+507,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,40,Outras Despesas,07/12/2025,2,texto,Superfrete
+508,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,6.84,Outras Despesas,07/12/2025,2,texto,Padaria
+509,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,154.2,Alimentação,07/12/2025,2,texto,Mercado
+510,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,400,Outras Receitas,07/12/2025,2,texto,Pensão Luisa
+530,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,249,Cartão de Crédito,07/12/2025,2,texto,Pagamento cartão PF
+531,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,1147,Cartão de Crédito,07/12/2025,2,texto,Pagamento empréstimo PF
+532,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,869,Cartão de Crédito,07/12/2025,2,texto,Pagamento cartão PJ
+449,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,negocio,300,Serviços,06/12/2025,2,texto,Recebimento por serviços prestados
+450,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,35.79,Alimentação,06/12/2025,2,texto,Alimentação no cartão - pessoal
+451,Borges,Sem Grupo,443,despesa,pessoal,64.24,Outras Despesas,06/12/2025,6,texto,Mercadolivre*Fisiacom - Parcela 4/4
+452,Borges,Sem Grupo,443,despesa,pessoal,35.27,Saúde,06/12/2025,6,texto,Panvel Filial
+453,Borges,Sem Grupo,443,despesa,pessoal,50,Transporte,06/12/2025,6,texto,Auto Posto São Cristov
+454,Borges,Sem Grupo,443,despesa,pessoal,16,Transporte,06/12/2025,6,texto,Allpark Floripa Shop
+455,Borges,Sem Grupo,443,despesa,pessoal,67.47,Outras Despesas,06/12/2025,6,texto,Shopee *Clickcasautil - Parcela 2/2
+456,Borges,Sem Grupo,443,despesa,pessoal,30,Alimentação,06/12/2025,6,texto,Milky Moo
+457,Borges,Sem Grupo,443,despesa,pessoal,314.05,Alimentação,06/12/2025,6,texto,CVL Restaurante
+458,Borges,Sem Grupo,443,despesa,pessoal,5,Outras Despesas,06/12/2025,6,texto,Riachuelo
+459,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,37.9,Alimentação,06/12/2025,2,texto,Alimentação no cartão - pessoal
+460,Janiely,Grupo Controle,437,receita,negocio,32,Vendas,06/12/2025,1,texto,Venda de Pães de Alho
+461,Janiely,Grupo Controle,437,receita,negocio,1560,Vendas,06/12/2025,1,texto,Venda de Frangos Tradicionais
+462,Janiely,Grupo Controle,437,receita,negocio,30,Vendas,06/12/2025,1,texto,Venda de Torresmos
+463,Janiely,Grupo Controle,437,receita,negocio,88,Vendas,06/12/2025,1,texto,Venda de Mantas Assadas
+464,Janiely,Grupo Controle,437,receita,negocio,46,Vendas,06/12/2025,1,texto,Venda de Frango Gratinado
+465,Janiely,Grupo Controle,437,receita,negocio,15,Vendas,06/12/2025,1,texto,Venda de Farofas da Casa
+466,Janiely,Grupo Controle,437,despesa,negocio,470,Outras Despesas,06/12/2025,1,texto,Pagamento de Funcionários
+467,Janiely,Grupo Controle,437,despesa,negocio,32,Outras Despesas,06/12/2025,1,texto,Retirada de Caixa
+468,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,110,Outras Receitas,06/12/2025,2,texto,Empréstimo do pai
+469,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,110,Transporte,06/12/2025,2,texto,Gasolina
+470,Amanda Santos,Grupo informativo/formal,437,receita,negocio,25,Serviços,06/12/2025,1,texto,Serviços para Soane Sampaio
+471,Amanda Santos,Grupo informativo/formal,437,receita,negocio,25,Serviços,06/12/2025,1,texto,Serviços para Dielem Luz
+472,Amanda Santos,Grupo informativo/formal,437,receita,negocio,25,Serviços,06/12/2025,1,texto,Retoque para Alane
+473,Amanda Santos,Grupo informativo/formal,437,receita,negocio,25,Serviços,06/12/2025,1,texto,Serviços para Deri
+474,Amanda Santos,Grupo informativo/formal,437,receita,negocio,55,Serviços,06/12/2025,1,texto,Serviços para Carita Oliveira
+475,Amanda Santos,Grupo informativo/formal,437,receita,negocio,155,Serviços,06/12/2025,1,texto,Serviços para Tailane
+476,Amanda Santos,Grupo informativo/formal,437,receita,negocio,40,Serviços,06/12/2025,1,texto,Serviços para Dielem Luz sogra
+477,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,12.99,Matéria Prima,06/12/2025,1,texto,Henna para Design de Sobrancelhas
+478,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,14.03,Matéria Prima,06/12/2025,1,texto,10 Fitas Transpore Adesiva Transparente
+479,Amanda Santos,Grupo informativo/formal,437,despesa,negocio,18.2,Matéria Prima,06/12/2025,1,texto,Kit 12 Rolos Fita de Estilo Japonês
+480,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,100,Serviços,06/12/2025,2,texto,Vendas do negócio
+481,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,180,Serviços,06/12/2025,2,texto,Vendas do negócio
+482,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,360,Outras Despesas,06/12/2025,2,texto,Despesa pessoal
+483,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,170,Outras Despesas,06/12/2025,2,texto,Despesa pessoal
+484,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,1500,Cartão de Crédito,06/12/2025,2,texto,Pagamento de empréstimo
+485,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,210,Outras Despesas,06/12/2025,2,texto,Despesa pessoal
+486,Janiely,Grupo Controle,437,despesa,negocio,45,Outras Despesas,06/12/2025,1,texto,Saída de Caixa
+487,Janiely,Grupo Controle,437,despesa,negocio,75,Outras Despesas,06/12/2025,1,texto,Saída de Caixa
+488,Janiely,Grupo Controle,437,despesa,negocio,10,Outras Despesas,06/12/2025,1,texto,Saída de Caixa
+489,Milena SÃ¡ ,Grupo informativo/formal,437,despesa,negocio,15,Transporte,06/12/2025,2,texto,Transporte
+490,Alice Dourado,Grupo Padrão/acolhedor,437,receita,negocio,350,Vendas,06/12/2025,2,texto,Pedido de venda
+491,Alice Dourado,Grupo Padrão/acolhedor,437,despesa,negocio,30,Transporte,06/12/2025,2,texto,Entrega
+497,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,15,Outras Despesas,06/12/2025,2,texto,Recarga celular Loja Tim
+498,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,7,Outras Despesas,06/12/2025,2,texto,Oferta Igreja
+499,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,30.15,Outras Receitas,06/12/2025,2,texto,Empréstimo do pai usado para pagamento de açougue
+500,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,30,Outras Receitas,06/12/2025,2,texto,Empréstimo do pai usado para gasolina no dia 07/12
+501,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,17.91,Outras Despesas,06/12/2025,2,texto,Taxa cartão de crédito Infinitypay
+502,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,255.5,Vendas,06/12/2025,2,texto,Venda via link Infinitypay
+504,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,394.69,Vendas,06/12/2025,2,texto,Venda Elo7_Sonhosdeluu
+505,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,102.95,Outras Despesas,06/12/2025,2,texto,Taxa Elo7
+533,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,300,Vendas,06/12/2025,2,texto,Evento 07/12
+416,Ana,Grupo informativo/formal,437,receita,negocio,209,Vendas,05/12/2025,1,texto,Venda Kit Festa
+417,Ana,Grupo informativo/formal,437,receita,negocio,170,Vendas,05/12/2025,1,texto,Venda Bolo 20cm
+418,Ana,Grupo informativo/formal,437,receita,negocio,77.5,Vendas,05/12/2025,1,texto,Venda Kit Coxinha
+419,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,450,Outras Receitas,05/12/2025,1,texto,Receita de Fevereiro
+420,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,292,Outras Receitas,05/12/2025,1,texto,Receita de Março
+421,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,120,Outras Receitas,05/12/2025,1,texto,Receita de Janeiro
+422,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,120,Outras Receitas,05/12/2025,1,texto,Receita de Maio
+423,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,120,Outras Receitas,05/12/2025,1,texto,Receita de Abril
+424,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,205,Outras Receitas,05/12/2025,1,texto,Receita de Setembro
+425,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,240,Outras Receitas,05/12/2025,1,texto,Receita de Agosto
+426,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,250,Outras Receitas,05/12/2025,1,texto,Receita de Junho
+427,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,75,Outras Receitas,05/12/2025,1,texto,Receita de Julho
+428,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,240,Outras Receitas,05/12/2025,1,texto,Receita de Outubro
+429,Marilia pereira Ramos,Grupo Padrão/acolhedor,437,receita,pessoal,240,Outras Receitas,05/12/2025,1,texto,Receita de Novembro
+430,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,5.5,Transporte,05/12/2025,2,texto,Transporte - negócio
+431,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,14.5,Transporte,05/12/2025,2,texto,Transporte no cartão - negócio
+432,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,600,Saúde,05/12/2025,2,texto,Terapia pessoal
+433,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,negocio,1350,Serviços,05/12/2025,2,texto,Recebimento por serviços prestados no negócio
+434,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,10.2,Transporte,05/12/2025,2,texto,Trem
+435,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,pessoal,100,Outras Receitas,05/12/2025,2,texto,Presente recebido
+436,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,6,Outras Despesas,05/12/2025,2,texto,Lanche
+437,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,9.94,Transporte,05/12/2025,2,texto,Uber
+438,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,16,Cartão de Crédito,05/12/2025,2,texto,Pagamento fatura cartão de crédito 2
+439,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,negocio,480,Serviços,05/12/2025,2,texto,Recebimento por serviços prestados
+440,Janiely,Grupo Controle,437,receita,negocio,760,Vendas,05/12/2025,1,texto,Venda de Frangos Tradicionais
+441,Janiely,Grupo Controle,437,receita,negocio,46,Vendas,05/12/2025,1,texto,Venda de Frango Gratinado
+442,Janiely,Grupo Controle,437,receita,negocio,5,Vendas,05/12/2025,1,texto,Venda de Torresmo
+443,Janiely,Grupo Controle,437,receita,negocio,10,Vendas,05/12/2025,1,texto,Venda de Farofas
+444,Janiely,Grupo Controle,437,receita,negocio,10,Vendas,05/12/2025,1,texto,Venda de Sal de Parrilha
+445,Janiely,Grupo Controle,437,despesa,negocio,150,Outras Despesas,05/12/2025,1,texto,Saída de Caixa
+446,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,59.9,Serviços,05/12/2025,2,texto,Serviço no cartão - negócio
+447,Janiely,Grupo Controle,437,despesa,negocio,100,Outras Despesas,05/12/2025,1,texto,Saída de Caixa Adicional
+448,Janiely,Grupo Controle,437,despesa,negocio,25,Outras Despesas,05/12/2025,1,texto,Frete da Churrasqueira
+496,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,7.73,Outras Despesas,05/12/2025,2,texto,Padaria
+534,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,400,Vendas,05/12/2025,2,texto,Evento 06/12
+395,Borges,Sem Grupo,443,despesa,pessoal,20,Outras Despesas,04/12/2025,5,texto,Macacão para kart
+396,Borges,Sem Grupo,443,despesa,pessoal,33.3,Alimentação,04/12/2025,5,texto,Racha da pizza
+397,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,421,Matéria Prima,04/12/2025,1,texto,Insumos para Papoula's
+399,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,100,Outras Receitas,04/12/2025,2,texto,Empréstimo do pai
+400,Borges,Sem Grupo,443,despesa,pessoal,12.9,Lazer/Informação,04/12/2025,5,texto,Spotify
+401,Janiely,Grupo Controle,437,despesa,negocio,470,Outras Despesas,04/12/2025,0,texto,Salário dos Funcionários Semana
+402,Janiely,Grupo Controle,437,despesa,negocio,250,Aluguel,04/12/2025,0,texto,Aluguel Semanal
+403,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,8.32,Outras Despesas,04/12/2025,2,texto,Padaria
+404,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,15,Outras Despesas,04/12/2025,2,texto,Frete Correios
+405,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,23.32,Outras Despesas,04/12/2025,2,texto,Transferência para Negócio
+406,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,23.32,Outras Receitas,04/12/2025,2,texto,Transferência do Pessoal
+407,Isis Camargo ,Grupo Controle,437,despesa,negocio,200,Outras Despesas,04/12/2025,1,texto,Despesa de estudo de inglês
+408,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,13.3,Outras Receitas,04/12/2025,2,texto,Transferência do Pessoal
+409,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,13.3,Outras Despesas,04/12/2025,2,texto,Transferência para Negócio
+410,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,59,Outras Despesas,04/12/2025,2,texto,Nuvem Shopping - Mensalidade
+411,Karen Serafim,Grupo informativo/formal,437,receita,pessoal,3000,Serviços,04/12/2025,0,texto,Receita de Serviço
+412,Karen Serafim,Grupo informativo/formal,437,despesa,pessoal,280,Aluguel,04/12/2025,0,texto,Conta de luz
+413,Karen Serafim,Grupo informativo/formal,437,despesa,pessoal,300,Transporte,04/12/2025,0,texto,Passagem
+414,Karen Serafim,Grupo informativo/formal,437,despesa,pessoal,300,Lazer/Informação,04/12/2025,0,texto,Fatura de internet; TV e celular
+415,Isis Camargo ,Grupo Controle,437,despesa,pessoal,38,Transporte,04/12/2025,1,texto,Corrida de Uber
+514,Mary Megas,Grupo informativo/formal,437,despesa,negocio,2500,Matéria Prima,04/12/2025,1,texto,Aluguel
+515,Mary Megas,Grupo informativo/formal,437,despesa,negocio,1363,Matéria Prima,04/12/2025,1,texto,Salário mensal
+516,Mary Megas,Grupo informativo/formal,437,despesa,negocio,1212,Matéria Prima,04/12/2025,1,texto,Pagamento Fabíola
+517,Mary Megas,Grupo informativo/formal,437,despesa,negocio,22.4,Matéria Prima,04/12/2025,1,texto,Transporte de Leide
+518,Mary Megas,Grupo informativo/formal,437,despesa,negocio,1630,Matéria Prima,04/12/2025,1,texto,Pagamento Viviane
+519,Mary Megas,Grupo informativo/formal,437,despesa,negocio,805,Matéria Prima,04/12/2025,1,texto,Transporte de Bete
+520,Mary Megas,Grupo informativo/formal,437,despesa,negocio,157,Matéria Prima,04/12/2025,1,texto,IPTU
+521,Mary Megas,Grupo informativo/formal,437,despesa,negocio,25,Matéria Prima,04/12/2025,1,texto,Café
+535,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,300,Vendas,04/12/2025,1,texto,Evento 05/12
+732,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,receita,negocio,105,Outras Receitas,04/12/2025,1,texto,Entrada
+358,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,despesa,negocio,50,Matéria Prima,03/12/2025,1,texto,Compra de material no Mercado Livre (pago no Pix)
+359,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,despesa,negocio,256.12,Matéria Prima,03/12/2025,1,texto,Compra de material no Mercado Livre (pagamento programado para 25/12/2025)
+360,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,180,Saúde,03/12/2025,1,texto,Veterinário
+361,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,37,Outras Despesas,03/12/2025,1,texto,Reparos na casa
+362,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,44,Outras Despesas,03/12/2025,1,texto,Reparos na casa
+363,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,8.5,Alimentação,03/12/2025,1,texto,Sorvete
+364,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,20,Outras Despesas,03/12/2025,1,texto,Sublimação
+365,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,despesa,negocio,50,Matéria Prima,03/12/2025,1,texto,Pagamento de compra no Mercado Livre por Pix
+366,Borges,Sem Grupo,443,despesa,pessoal,10,Alimentação,03/12/2025,5,texto,Lanchonete Norte Ilha
+367,Borges,Sem Grupo,443,despesa,pessoal,24.97,Alimentação,03/12/2025,5,texto,Ifd*55.442.195 Viniciu
+368,Borges,Sem Grupo,443,despesa,pessoal,8,Alimentação,03/12/2025,5,texto,Degustar Premier
+369,Borges,Sem Grupo,443,despesa,pessoal,20.7,Transporte,03/12/2025,5,texto,99app
+370,Isis Camargo ,Grupo Controle,437,despesa,pessoal,597.73,Cartão de Crédito,03/12/2025,1,texto,Pagamento fatura cartão Nubank; despesas casa
+371,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,pessoal,100,Serviços,03/12/2025,1,texto,Recebimento - Clínica (cobrir cheque especial)
+372,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,negocio,100,Serviços,03/12/2025,1,texto,Recebimento - Clínica (serviço do negócio)
+373,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,25,Serviços,03/12/2025,1,texto,Pagamento serviço do negócio
+375,Borges,Grupo informativo/formal,2,despesa,pessoal,58.32,Alimentação,03/12/2025,3,texto,V A C U N O Sapiens Pa
+377,Borges,Grupo informativo/formal,2,despesa,pessoal,19.9,Cartão de Crédito,03/12/2025,3,texto,Apple.Com/Bill
+385,Borges,Grupo informativo/formal,2,despesa,pessoal,15,Alimentação,03/12/2025,3,texto,Zp*Restaurante Bario
+389,Isis Camargo ,Grupo Controle,437,despesa,pessoal,248.96,Outras Despesas,03/12/2025,1,texto,Despesa casa; CPFL
+390,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,137.5,Aluguel,03/12/2025,1,texto,Pagamento energia elétrica
+391,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,39,Saúde,03/12/2025,1,texto,Compra na farmácia no cartão
+392,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,negocio,240,Serviços,03/12/2025,1,texto,Recebimento por serviços prestados
+393,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,216.14,Outras Despesas,03/12/2025,1,texto,Pagamento de imposto de negócio
+394,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,16.32,Transporte,03/12/2025,1,texto,Transporte no cartão
+733,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,despesa,negocio,50,Transporte,03/12/2025,1,texto,Transporte
+734,BÃ¡rbara Aparecida de Moura Brainer,Grupo informativo/formal,437,receita,negocio,590,Serviços,03/12/2025,1,texto,Consultoria
+315,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,negocio,150,Serviços,02/12/2025,1,texto,Recebimento semanal - Clínica
+316,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,1300,Cartão de Crédito,02/12/2025,1,texto,Pagamento fatura cartão
+317,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,167.78,Cartão de Crédito,02/12/2025,1,texto,Pagamento parte negócio no cartão
+320,Deborah de Oliveira ,Grupo Padrão/acolhedor,437,receita,negocio,230,Vendas,02/12/2025,1,texto,Venda de 4 colares; 2 brincos e 1 tiara na feira em Brasília
+321,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,22.36,Lazer/Informação,02/12/2025,1,texto,Compra de livro no cartão - parte para negócio
+322,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,22.36,Lazer/Informação,02/12/2025,1,texto,Compra de livro no cartão - parte pessoal
+323,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,59.79,Saúde,02/12/2025,1,texto,Compra na farmácia no cartão
+324,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,41.19,Aluguel,02/12/2025,1,texto,Compra escada - 1ª parcela no cartão
+325,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,2585.12,Cartão de Crédito,02/12/2025,1,texto,Gastos futuros no cartão de crédito
+326,Andrea Martins dos Santos ,Grupo Padrão/acolhedor,437,despesa,negocio,38.2,Alimentação,02/12/2025,1,texto,Compras Supermercado Extra
+327,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,receita,pessoal,70,Serviços,02/12/2025,1,texto,Recebimento - Clínica
+328,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,51.89,Alimentação,02/12/2025,1,texto,Gasto alimentação no cartão
+329,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,10.2,Transporte,02/12/2025,1,texto,Trem
+330,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,99.95,Matéria Prima,02/12/2025,1,texto,Vinatex
+331,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,508.35,Matéria Prima,02/12/2025,1,texto,Tecido Cabo Verde - Material
+332,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,8.96,Transporte,02/12/2025,1,texto,Uber
+333,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,40.45,Matéria Prima,02/12/2025,1,texto,Aviamentos
+334,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,130,Outras Receitas,02/12/2025,1,texto,Empréstimo do pai
+335,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,44.87,Outras Despesas,02/12/2025,1,texto,Retirada Vanessa
+336,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,44.87,Outras Despesas,02/12/2025,1,texto,Armarinho Fernando
+338,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,45.56,Alimentação,02/12/2025,1,texto,Mercado Nagumo
+340,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,48,Alimentação,02/12/2025,1,texto,Despesa de alimentação
+341,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,17,Alimentação,02/12/2025,1,texto,Despesa de alimentação
+342,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,285,Vendas,02/12/2025,1,texto,Venda online
+343,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,11.16,Transporte,02/12/2025,1,texto,Uber - 03/12; débito automático
+344,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,6.94,Transporte,02/12/2025,1,texto,Uber - 03/12; débito automático
+345,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,8.22,Transporte,02/12/2025,1,texto,Uber - 03/12; débito automático
+346,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,22.7,Transporte,02/12/2025,1,texto,Uber - 01/12
+347,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,38.21,Transporte,02/12/2025,1,texto,Uber - 01/12
+348,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,27.68,Transporte,02/12/2025,1,texto,Uber - 01/12
+349,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,9.64,Transporte,02/12/2025,1,texto,Uber - 01/12
+351,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,4.43,Transporte,02/12/2025,1,texto,Uber - 01/12
+352,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,11,Outras Despesas,02/12/2025,1,texto,Gasto não especificado - 01/12
+353,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,0.38,Outras Despesas,02/12/2025,1,texto,Juros excesso limite conta - 01/12
+354,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,9.9,Outras Despesas,02/12/2025,1,texto,KIWIFY - 01/12
+355,Gabriela Silveira,Grupo Controle,437,despesa,pessoal,26.96,Transporte,02/12/2025,1,texto,Uber - 03/12
+356,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,receita,negocio,1660.52,Vendas,02/12/2025,1,texto,Venda ao cliente Junior de Salesópolis
+357,Camila Ferreira de Morais,Grupo Padrão/acolhedor,437,despesa,negocio,1191.47,Matéria Prima,02/12/2025,1,texto,Compra de material na Eletroleste
+374,Borges,Grupo informativo/formal,2,despesa,pessoal,37.87,Alimentação,02/12/2025,3,texto,Super Rio
+376,Borges,Grupo informativo/formal,2,despesa,pessoal,10,Alimentação,02/12/2025,3,texto,Lanchonete Norte Ilha
+382,Borges,Grupo informativo/formal,2,despesa,pessoal,20.7,Transporte,02/12/2025,3,texto,99app *99app
+383,Borges,Grupo informativo/formal,2,despesa,pessoal,19.8,Transporte,02/12/2025,3,texto,Di*99 Ride
+387,Borges,Grupo informativo/formal,2,despesa,pessoal,8,Alimentação,02/12/2025,3,texto,Degustar Premier
+266,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,100,Outras Despesas,01/12/2025,1,texto,Dízimo do negócio
+267,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,450,Outras Despesas,01/12/2025,1,texto,Cobertura da garagem
+268,Lidy Castro,Grupo Controle,437,receita,negocio,60,Vendas,01/12/2025,1,texto,Venda
+269,Lidy Castro,Grupo Controle,437,despesa,negocio,28,Outras Despesas,01/12/2025,1,texto,Despesa de negócio
+270,Lidy Castro,Grupo Controle,437,despesa,negocio,57.5,Outras Despesas,01/12/2025,1,texto,Despesa do negócio
+275,Lidy Castro,Grupo Controle,437,receita,negocio,25,Vendas,01/12/2025,1,texto,Venda via Pix
+276,Lidy Castro,Grupo Controle,437,receita,negocio,40,Vendas,01/12/2025,1,texto,Venda
+278,Borges,Sem Grupo,443,despesa,pessoal,15,Alimentação,01/12/2025,5,texto,Zp*Restaurante Bario
+279,Borges,Sem Grupo,443,despesa,pessoal,37.87,Alimentação,01/12/2025,5,texto,Super Rio
+280,Borges,Sem Grupo,443,despesa,pessoal,77.14,Alimentação,01/12/2025,5,texto,Varanda das Meninas
+281,Borges,Sem Grupo,443,despesa,pessoal,19.8,Transporte,01/12/2025,5,texto,Dl*99 Ride
+282,Borges,Sem Grupo,443,despesa,pessoal,58.32,Alimentação,01/12/2025,5,texto,V A C U N O Sapiens Pa
+283,Borges,Sem Grupo,443,despesa,pessoal,33.76,Transporte,01/12/2025,5,texto,Uber *Trip Help.U
+284,Borges,Sem Grupo,443,despesa,pessoal,19.9,Lazer/Informação,01/12/2025,5,texto,Apple.Com//Bill
+285,Borges,Sem Grupo,443,despesa,pessoal,67.47,Outras Despesas,01/12/2025,5,texto,Shopee *Clickcasautil
+286,Borges,Sem Grupo,443,receita,pessoal,33,Outras Receitas,01/12/2025,5,texto,Pix de Braian João Menezes Alexa...
+287,Borges,Sem Grupo,443,receita,pessoal,54,Outras Receitas,01/12/2025,5,texto,Pix de Lidiane Borges de Oliveira
+288,Borges,Sem Grupo,443,receita,pessoal,270,Outras Receitas,01/12/2025,5,texto,Pix de João Paulo Freitas do Carmo
+289,Borges,Sem Grupo,443,despesa,pessoal,270,Outras Despesas,01/12/2025,5,texto,Pix enviado para João Paulo Freitas do Carmo - Compra de camisa
+290,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,20,Outras Despesas,01/12/2025,1,texto,Despesa particular
+296,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,726,Vendas,01/12/2025,1,texto,Venda e-mail
+297,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,69.53,Outras Despesas,01/12/2025,1,texto,Retirada Vanessa
+298,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,19.96,Outras Despesas,01/12/2025,1,texto,UOL Domínio - parcela 2/3
+299,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,39.34,Outras Despesas,01/12/2025,1,texto,Kit Pincel Tik Tok - Parc 2/2
+300,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,49.86,Outras Despesas,01/12/2025,1,texto,Avon - parcela 1/2
+301,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,11,Outras Despesas,01/12/2025,1,texto,Retirada Vanessa
+302,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,11,Outras Despesas,01/12/2025,1,texto,Lanche
+309,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,185,Outras Receitas,01/12/2025,1,texto,Entrada Vale Alimentação Cartão Caju
+310,Andrea Martins dos Santos ,Grupo Padrão/acolhedor,437,despesa,pessoal,18,Alimentação,01/12/2025,1,texto,Almoço
+311,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,10,Outras Despesas,01/12/2025,1,texto,Compra de entretela
+312,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,262.91,Outras Despesas,01/12/2025,1,texto,Seguro do carro
+313,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,120,Outras Despesas,01/12/2025,1,texto,Banho e tosa Fiel
+314,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,1100,Vendas,01/12/2025,1,texto,Vendas expo África
+337,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,56.56,Outras Despesas,01/12/2025,1,texto,Retirada Vanessa
+339,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,10,Outras Despesas,01/12/2025,1,texto,Padaria
+379,Borges,Grupo informativo/formal,2,receita,pessoal,54,Outras Receitas,01/12/2025,3,texto,Lidiane Borges de Oliveira
+380,Borges,Grupo informativo/formal,2,despesa,pessoal,24.97,Outras Despesas,01/12/2025,3,texto,Ifd*55.442.195 Viniciu
+381,Borges,Grupo informativo/formal,2,despesa,pessoal,33.76,Transporte,01/12/2025,3,texto,Uber Uber*Trip Help.U
+386,Borges,Grupo informativo/formal,2,despesa,pessoal,134.94,Alimentação,01/12/2025,3,texto,Shopee *Clickcasautil
+388,Borges,Grupo informativo/formal,2,despesa,pessoal,77.14,Alimentação,01/12/2025,3,texto,Varanda das Meninas
+251,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,185,Saúde,30/11/2025,1,texto,Aula de Pilates
+252,Lidy Castro,Grupo Controle,437,receita,negocio,102.5,Vendas,30/11/2025,1,texto,Venda
+253,Lidy Castro,Grupo Controle,437,receita,negocio,312.91,Outras Receitas,30/11/2025,1,texto,Saldo inicial
+254,Lidy Castro,Grupo Controle,437,receita,negocio,60,Vendas,30/11/2025,1,texto,Vendas
+255,Lidy Castro,Grupo Controle,437,despesa,negocio,25,Matéria Prima,30/11/2025,1,texto,Sacola e bola acrílica
+256,Lidy Castro,Grupo Controle,437,receita,negocio,30,Vendas,30/11/2025,1,texto,Venda
+257,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,60,Alimentação,30/11/2025,1,texto,Compras no mercado para casa
+258,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,negocio,20,Alimentação,30/11/2025,1,texto,Compras no mercado para negócio
+259,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,78,Serviços,30/11/2025,1,texto,Receita do negócio
+260,Lidy Castro,Grupo Controle,437,receita,negocio,45,Vendas,30/11/2025,1,texto,Venda
+261,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,1300,Transporte,30/11/2025,1,texto,Prestação do carro
+262,Isis Camargo ,Grupo Controle,437,receita,pessoal,6515,Serviços,30/11/2025,1,texto,Valor recebido da empresa Eduzz
+263,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,271.23,Outras Despesas,30/11/2025,1,texto,Negociação do banco Bradesco
+264,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,100,Outras Despesas,30/11/2025,1,texto,Dízimo
+265,Isis Camargo ,Grupo Controle,437,despesa,pessoal,74.93,Cartão de Crédito,30/11/2025,1,texto,Despesa casa; cartão de crédito Nubank
+291,Edna Goulart,Grupo Padrão/acolhedor,437,despesa,negocio,2000,Aluguel,30/11/2025,1,texto,Aluguel
+292,Edna Goulart,Grupo Padrão/acolhedor,437,despesa,negocio,100,Transporte,30/11/2025,1,texto,Transporte
+293,Edna Goulart,Grupo Padrão/acolhedor,437,despesa,negocio,1200,Matéria Prima,30/11/2025,1,texto,Fornecedor
+294,Edna Goulart,Grupo Padrão/acolhedor,437,despesa,negocio,70.5,Alimentação,30/11/2025,1,texto,Alimentação
+303,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,51,Outras Receitas,30/11/2025,1,texto,Entrada pai
+304,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,30,Transporte,30/11/2025,1,texto,Gasolina
+305,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,11,Outras Despesas,30/11/2025,1,texto,Lanche
+306,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,10,Outras Despesas,30/11/2025,1,texto,Padaria
+307,Vanessa de Araujo,Grupo informativo/formal,437,receita,pessoal,13.5,Outras Receitas,30/11/2025,1,texto,Entrada pai
+308,Vanessa de Araujo,Grupo informativo/formal,437,despesa,pessoal,13.5,Outras Despesas,30/11/2025,1,texto,Tico
+223,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,349.1,Outras Despesas,29/11/2025,1,texto,Parcelamento Stephanie
+224,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,87.27,Outras Despesas,29/11/2025,1,texto,Parcela Stephanie 1/3
+225,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,87.27,Outras Despesas,29/11/2025,1,texto,Parcela Stephanie 2/3
+226,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,87.27,Outras Despesas,29/11/2025,1,texto,Parcela Stephanie 3/3
+227,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,31,Transporte,29/11/2025,1,texto,Frete Uber
+228,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,26.9,Outras Despesas,29/11/2025,1,texto,Pagamento agendado 15/12
+229,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,261.1,Outras Despesas,29/11/2025,1,texto,Pagamento agendado 5º dia útil
+230,Lais Chumen ,Grupo Padrão/acolhedor,437,despesa,negocio,242.1,Outras Despesas,29/11/2025,1,texto,Pagamento agendado 5º dia útil
+231,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,21.14,Vendas,29/11/2025,1,texto,Galão para acabamento em roupas
+232,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,13,Vendas,29/11/2025,1,texto,Lia Tecidos
+233,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,29.85,Vendas,29/11/2025,1,texto,N.A. Comercial Ltda
+234,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,13,Vendas,29/11/2025,1,texto,Comércio de Produtos de Limpeza
+235,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,43.06,Vendas,29/11/2025,1,texto,Becel
+236,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,35,Vendas,29/11/2025,1,texto,Lunchemnt Styler Ltda
+237,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,42.32,Outras Despesas,29/11/2025,1,texto,Compras em loja de conveniência
+238,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,34.25,Outras Despesas,29/11/2025,1,texto,Compras no mercado
+239,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,50.01,Outras Despesas,29/11/2025,1,texto,Compras no supermercado
+240,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,16.88,Outras Despesas,29/11/2025,1,texto,Restaurante Estação Sant
+241,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,37,Outras Despesas,29/11/2025,1,texto,Betania Lanchonete
+242,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,20,Outras Despesas,29/11/2025,1,texto,Hortfrut MD
+243,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,37.9,Outras Despesas,29/11/2025,1,texto,Cosméticos e cuidados pessoais
+244,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,79.6,Outras Despesas,29/11/2025,1,texto,Armarinhos Fernando
+245,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,6.5,Outras Despesas,29/11/2025,1,texto,Comida rápida
+246,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,23.98,Outras Despesas,29/11/2025,1,texto,Lancier Bijouterias
+247,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,10,Vendas,29/11/2025,1,texto,Compra de tecido
+248,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,negocio,1.4,Matéria Prima,29/11/2025,1,texto,Papel vegetal
+249,Marta Regina Ferreira Ribeiro ,Grupo Padrão/acolhedor,437,despesa,pessoal,18.76,Alimentação,29/11/2025,1,texto,Supermercado
+250,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,75,Serviços,29/11/2025,1,texto,Vendas de comidas congeladas
+271,Mary Megas,Grupo informativo/formal,437,despesa,negocio,15000,Serviços,29/11/2025,1,texto,Saída geral no mês de novembro
+272,Mary Megas,Grupo informativo/formal,437,receita,negocio,28000,Vendas,29/11/2025,1,texto,Entrada geral no mês de novembro
+273,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,3500,Outras Receitas,29/11/2025,1,texto,Despesas gerais da casa incluindo escola e alimentação
+274,Mary Megas,Grupo informativo/formal,437,despesa,pessoal,2000,Matéria Prima,29/11/2025,1,texto,Despesas pessoais incluindo roupas; saídas; combustível e cursos
+318,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,negocio,167.78,Cartão de Crédito,29/11/2025,1,texto,Gastos do negócio com cartão no mês anterior
+319,Adriana Ferreira de Almeida ,Grupo informativo/formal,437,despesa,pessoal,4940.57,Cartão de Crédito,29/11/2025,1,texto,Gastos pessoais com cartão no mês anterior
+175,Luana Andrade,Grupo informativo/formal,437,despesa,negocio,87.96,Matéria Prima,28/11/2025,1,texto,Insumos supermercado
+176,Raphaela Reis,Grupo Padrão/acolhedor,437,despesa,negocio,117.9,Outras Despesas,28/11/2025,1,texto,Camisa de Pilates e meia
+177,Luana Andrade,Grupo informativo/formal,437,receita,negocio,588,Vendas,28/11/2025,1,texto,Receita do negócio
+178,Luana Andrade,Grupo informativo/formal,437,despesa,negocio,180,Outras Despesas,28/11/2025,1,texto,Retirada Marketing
+179,DG Multimarcas,Grupo Padrão/acolhedor,437,despesa,negocio,48,Outras Despesas,28/11/2025,1,texto,Saída do negócio
+180,DG Multimarcas,Grupo Padrão/acolhedor,437,receita,negocio,101.99,Vendas,28/11/2025,1,texto,Entrada no negócio
+181,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,10,Outras Despesas,28/11/2025,1,texto,Conta física
+182,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,5,Alimentação,28/11/2025,1,texto,Pães
+183,Dani Gomes,Grupo Padrão/acolhedor,437,despesa,negocio,4.5,Outras Despesas,28/11/2025,1,texto,Compra loja
+184,Talita GuimarÃ£es Ferreira de Almeida,Grupo Controle,437,receita,pessoal,100,Vendas,28/11/2025,1,texto,Entrada de dinheiro
+185,Dani Gomes,Grupo Padrão/acolhedor,437,despesa,negocio,48.4,Outras Despesas,28/11/2025,1,texto,Compra loja
+186,Dani Gomes,Grupo Padrão/acolhedor,437,despesa,pessoal,191,Outras Despesas,28/11/2025,1,texto,Gastos com filha; Layza
+187,Dani Gomes,Grupo Padrão/acolhedor,437,despesa,pessoal,48.96,Outras Despesas,28/11/2025,1,texto,Despesa pessoal
+188,Dani Gomes,Grupo Padrão/acolhedor,437,despesa,pessoal,17,Outras Despesas,28/11/2025,1,texto,Despesa pessoal - Pix para Basiquinha
+189,Dani Gomes,Grupo Padrão/acolhedor,437,despesa,pessoal,8.5,Alimentação,28/11/2025,1,texto,Gasto em Alimentação
+190,Andrea Martins dos Santos ,Grupo Padrão/acolhedor,437,despesa,pessoal,2,Vendas,28/11/2025,1,texto,Café
+191,Andrea Martins dos Santos ,Grupo Padrão/acolhedor,437,despesa,pessoal,2,Alimentação,28/11/2025,1,texto,Café
+192,Gabriela Silveira,Grupo Controle,437,receita,pessoal,200,Outras Receitas,28/11/2025,1,texto,Transferência da conta PJ para conta pessoal
+193,DG Multimarcas,Grupo Padrão/acolhedor,437,receita,negocio,101.99,Vendas,28/11/2025,1,texto,Entrada no negócio
+194,DG Multimarcas,Grupo Padrão/acolhedor,437,despesa,negocio,48,Outras Despesas,28/11/2025,1,texto,Saída do negócio
+199,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,40,Alimentação,28/11/2025,1,texto,Manicure
+200,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,20,Transporte,28/11/2025,1,texto,Transporte ida p evento
+202,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,20,Alimentação,28/11/2025,1,texto,Mercado
+203,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,pessoal,2215,Serviços,28/11/2025,1,texto,Hora aula
+204,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,receita,negocio,1000,Vendas,28/11/2025,1,texto,Vendas em evento
+205,Marta,Grupo informativo/formal,437,receita,negocio,160,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+206,Marta,Grupo informativo/formal,437,receita,negocio,284.62,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+207,Marta,Grupo informativo/formal,437,receita,negocio,910,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+208,Marta,Grupo informativo/formal,437,receita,negocio,150,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+209,Marta,Grupo informativo/formal,437,receita,negocio,500,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+210,Marta,Grupo informativo/formal,437,receita,negocio,381.9,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+211,Marta,Grupo informativo/formal,437,receita,negocio,60,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+212,Marta,Grupo informativo/formal,437,receita,negocio,130,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+213,Marta,Grupo informativo/formal,437,receita,negocio,50,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+214,Marta,Grupo informativo/formal,437,receita,negocio,120,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+215,Marta,Grupo informativo/formal,437,receita,negocio,100,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+216,Marta,Grupo informativo/formal,437,receita,negocio,60,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+217,Marta,Grupo informativo/formal,437,receita,negocio,30,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+218,Marta,Grupo informativo/formal,437,receita,negocio,170,Serviços,28/11/2025,1,texto,Entrada prestação de serviço
+219,Talita GuimarÃ£es Ferreira de Almeida,Grupo Controle,437,despesa,pessoal,56,Transporte,28/11/2025,1,texto,Uber para praia
+220,Talita GuimarÃ£es Ferreira de Almeida,Grupo Controle,437,despesa,pessoal,20,Alimentação,28/11/2025,1,texto,Almoço na praia
+221,Talita GuimarÃ£es Ferreira de Almeida,Grupo Controle,437,despesa,pessoal,56,Transporte,28/11/2025,1,texto,Uber da praia para casa
+222,Andrea Martins dos Santos ,Grupo Padrão/acolhedor,437,despesa,negocio,31.79,Alimentação,28/11/2025,1,texto,Almoço
+378,Borges,Grupo informativo/formal,2,receita,pessoal,33,Outras Receitas,28/11/2025,3,texto,Braian Joao Menezes Alexa
+384,Borges,Grupo informativo/formal,2,despesa,pessoal,270,Outras Despesas,28/11/2025,3,texto,João Paulo Freitas do Carmo
+163,Borges,Sem Grupo,443,despesa,pessoal,19.99,Saúde,27/11/2025,4,texto,Desodorante
+164,Borges,Sem Grupo,443,receita,pessoal,170,Outras Receitas,27/11/2025,4,texto,Pix de Giovani De Barcelos Stefani
+165,Borges,Sem Grupo,443,receita,pessoal,1027.76,Outras Receitas,27/11/2025,4,texto,13º salário de Produtive Tecnologia Ltda
+166,Borges,Sem Grupo,443,despesa,pessoal,115.35,Alimentação,27/11/2025,4,texto,Komprão Koch Atacadista
+167,Borges,Sem Grupo,443,despesa,pessoal,15,Outras Despesas,27/11/2025,4,texto,Lanchonete Norte Ilha (energético)
+168,Borges,Sem Grupo,443,despesa,pessoal,49.17,Alimentação,27/11/2025,4,texto,Super Rio (mercado)
+169,Borges,Sem Grupo,443,despesa,pessoal,30,Transporte,27/11/2025,4,texto,Posto Santanna (gasolina)
+170,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,70,Alimentação,27/11/2025,0,texto,Pizza do salário pessoal
+171,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,despesa,pessoal,1381.19,Transporte,27/11/2025,0,texto,Prestação do carro
+172,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,pessoal,2338,Outras Receitas,27/11/2025,0,texto,Salário do trabalho fixo
+173,Maria Aparecida dos santos oliveira,Grupo Padrão/acolhedor,437,receita,negocio,180,Serviços,27/11/2025,0,texto,Encomendas de marmitas congeladas
+174,Luana Andrade,Grupo informativo/formal,437,despesa,pessoal,36,Outras Despesas,27/11/2025,1,texto,Compras supermercado
+195,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,800,Matéria Prima,27/11/2025,0,texto,Compras para loja
+196,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,pessoal,90,Outras Despesas,27/11/2025,0,texto,Brechó pessoal
+197,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,42,Alimentação,27/11/2025,0,texto,Lanche no evento
+198,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,26,Transporte,27/11/2025,0,texto,Transporte
+201,Ana Paula Aparecida de Souza ,Grupo Padrão/acolhedor,437,despesa,negocio,450,Outras Despesas,27/11/2025,0,texto,Conserto computador
+295,Edna Goulart,Grupo Padrão/acolhedor,437,receita,negocio,4557.3,Vendas,27/11/2025,1,texto,Vendas
+159,Borges,Sem Grupo,443,despesa,pessoal,46.86,Alimentação,26/11/2025,4,texto,Brasil Atacadista Lj0
+160,Borges,Sem Grupo,443,despesa,pessoal,68,Saúde,26/11/2025,4,texto,Barbeariacapitão
+161,Borges,Sem Grupo,2,despesa,pessoal,20,Serviços,26/11/2025,1,texto,Material alimentício
+162,Borges,Sem Grupo,443,despesa,pessoal,52,Alimentação,26/11/2025,4,texto,Subway
+158,Borges,Sem Grupo,443,despesa,pessoal,26.49,Alimentação,25/11/2025,4,texto,Ifd*ck Comercio de Ali
+757,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,80,Vendas,25/11/2025,-1,texto,Calça
+758,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,912,Vendas,25/11/2025,-1,texto,Jaleco e Calça
+759,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,754,Vendas,25/11/2025,-1,texto,Jalecos
+760,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,80,Vendas,25/11/2025,-1,texto,Calça
+761,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,600,Vendas,25/11/2025,-1,texto,Pijamas
+762,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,210,Vendas,25/11/2025,-1,texto,Jaleco Social
+763,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,299,Vendas,25/11/2025,-1,texto,Pijamas
+764,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,294,Vendas,25/11/2025,-1,texto,Pijamas
+765,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,154,Vendas,25/11/2025,-1,texto,Pijama
+766,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,446,Vendas,25/11/2025,-1,texto,Jaleco Social e Pijama
+767,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,423,Vendas,25/11/2025,-1,texto,Jalecos Sociais
+768,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,330,Vendas,25/11/2025,-1,texto,No Cartão (1/3)
+769,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,147,Vendas,25/11/2025,-1,texto,Jaleco
+770,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,154,Vendas,25/11/2025,-1,texto,Jaleco
+771,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,320,Vendas,25/11/2025,-1,texto,No Cartão (1/3)
+772,Elisetejaleco,Grupo Padrão/acolhedor,437,receita,negocio,185,Vendas,25/11/2025,-1,texto,No Cartão (1/2)
+155,Borges,Sem Grupo,443,despesa,pessoal,30.89,Alimentação,24/11/2025,4,texto,Ifd*Restaurante e Churrascaria
+156,Borges,Sem Grupo,443,despesa,pessoal,24.24,Alimentação,24/11/2025,4,texto,Brasil Atacadista
+157,Borges,Sem Grupo,443,despesa,pessoal,24.65,Transporte,24/11/2025,4,texto,Uber
+140,Borges,Sem Grupo,443,despesa,pessoal,76.98,Alimentação,23/11/2025,4,texto,Compra - Gmchocolateria
+141,Borges,Sem Grupo,443,despesa,pessoal,13.7,Transporte,23/11/2025,4,texto,99 Ride
+142,Borges,Sem Grupo,443,despesa,pessoal,7.95,Alimentação,23/11/2025,4,texto,Ifood Club
+143,Borges,Sem Grupo,443,despesa,pessoal,11.99,Lazer/Informação,23/11/2025,4,texto,Compra - Grife do Bras 1
+144,Borges,Sem Grupo,443,despesa,pessoal,15,Alimentação,23/11/2025,4,texto,Compra de gelo
+145,Borges,Sem Grupo,443,despesa,pessoal,9.58,Alimentação,23/11/2025,4,texto,Hipemercado Koch
+146,Borges,Sem Grupo,443,receita,pessoal,4.7,Outras Receitas,23/11/2025,4,texto,PIX recebido do Jotape
+147,Borges,Sem Grupo,443,despesa,pessoal,119.97,Lazer/Informação,23/11/2025,4,texto,Compra - Grife do Bras 2
+148,Borges,Sem Grupo,443,receita,pessoal,19.99,Outras Receitas,23/11/2025,4,texto,Reembolso do mousepad
+149,Borges,Grupo informativo/formal,2,receita,negocio,20,Vendas,23/11/2025,2,texto,Venda de bolo
+150,Borges,Grupo informativo/formal,2,receita,pessoal,150,Outras Receitas,23/11/2025,2,texto,Transferência da Jacir
+151,Borges,Grupo informativo/formal,2,despesa,negocio,10,Matéria Prima,23/11/2025,2,texto,Farinha para bolo
+152,Borges,Sem Grupo,443,despesa,pessoal,11,Alimentação,23/11/2025,4,texto,Compra de café
+153,Borges,Grupo informativo/formal,2,despesa,pessoal,50,Outras Despesas,23/11/2025,2,texto,Compra de blush
+154,Borges,Sem Grupo,2,despesa,negocio,5,Lazer/Informação,23/11/2025,1,texto,Calda para bolo
+621,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,358.9,Vendas,23/11/2025,0,texto,Venda via e-mail - PIX
+136,Borges,Sem Grupo,443,despesa,pessoal,50,Transporte,20/11/2025,3,texto,Gasolina
+137,Borges,Sem Grupo,443,despesa,pessoal,16,Alimentação,20/11/2025,3,texto,Compra de energético
+138,Borges,Sem Grupo,443,despesa,pessoal,30.89,Alimentação,20/11/2025,3,texto,Almoço iFood
+139,Borges,Sem Grupo,443,despesa,pessoal,7.29,Alimentação,20/11/2025,3,texto,Compra de refrigerante
+129,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,100,Matéria Prima,19/11/2025,3,texto,Farinha
+130,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,30,Matéria Prima,19/11/2025,3,texto,Três chocolates
+131,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,24.3,Matéria Prima,19/11/2025,3,texto,Pacote de açúcar
+132,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,7,Matéria Prima,19/11/2025,3,texto,Arroz
+133,MaCecilia Nuñez,Grupo informativo/formal,437,receita,negocio,300,Vendas,19/11/2025,3,texto,Venda de bolo
+134,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,80,Aluguel,19/11/2025,3,texto,Pagamento de luz
+135,Borges,Sem Grupo,443,despesa,pessoal,99.99,Alimentação,19/11/2025,3,texto,Compra de hambúrguer
+617,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,130.79,Vendas,19/11/2025,-1,texto,Venda Elo7Achadinhos
+618,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,44.86,Outras Despesas,19/11/2025,-1,texto,Taxas de venda Elo7
+126,Borges,Sem Grupo,443,despesa,pessoal,20.89,Alimentação,18/11/2025,3,texto,Almoço
+127,Borges,Sem Grupo,443,despesa,pessoal,25.16,Transporte,18/11/2025,3,texto,Uber
+128,Borges,Sem Grupo,443,despesa,pessoal,22.89,Alimentação,18/11/2025,3,texto,Ifood
+125,Borges,Sem Grupo,443,despesa,pessoal,20.89,Alimentação,17/11/2025,3,texto,Almoço
+121,Borges,Sem Grupo,443,despesa,pessoal,50,Transporte,16/11/2025,3,texto,Gasolina
+122,Borges,Sem Grupo,443,despesa,pessoal,19.11,Transporte,16/11/2025,3,texto,Uber
+123,Borges,Sem Grupo,443,despesa,pessoal,21.73,Alimentação,16/11/2025,3,texto,Ifood - Isaias
+124,Borges,Sem Grupo,443,despesa,pessoal,30.89,Alimentação,16/11/2025,3,texto,Ifood - Restaurante e Churrascaria
+115,Borges,Sem Grupo,443,despesa,pessoal,12.64,Lazer/Informação,15/11/2025,3,texto,Gasto com futebol
+116,Borges,Sem Grupo,443,despesa,pessoal,20.65,Alimentação,15/11/2025,3,texto,Compra no mercado - Hipermercado Koch
+117,Borges,Sem Grupo,443,despesa,pessoal,3.9,Outras Despesas,15/11/2025,3,texto,Assinatura Capcut
+118,Borges,Sem Grupo,443,despesa,pessoal,12.69,Alimentação,15/11/2025,3,texto,Compra no mercado - Dc Sao Joao do Rio Ver
+119,Borges,Sem Grupo,443,despesa,pessoal,59,Alimentação,15/11/2025,3,texto,Lanche na Varanda das Meninas
+120,Borges,Sem Grupo,443,despesa,pessoal,2.49,Alimentação,15/11/2025,3,texto,Compra de creme de leite
+114,Borges,Sem Grupo,443,despesa,pessoal,21.9,Outras Despesas,14/11/2025,3,texto,Assinatura do iCloud
+619,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,206.7,Vendas,14/11/2025,-1,texto,Venda WhatsApp - PIX
+105,Fernanda,Sem Grupo,443,despesa,pessoal,127.84,Outras Despesas,13/11/2025,2,texto,Depilação
+111,Borges,Sem Grupo,443,despesa,pessoal,43,Saúde,13/11/2025,2,texto,Compra de preservativos na Farmácia Preço Popular
+112,Borges,Sem Grupo,443,despesa,pessoal,40.36,Alimentação,13/11/2025,2,texto,Compra de condicionador e sabonete no Komprao Atacadista
+113,Borges,Sem Grupo,443,despesa,pessoal,50,Transporte,13/11/2025,2,texto,Gasolina
+104,Fernanda,Sem Grupo,443,despesa,pessoal,100,Transporte,12/11/2025,2,texto,Álcool para carro
+107,Borges,Sem Grupo,443,despesa,pessoal,32.89,Alimentação,12/11/2025,2,texto,Almoço
+108,Borges,Sem Grupo,443,despesa,pessoal,31.5,Alimentação,12/11/2025,2,texto,Compra no Barió
+109,Borges,Grupo informativo/formal,2,receita,negocio,40,Vendas,12/11/2025,0,texto,Venda de balas
+110,Borges,Sem Grupo,443,despesa,pessoal,66.12,Outras Despesas,12/11/2025,2,texto,Compra de domínio - Adapto-sh.com
+103,Borges,Sem Grupo,443,despesa,pessoal,19.99,Outras Despesas,11/11/2025,2,texto,Compra de mousepad
+96,Borges,Sem Grupo,443,despesa,pessoal,12.9,Alimentação,10/11/2025,2,texto,Compra de energético
+97,Borges,Sem Grupo,443,despesa,pessoal,285.44,Alimentação,10/11/2025,2,texto,Pagamento para Universidade Estácio
+98,Borges,Sem Grupo,443,despesa,pessoal,100,Saúde,10/11/2025,2,texto,Pagamento de aula de Boxe
+99,Fernanda,Sem Grupo,443,despesa,pessoal,77.02,Lazer/Informação,10/11/2025,1,texto,Cinema Ladies Night
+101,Borges,Sem Grupo,443,despesa,pessoal,15,Alimentação,10/11/2025,2,texto,Compra de energético
+102,Borges,Sem Grupo,443,despesa,pessoal,18.75,Alimentação,10/11/2025,2,texto,Compra de sorvete
+94,Borges,Sem Grupo,443,despesa,pessoal,12,Outras Despesas,09/11/2025,2,texto,Transferência para Arthur
+95,Borges,Sem Grupo,443,despesa,pessoal,12.51,Transporte,09/11/2025,2,texto,Uber - 99 RIDE
+100,Fernanda,Sem Grupo,443,despesa,pessoal,112,Transporte,09/11/2025,1,texto,Abastecimento do carro
+629,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,198.33,Vendas,09/11/2025,-2,texto,Venda site - Nuvempago
+630,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,1.96,Outras Despesas,09/11/2025,-2,texto,Taxa Nuvempago
+88,Borges,Sem Grupo,443,despesa,pessoal,111.76,Alimentação,08/11/2025,2,texto,Compra de hambúrguer
+89,Borges,Sem Grupo,443,receita,pessoal,167.85,Outras Receitas,08/11/2025,2,texto,Transferência recebida de Ricardo Luis Reis
+90,Borges,Sem Grupo,443,despesa,pessoal,300,Outras Despesas,08/11/2025,2,texto,Compra de Bitcoin como investimento
+91,Borges,Sem Grupo,443,despesa,pessoal,17.32,Outras Despesas,08/11/2025,2,texto,Transferência para Samuel - Vodka
+92,Borges,Sem Grupo,443,despesa,pessoal,16,Alimentação,08/11/2025,2,texto,Compra de bebida - Alimentação
+93,Borges,Sem Grupo,443,despesa,pessoal,29.9,Alimentação,08/11/2025,2,texto,Compra de cookie
+622,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,114.75,Vendas,08/11/2025,-2,texto,Venda Elo7Batista
+623,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,36.82,Outras Despesas,08/11/2025,-2,texto,Taxas de venda Elo7Batista
+81,Borges,Sem Grupo,443,despesa,pessoal,252.97,Alimentação,07/11/2025,2,texto,Gastos aniversário do Jotape - Sushi
+82,Borges,Sem Grupo,443,despesa,pessoal,20,Outras Despesas,07/11/2025,2,texto,Transferência para Miguel
+83,Borges,Sem Grupo,443,despesa,pessoal,15.87,Alimentação,07/11/2025,2,texto,Compra no Super Imperatriz
+84,Borges,Sem Grupo,443,despesa,pessoal,55.8,Alimentação,07/11/2025,2,texto,Almoço no Subway
+85,Borges,Sem Grupo,443,receita,pessoal,1027.28,Serviços,07/11/2025,2,texto,Bonificação do trabalho + recarga chip
+86,Borges,Sem Grupo,443,despesa,pessoal,36.18,Transporte,07/11/2025,2,texto,Uber para Jotape
+87,Borges,Sem Grupo,443,despesa,pessoal,30,Transporte,07/11/2025,2,texto,Gasolina no posto
+624,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,314.4,Vendas,07/11/2025,-2,texto,Venda WhatsApp - PIX
+625,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,564,Vendas,07/11/2025,-2,texto,Venda via PIX
+70,Borges,Sem Grupo,443,despesa,pessoal,29,Alimentação,06/11/2025,1,texto,Compra no Barió
+71,Fernanda,Sem Grupo,443,despesa,pessoal,41.66,Outras Despesas,06/11/2025,1,texto,Compra de camisa incontáveis
+72,Borges,Sem Grupo,443,despesa,pessoal,222.78,Outras Despesas,06/11/2025,1,texto,Parcela memória RAM em cartão
+73,Borges,Sem Grupo,443,despesa,pessoal,30,Transporte,06/11/2025,1,texto,Uber para o trabalho em cartão
+74,Borges,Sem Grupo,443,despesa,pessoal,64.24,Lazer/Informação,06/11/2025,1,texto,Parcela tênis em cartão
+75,Borges,Sem Grupo,443,despesa,pessoal,5,Outras Despesas,06/11/2025,1,texto,Transferência para namorada
+76,Borges,Sem Grupo,443,despesa,pessoal,150,Saúde,06/11/2025,1,texto,Pagamento de funcional
+77,Borges,Sem Grupo,443,receita,pessoal,4.94,Outras Receitas,06/11/2025,1,texto,Reembolso
+78,Borges,Sem Grupo,443,despesa,pessoal,22.89,Alimentação,06/11/2025,1,texto,Compra de marmita
+79,Borges,Sem Grupo,443,despesa,pessoal,15,Alimentação,06/11/2025,1,texto,Compra de chá
+80,Fernanda,Sem Grupo,443,despesa,pessoal,100,Transporte,06/11/2025,1,texto,Álcool para carro
+626,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,251.46,Outras Despesas,06/11/2025,-2,texto,Taxa Infinitypay
+627,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,3591.2,Vendas,06/11/2025,-2,texto,Venda via WhatsApp - Infinitypay
+62,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,50,Matéria Prima,05/11/2025,1,texto,Farinha
+63,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,20,Matéria Prima,05/11/2025,1,texto,Chocolate
+64,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,10,Matéria Prima,05/11/2025,1,texto,Leite Condensado
+65,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,negocio,30,Matéria Prima,05/11/2025,1,texto,Açúcar
+66,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,100,Aluguel,05/11/2025,1,texto,Luz
+67,MaCecilia Nuñez,Grupo informativo/formal,437,receita,negocio,300,Vendas,05/11/2025,1,texto,Receita de negócios
+68,Fernanda,Sem Grupo,443,despesa,pessoal,140.16,Lazer/Informação,05/11/2025,1,texto,Ingressos StandUp
+69,Fernanda,Sem Grupo,443,despesa,pessoal,106.3,Cartão de Crédito,05/11/2025,1,texto,Parcela 1/3 Renner
+628,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,525,Vendas,05/11/2025,-3,texto,Venda WhatsApp - PIX
+47,Borges,Sem Grupo,443,receita,pessoal,2381.9,Serviços,04/11/2025,1,texto,Salário
+48,Borges,Sem Grupo,443,despesa,pessoal,6.9,Transporte,04/11/2025,1,texto,Ticket de ônibus
+49,Borges,Sem Grupo,443,despesa,pessoal,6.9,Transporte,04/11/2025,1,texto,Ticket de ônibus
+50,Borges,Sem Grupo,443,receita,pessoal,3.59,Outras Receitas,04/11/2025,1,texto,Recebido do Braian
+51,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,receita,pessoal,2000,Vendas,04/11/2025,1,texto,Vendas de bolo
+52,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,despesa,pessoal,1400,Matéria Prima,04/11/2025,1,texto,Compra de materiais
+53,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,receita,pessoal,3500,Outras Receitas,04/11/2025,1,texto,Salário
+54,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,despesa,pessoal,1500,Aluguel,04/11/2025,1,texto,Aluguel
+55,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,receita,pessoal,20,Vendas,04/11/2025,1,texto,Vendas de bolo
+56,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,receita,pessoal,12,Vendas,04/11/2025,1,texto,Vendas de bolo
+57,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,receita,pessoal,20,Vendas,04/11/2025,1,texto,Vendas de bolo
+58,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,receita,negocio,4,Vendas,04/11/2025,1,texto,Venda de bolo
+59,Borges,Sem Grupo,443,receita,pessoal,350,Serviços,04/11/2025,1,texto,Trabalho de Staff
+60,Borges,Sem Grupo,443,despesa,pessoal,6.9,Transporte,04/11/2025,1,texto,Ticket de ônibus
+61,Borges,Sem Grupo,443,receita,pessoal,0.13,Outras Receitas,04/11/2025,1,texto,Ganhos diversos
+106,Fernanda,Sem Grupo,443,despesa,pessoal,162,Transporte,04/11/2025,0,texto,Álcool para carro
+34,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,8,Matéria Prima,03/11/2025,1,texto,Leite Condensado
+35,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,20,Matéria Prima,03/11/2025,1,texto,Farinha
+36,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,70,Outras Despesas,03/11/2025,1,texto,Gás
+38,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,100,Outras Despesas,03/11/2025,1,texto,Luz
+39,MaCecilia Nuñez,Grupo informativo/formal,437,receita,pessoal,300,Vendas,03/11/2025,1,texto,Venda de bolo
+40,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,5.99,Alimentação,03/11/2025,1,texto,Banana Terra
+41,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,6.69,Alimentação,03/11/2025,1,texto,Pilhas Alcalinas
+42,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,8.79,Alimentação,03/11/2025,1,texto,Papel Higiênico
+43,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,3.7,Alimentação,03/11/2025,1,texto,Azeite Extra Virgem
+44,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,5.99,Alimentação,03/11/2025,1,texto,Morango Bandeja
+45,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,2.98,Alimentação,03/11/2025,1,texto,Refresco Pêssego
+46,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,12.49,Alimentação,03/11/2025,1,texto,Leite Ninho
+27,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,20,Matéria Prima,02/11/2025,0,texto,Compra de farinha
+28,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,80,Outras Despesas,02/11/2025,0,texto,Pagamento de luz
+29,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,20,Alimentação,02/11/2025,0,texto,Compra de chocolates
+30,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,10,Alimentação,02/11/2025,0,texto,Compra de leite condensado
+31,MaCecilia Nuñez,Grupo informativo/formal,437,despesa,pessoal,49.61,Alimentação,02/11/2025,0,texto,Compra alimentos no Serra Alimentos
+32,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,despesa,pessoal,80,Outras Receitas,02/11/2025,0,texto,Gasolina
+33,Borges ( Teste - Produtive.ai ),Grupo Padrão/acolhedor,437,despesa,pessoal,25,Alimentação,02/11/2025,0,texto,Marmita (pessoal)
+24,Borges,Grupo informativo/formal,5,despesa,pessoal,20,Alimentação,29/10/2025,0,texto,Alimentação
+631,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,300,Vendas,28/10/2025,-4,texto,Venda WhatsApp - PIX
+23,Filipy Clemente,Grupo informativo/formal,437,receita,pessoal,1000,Vendas,22/10/2025,1,texto,Venda
+632,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,130.79,Vendas,22/10/2025,-5,texto,Venda elo7Sonhosdelulu
+633,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,44.86,Outras Despesas,22/10/2025,-5,texto,Taxa elo7Sonhosdelulu
+634,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,564.6,Vendas,20/10/2025,-5,texto,Venda e-mail via Infinitypay
+635,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,34.38,Outras Despesas,20/10/2025,-5,texto,Taxa Infinitypay
+636,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,340.89,Vendas,18/10/2025,-5,texto,Venda site
+637,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,36.32,Outras Despesas,18/10/2025,-5,texto,Taxa venda site
+19,Filipy Clemente,Grupo informativo/formal,437,receita,pessoal,1250,Vendas,15/10/2025,0,texto,Venda realizada
+20,Filipy Clemente,Grupo informativo/formal,437,despesa,pessoal,350,Matéria Prima,15/10/2025,0,texto,Custo de produção
+21,Filipy Clemente,Grupo informativo/formal,437,despesa,pessoal,30,Alimentação,15/10/2025,0,texto,Reservar R$ 30 para poupança
+22,Filipy Clemente,Grupo informativo/formal,437,despesa,pessoal,14,Transporte,15/10/2025,0,texto,Transporte para casa
+2,Borges,Grupo Controle,5,receita,pessoal,16,Vendas,14/10/2025,0,texto,Venda de brigadeiros
+3,Borges,Grupo Controle,5,despesa,pessoal,1200,Cartão de Crédito,14/10/2025,0,texto,Fatura do Cartão de credito
+7,Borges,Grupo Controle,5,receita,pessoal,600,Vendas,14/10/2025,0,texto,Venda de bolos de pote
+8,Borges,Grupo Controle,5,receita,pessoal,800,Vendas,14/10/2025,0,texto,Venda ao Buzeira
+5,Borges,Grupo Controle,5,receita,pessoal,500,Vendas,13/10/2025,0,texto,Vendas de brigadeiro
+6,Borges,Grupo Controle,5,receita,pessoal,200,Vendas,13/10/2025,0,texto,Vendas de bolo de pote
+638,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,493.3,Vendas,13/10/2025,-6,texto,Venda WhatsApp - Infinitypay
+639,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,293.95,Outras Despesas,13/10/2025,-6,texto,Taxa Infinitypay
+4,Borges,Grupo Controle,5,receita,pessoal,300,Vendas,12/10/2025,0,texto,Vendas de brigadeiro
+551,Fernanda,Sem Grupo,443,despesa,pessoal,108.62,Outras Despesas,11/10/2025,-3,texto,Renner
+553,Fernanda,Sem Grupo,443,despesa,pessoal,127.84,Outras Despesas,10/10/2025,-3,texto,Depilação
+548,Fernanda,Sem Grupo,443,despesa,pessoal,120,Outras Despesas,07/10/2025,-4,texto,Dízimo
+547,Fernanda,Sem Grupo,443,despesa,pessoal,10,Outras Despesas,05/10/2025,-4,texto,Bala na Americanas
+549,Fernanda,Sem Grupo,443,despesa,pessoal,130,Outras Despesas,05/10/2025,-4,texto,Costureira
+640,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,76.93,Outras Despesas,02/10/2025,-7,texto,Taxa Elo7Achadinhos
+641,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,346.55,Vendas,02/10/2025,-7,texto,Venda Elo7Achadinhos
+620,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,396.5,Vendas,30/09/2025,-8,texto,Venda WhatsApp - PIX
+642,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,54.36,Outras Despesas,22/09/2025,-9,texto,Taxa Infinitypay
+643,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,775.6,Vendas,22/09/2025,-9,texto,Venda via cartão Infinitypay
+644,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,1063.9,Vendas,08/09/2025,-11,texto,Venda Elo7Achadinhos
+645,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,193.89,Outras Despesas,08/09/2025,-11,texto,Taxa Elo7Achadinhos
+646,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,405.7,Vendas,08/09/2025,-11,texto,Venda e-mail - Infinitypay
+647,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,162.04,Vendas,05/09/2025,-11,texto,Venda elo7 Sonhosdelulu
+648,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,46.11,Outras Despesas,05/09/2025,-11,texto,Taxa elo7 Sonhosdelulu
+649,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,347.9,Vendas,01/09/2025,-12,texto,Venda WhatsApp - PIX
+650,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,88.86,Outras Despesas,01/09/2025,-12,texto,Taxa Elo7Batista
+651,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,302.79,Vendas,01/09/2025,-12,texto,Venda Elo7Batista
+652,Vanessa de Araujo,Grupo informativo/formal,437,despesa,negocio,88.86,Outras Despesas,01/09/2025,-12,texto,Taxa sobre venda Elo7Batista
+653,Vanessa de Araujo,Grupo informativo/formal,437,receita,negocio,302.79,Vendas,01/09/2025,-12,texto,Venda Elo7Batista
