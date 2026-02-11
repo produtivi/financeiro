@@ -529,6 +529,8 @@ export class DashboardService {
     const pilulas: any[] = [];
     const solicitacoesAtivas: any[] = [];
     const visualizacoesPainel: any[] = [];
+    const goalsLatency: any[] = [];
+    const responseLatency: any[] = [];
 
     if (AGENT_API_URL) {
       const params = new URLSearchParams({
@@ -536,12 +538,13 @@ export class DashboardService {
         endDate: endDate.toISOString().split('T')[0],
       });
 
+      // Adicionar filtros de agent_id se foram especificados
+      if (agentIds && agentIds.length > 0) {
+        agentIds.forEach(id => params.append('agent_id', id.toString()));
+      }
+
       // Usar endpoint batch
       const chatIds = usuarios.map((u) => u.chat_id).filter((id) => id !== null);
-
-      console.log('[MENSAGENS] Total de usuários:', usuarios.length);
-      console.log('[MENSAGENS] Chat IDs encontrados:', chatIds.length);
-      console.log('[MENSAGENS] AGENT_API_URL:', AGENT_API_URL);
 
       if (chatIds.length > 0) {
         try {
@@ -553,13 +556,9 @@ export class DashboardService {
             batches.push(chatIds.slice(i, i + BATCH_SIZE));
           }
 
-          console.log('[MENSAGENS] Número de batches:', batches.length);
-
           for (const batch of batches) {
             try {
               const url = `${AGENT_API_URL}/public/agent-metrics/users/batch-summary?${params}`;
-              console.log('[MENSAGENS] Fazendo requisição para:', url);
-              console.log('[MENSAGENS] Batch size:', batch.length);
 
               const response = await fetch(url, {
                 method: 'POST',
@@ -567,20 +566,14 @@ export class DashboardService {
                 body: JSON.stringify({ chatIds: batch }),
               });
 
-              console.log('[MENSAGENS] Response status:', response.status);
-
               if (response.ok) {
                 const data = await response.json();
-                console.log('[MENSAGENS] Response data.success:', data.success);
-                console.log('[MENSAGENS] Response data.data length:', data.data?.length || 0);
 
                 if (data.success && Array.isArray(data.data)) {
                   data.data.forEach((metrica: any) => {
                     const usuario = usuarios.find((u) => u.chat_id === metrica.chat_id);
-                    console.log('[MENSAGENS] Métrica para chat_id:', metrica.chat_id, 'inbound_by_type:', metrica.inbound_by_type);
                     if (usuario && metrica.inbound_by_type) {
                       Object.entries(metrica.inbound_by_type).forEach(([tipo, quantidade]) => {
-                        console.log('[MENSAGENS] Adicionando:', { tipo, quantidade, usuario: usuario.nome });
                         mensagens.push({
                           usuario_id: usuario.id,
                           usuario_nome: usuario.nome,
@@ -604,33 +597,42 @@ export class DashboardService {
         } catch (error) {
           console.error('[MENSAGENS] Erro ao processar batches de mensagens:', error);
         }
-      } else {
-        console.log('[MENSAGENS] Nenhum chat_id encontrado para buscar mensagens');
       }
 
-      console.log('[MENSAGENS] Total de mensagens coletadas:', mensagens.length);
-
-      // Buscar métricas de pílulas, solicitações ativas e visualizações de painel
+      // Buscar métricas de pílulas, solicitações ativas, visualizações de painel, metas e registro
       try {
-        const [resPilulas, resAtivas, resPainel] = await Promise.all([
+        const [resPilulas, resAtivas, resPainel, resGoals, resResponse] = await Promise.all([
           fetch(`${AGENT_API_URL}/public/agent-metrics/knowledge-pill-latency?${params}`).catch(() => null),
           fetch(`${AGENT_API_URL}/public/agent-metrics/active-requests?${params}`).catch(() => null),
           fetch(`${AGENT_API_URL}/public/agent-metrics/panel-views?${params}`).catch(() => null),
+          fetch(`${AGENT_API_URL}/public/agent-metrics/goals-template-latency?${params}`).catch(() => null),
+          fetch(`${AGENT_API_URL}/public/agent-metrics/response-latency?${params}`).catch(() => null),
         ]);
 
         if (resPilulas && resPilulas.ok) {
           const data = await resPilulas.json();
           if (data.success && data.data.responses_by_chat) {
             data.data.responses_by_chat.forEach((resp: any) => {
+              if (!resp.chat_id) {
+                return;
+              }
+
               const usuario = usuarios.find((u) => u.chat_id === resp.chat_id);
               if (usuario) {
                 pilulas.push({
                   usuario_id: usuario.id,
                   usuario_nome: usuario.nome,
-                  grupo: usuario.grupo?.nome || 'Sem Grupo',
+                  usuario_chat_id: usuario.chat_id,
+                  usuario_agent_id: usuario.agent_id,
+                  grupo: resp.grupo_nome || usuario.grupo?.nome || 'Sem Grupo',
+                  grupo_id: resp.grupo_id,
                   chat_id: resp.chat_id,
-                  timestamp: resp.timestamp,
+                  template_name: resp.template_name,
+                  template_timestamp: resp.template_timestamp,
+                  response_timestamp: resp.response_timestamp,
                   latency_seconds: resp.latency_seconds,
+                  latency_minutes: resp.latency_minutes,
+                  latency_hours: resp.latency_hours,
                 });
               }
             });
@@ -641,14 +643,22 @@ export class DashboardService {
           const data = await resAtivas.json();
           if (data.success && data.data.requests_by_chat) {
             data.data.requests_by_chat.forEach((req: any) => {
-              const usuario = usuarios.find((u) => u.grupo_id === req.grupo_id);
+              let usuario;
+              if (req.chat_id) {
+                usuario = usuarios.find((u) => u.chat_id === req.chat_id);
+              } else {
+                usuario = usuarios.find((u) => u.grupo_id === req.grupo_id);
+              }
+
               if (usuario) {
                 solicitacoesAtivas.push({
                   usuario_id: usuario.id,
                   usuario_nome: usuario.nome,
-                  grupo: req.grupo_nome,
+                  chat_id: req.chat_id || usuario.chat_id,
+                  grupo: req.grupo_nome || usuario.grupo?.nome || 'Sem Grupo',
                   tipo_solicitacao: req.request_type,
                   timestamp: req.timestamp,
+                  content_preview: req.content_preview,
                 });
               }
             });
@@ -659,14 +669,81 @@ export class DashboardService {
           const data = await resPainel.json();
           if (data.success && data.data.views_by_chat) {
             data.data.views_by_chat.forEach((view: any) => {
-              const usuario = usuarios.find((u) => u.grupo_id === view.grupo_id);
+              let usuario;
+              if (view.chat_id) {
+                usuario = usuarios.find((u) => u.chat_id === view.chat_id);
+              } else {
+                usuario = usuarios.find((u) => u.grupo_id === view.grupo_id);
+              }
+
               if (usuario) {
                 visualizacoesPainel.push({
                   usuario_id: usuario.id,
                   usuario_nome: usuario.nome,
-                  grupo: view.grupo_nome,
+                  chat_id: view.chat_id || usuario.chat_id,
+                  grupo: view.grupo_nome || usuario.grupo?.nome || 'Sem Grupo',
                   tipo_visualizacao: view.view_type,
                   timestamp: view.timestamp,
+                });
+              }
+            });
+          }
+        }
+
+        if (resGoals && resGoals.ok) {
+          const data = await resGoals.json();
+          if (data.success && data.data.responses_by_chat) {
+            data.data.responses_by_chat.forEach((resp: any) => {
+              if (!resp.chat_id) {
+                return;
+              }
+
+              const usuario = usuarios.find((u) => u.chat_id === resp.chat_id);
+              if (usuario) {
+                goalsLatency.push({
+                  usuario_id: usuario.id,
+                  usuario_nome: usuario.nome,
+                  usuario_chat_id: usuario.chat_id,
+                  usuario_agent_id: usuario.agent_id,
+                  grupo: resp.grupo_nome || usuario.grupo?.nome || 'Sem Grupo',
+                  grupo_id: resp.grupo_id,
+                  chat_id: resp.chat_id,
+                  template_name: resp.template_name,
+                  template_timestamp: resp.template_timestamp,
+                  response_timestamp: resp.response_timestamp,
+                  latency_seconds: resp.latency_seconds,
+                  latency_minutes: resp.latency_minutes,
+                  latency_hours: resp.latency_hours,
+                });
+              }
+            });
+          }
+        }
+
+        if (resResponse && resResponse.ok) {
+          const data = await resResponse.json();
+          if (data.success && data.data.responses_by_chat) {
+            data.data.responses_by_chat.forEach((resp: any) => {
+              if (!resp.chat_id) {
+                return;
+              }
+
+              const usuario = usuarios.find((u) => u.chat_id === resp.chat_id);
+              if (usuario) {
+                responseLatency.push({
+                  usuario_id: usuario.id,
+                  usuario_nome: usuario.nome,
+                  usuario_chat_id: usuario.chat_id,
+                  usuario_agent_id: usuario.agent_id,
+                  grupo: resp.grupo_nome || usuario.grupo?.nome || 'Sem Grupo',
+                  grupo_id: resp.grupo_id,
+                  chat_id: resp.chat_id,
+                  template_name: resp.template_name,
+                  template_timestamp: resp.template_timestamp,
+                  response_timestamp: resp.response_timestamp,
+                  latency_seconds: resp.latency_seconds,
+                  latency_minutes: resp.latency_minutes,
+                  latency_hours: resp.latency_hours,
                 });
               }
             });
@@ -710,6 +787,8 @@ export class DashboardService {
       pilulas,
       solicitacoesAtivas,
       visualizacoesPainel,
+      goalsLatency,
+      responseLatency,
     };
   }
 }

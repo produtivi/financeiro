@@ -178,6 +178,19 @@ export default function MetasPage() {
     return Math.max(1, semana);
   };
 
+  const extrairValorDaDescricao = (descricao: string): string | null => {
+    // Regex para encontrar valores monetários: R$ 1000, R$1000, 1000 reais, etc
+    const regexValor = /R\$\s*(\d+(?:[.,]\d+)?)|(\d+(?:[.,]\d+)?)\s*(?:reais?|R\$)/gi;
+    const match = regexValor.exec(descricao);
+
+    if (match) {
+      const valor = match[1] || match[2];
+      return `R$ ${valor.replace(',', '.')}`;
+    }
+
+    return null;
+  };
+
   const metasFiltradas = metas.filter((meta) => {
     const matchUsuario =
       filtroUsuario === 'todos' || meta.usuario.id.toString() === filtroUsuario;
@@ -241,7 +254,7 @@ export default function MetasPage() {
     try {
       // Exportar as metas já filtradas na tela
       const csvLines: string[] = [];
-      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo Meta,Cumprida,Data Início,Data Fim,Semana Usuário,Descrição');
+      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo Meta,Cumprida,Data Início,Data Fim,Semana Usuário,Valor Alvo,Descrição');
 
       metasFiltradas.forEach((m) => {
         const semanaUsuario = m.usuario.criado_em
@@ -252,9 +265,10 @@ export default function MetasPage() {
         const grupoNome = m.usuario.grupo?.nome || 'Sem Grupo';
         const statusCumprida = m.cumprida === null ? 'Pendente' : m.cumprida ? 'Sim' : 'Não';
         const tipoMetaNome = TIPOS_META[m.tipo_meta as keyof typeof TIPOS_META] || m.tipo_meta;
+        const valorAlvo = extrairValorDaDescricao(m.descricao) || 'N/A';
 
         csvLines.push(
-          `${m.id},${m.usuario.nome || `Usuário #${m.usuario.id}`},${grupoNome},${m.usuario.agent_id || 'N/A'},${tipoMetaNome},${statusCumprida},${formatarData(m.data_inicio)},${formatarData(m.data_fim)},${semanaUsuario},${descricao}`
+          `${m.id},${m.usuario.nome || `Usuário #${m.usuario.id}`},${grupoNome},${m.usuario.agent_id || 'N/A'},${tipoMetaNome},${statusCumprida},${formatarData(m.data_inicio)},${formatarData(m.data_fim)},${semanaUsuario},${valorAlvo},${descricao}`
         );
       });
 
@@ -324,41 +338,37 @@ export default function MetasPage() {
           <div className="flex gap-2 flex-wrap">
             <button
               onClick={() => handlePeriodoChange('semana')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                periodoSelecionado === 'semana'
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'semana'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-              }`}
+                }`}
             >
               Última Semana
             </button>
             <button
               onClick={() => handlePeriodoChange('mes')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                periodoSelecionado === 'mes'
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'mes'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-              }`}
+                }`}
             >
               Último Mês
             </button>
             <button
               onClick={() => handlePeriodoChange('ano')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                periodoSelecionado === 'ano'
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'ano'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-              }`}
+                }`}
             >
               Último Ano
             </button>
             <button
               onClick={() => handlePeriodoChange('custom')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                periodoSelecionado === 'custom'
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'custom'
                   ? 'bg-blue-600 text-white'
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-              }`}
+                }`}
             >
               Personalizado
             </button>
@@ -542,6 +552,11 @@ export default function MetasPage() {
                     </div>
 
                     <p className="text-white font-medium mb-2">{meta.descricao}</p>
+                    {extrairValorDaDescricao(meta.descricao) && (
+                      <p className="text-gray-300 text-sm mb-2">
+                        <span className="font-semibold">Valor Alvo:</span> {extrairValorDaDescricao(meta.descricao)}
+                      </p>
+                    )}
 
                     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
                       <span className="flex items-center gap-1">
@@ -549,6 +564,11 @@ export default function MetasPage() {
                         {formatarData(meta.data_inicio)} - {formatarData(meta.data_fim)}
                       </span>
                       <span>{meta.usuario.nome || `Usuário #${meta.usuario.id}`}</span>
+                      {meta.usuario.criado_em && (
+                        <span className="px-2 py-1 bg-blue-500/20 text-blue-300 rounded text-xs font-medium">
+                          Semana {calcularSemanaUsuario(meta.data_inicio, meta.usuario.criado_em)}
+                        </span>
+                      )}
                       {meta.respondido_em && (
                         <span>
                           Respondido: {new Date(meta.respondido_em).toLocaleDateString('pt-BR')}

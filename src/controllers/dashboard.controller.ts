@@ -2,6 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import { dashboardService } from '@/services/dashboard.service';
 import { ApiResponse } from '@/types/api';
 
+const extrairValorDaDescricao = (descricao: string): string => {
+  const regexValor = /R\$\s*(\d+(?:[.,]\d+)?)|(\d+(?:[.,]\d+)?)\s*(?:reais?|R\$)/gi;
+  const match = regexValor.exec(descricao);
+
+  if (match) {
+    const valor = match[1] || match[2];
+    return `R$ ${valor.replace(',', '.')}`;
+  }
+
+  return 'N/A';
+};
+
 export class DashboardController {
   async obterMetricas(request: NextRequest, agentIds?: number[]): Promise<NextResponse<ApiResponse>> {
     try {
@@ -144,7 +156,7 @@ export class DashboardController {
 
       const csvLines: string[] = [];
 
-      csvLines.push('=== USUÁRIOS ===');
+      csvLines.push('USUÁRIOS');
       csvLines.push('ID,Nome,Chat ID,Agent ID,Grupo,Status,Telefone,Criado Em');
       dados.usuarios.forEach((u: any) => {
         csvLines.push(
@@ -153,7 +165,7 @@ export class DashboardController {
       });
 
       csvLines.push('');
-      csvLines.push('=== TRANSAÇÕES ===');
+      csvLines.push('TRANSAÇÕES');
       csvLines.push('ID,Usuário,Grupo,Tipo,Tipo Caixa,Valor,Categoria,Tipo Entrada,Data Transação,Semana Usuário,Descrição');
       dados.transacoes.forEach((t: any) => {
         // Calcular semana desde início do usuário
@@ -169,8 +181,8 @@ export class DashboardController {
       });
 
       csvLines.push('');
-      csvLines.push('=== METAS ===');
-      csvLines.push('ID,Usuário,Grupo,Tipo Meta,Cumprida,Data Início,Data Fim,Semana Usuário,Valor Alvo');
+      csvLines.push('METAS');
+      csvLines.push('ID,Usuário,Grupo,Tipo Meta,Cumprida,Data Início,Data Fim,Semana Usuário,Valor Alvo,Descrição');
       dados.metas.forEach((m: any) => {
         // Calcular semana desde início do usuário
         const inicioUsuario = new Date(m.usuario.criado_em);
@@ -178,14 +190,16 @@ export class DashboardController {
         const diffMs = dataInicio.getTime() - inicioUsuario.getTime();
         const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
         const semanaUsuario = Math.max(1, Math.floor(diffDias / 7) + 1); // Semana 1, 2, 3...
+        const valorAlvo = extrairValorDaDescricao(m.descricao);
+        const descricao = (m.descricao || '').replace(/,/g, ';').replace(/\n/g, ' ');
 
         csvLines.push(
-          `${m.id},${m.usuario.nome},${m.usuario.grupo?.nome || 'N/A'},${m.tipo_meta},${m.cumprida === null ? 'Pendente' : m.cumprida ? 'Sim' : 'Não'},${new Date(m.data_inicio).toLocaleDateString('pt-BR')},${new Date(m.data_fim).toLocaleDateString('pt-BR')},${semanaUsuario},${m.valor_alvo || 'N/A'}`
+          `${m.id},${m.usuario.nome},${m.usuario.grupo?.nome || 'N/A'},${m.tipo_meta},${m.cumprida === null ? 'Pendente' : m.cumprida ? 'Sim' : 'Não'},${new Date(m.data_inicio).toLocaleDateString('pt-BR')},${new Date(m.data_fim).toLocaleDateString('pt-BR')},${semanaUsuario},${valorAlvo},${descricao}`
         );
       });
 
       csvLines.push('');
-      csvLines.push('=== MENSAGENS ===');
+      csvLines.push('MENSAGENS');
       csvLines.push('Usuário,Chat ID,Agent ID,Grupo,Tipo Mensagem,Quantidade');
       dados.mensagens.forEach((msg: any) => {
         csvLines.push(
@@ -194,31 +208,54 @@ export class DashboardController {
       });
 
       csvLines.push('');
-      csvLines.push('=== LATÊNCIAS ===');
-      csvLines.push('ID,Usuário,Grupo,Agent ID,Tipo Lembrete,Momento Lembrete,Momento Resposta,Latência (segundos),Latência (minutos),Respondeu');
+      csvLines.push('LATÊNCIAS');
+      csvLines.push('Tipo,ID,Usuário,Grupo,Agent ID,Chat ID,Tipo Lembrete,Momento,Latência (segundos),Latência (minutos),Respondeu');
+
+      // Latências do banco (lembretes registrados)
       if (dados.latencias && dados.latencias.length > 0) {
-        dados.latencias.forEach((l: any) => {
+        dados.latencias.forEach((l) => {
           const latenciaMinutos = (l.latencia_segundos / 60).toFixed(2);
           csvLines.push(
-            `${l.id},${l.usuario.nome},${l.usuario.grupo?.nome || 'N/A'},${l.agent_id},${l.tipo_lembrete || 'N/A'},${new Date(l.momento_lembrete).toLocaleString('pt-BR')},${new Date(l.momento_resposta).toLocaleString('pt-BR')},${l.latencia_segundos},${latenciaMinutos},${l.respondeu ? 'Sim' : 'Não'}`
+            `Lembrete,${l.id},${l.usuario.nome},${l.usuario.grupo?.nome || 'N/A'},${l.agent_id},N/A,${l.tipo_lembrete || 'N/A'},${new Date(l.momento_lembrete).toLocaleString('pt-BR')},${l.latencia_segundos},${latenciaMinutos},${l.respondeu ? 'Sim' : 'Não'}`
           );
         });
       }
 
-      csvLines.push('');
-      csvLines.push('=== PÍLULAS DO CONHECIMENTO ===');
-      csvLines.push('Usuário,Grupo,Chat ID,Timestamp,Latência (segundos)');
+      // Pílulas do conhecimento (da API externa)
       if (dados.pilulas && dados.pilulas.length > 0) {
-        dados.pilulas.forEach((p: any) => {
-          const dataFormatada = new Date(p.timestamp * 1000).toLocaleString('pt-BR');
+        dados.pilulas.forEach((p) => {
+          const dataEnvio = new Date(p.template_timestamp * 1000).toLocaleString('pt-BR');
+          const latenciaMinutos = p.latency_minutes;
           csvLines.push(
-            `${p.usuario_nome},${p.grupo},${p.chat_id},${dataFormatada},${p.latency_seconds}`
+            `Pílula,N/A,${p.usuario_nome},${p.grupo},${p.usuario_agent_id || 437},${p.chat_id || p.usuario_chat_id || 'N/A'},${p.template_name},${dataEnvio},${p.latency_seconds},${latenciaMinutos},Sim`
+          );
+        });
+      }
+
+      // Goals Template Latency (Acompanhamento de Metas)
+      if (dados.goalsLatency && dados.goalsLatency.length > 0) {
+        dados.goalsLatency.forEach((g) => {
+          const dataEnvio = new Date(g.template_timestamp * 1000).toLocaleString('pt-BR');
+          const latenciaMinutos = g.latency_minutes;
+          csvLines.push(
+            `Meta,N/A,${g.usuario_nome},${g.grupo},${g.usuario_agent_id || 437},${g.chat_id || g.usuario_chat_id || 'N/A'},${g.template_name},${dataEnvio},${g.latency_seconds},${latenciaMinutos},Sim`
+          );
+        });
+      }
+
+      // Response Latency (Lembretes de Registro)
+      if (dados.responseLatency && dados.responseLatency.length > 0) {
+        dados.responseLatency.forEach((r) => {
+          const dataEnvio = r.template_timestamp ? new Date(r.template_timestamp * 1000).toLocaleString('pt-BR') : 'N/A';
+          const latenciaMinutos = r.latency_minutes || 0;
+          csvLines.push(
+            `Registro,N/A,${r.usuario_nome},${r.grupo},${r.usuario_agent_id || 437},${r.chat_id || r.usuario_chat_id || 'N/A'},${r.template_name || 'N/A'},${dataEnvio},${r.latency_seconds || 0},${latenciaMinutos},Sim`
           );
         });
       }
 
       csvLines.push('');
-      csvLines.push('=== SOLICITAÇÕES ATIVAS ===');
+      csvLines.push('SOLICITAÇÕES ATIVAS');
       csvLines.push('Usuário,Grupo,Tipo Solicitação,Timestamp');
       if (dados.solicitacoesAtivas && dados.solicitacoesAtivas.length > 0) {
         dados.solicitacoesAtivas.forEach((s: any) => {
@@ -230,7 +267,7 @@ export class DashboardController {
       }
 
       csvLines.push('');
-      csvLines.push('=== VISUALIZAÇÕES DE PAINEL ===');
+      csvLines.push('VISUALIZAÇÕES DE PAINEL');
       csvLines.push('Usuário,Grupo,Tipo Visualização,Timestamp');
       if (dados.visualizacoesPainel && dados.visualizacoesPainel.length > 0) {
         dados.visualizacoesPainel.forEach((v: any) => {

@@ -394,10 +394,15 @@ export default function DashboardPage() {
       setLoading(false);
     }
 
-    carregarLatencias();
+    carregarLatencias(dataInicio, dataFim, grupoSelecionado, usuarioSelecionado);
   };
 
-  const carregarLatencias = async () => {
+  const carregarLatencias = async (
+    startDate: string,
+    endDate: string,
+    grupoId: string,
+    usuarioId: string
+  ) => {
     const AGENT_API_URL = process.env.NEXT_PUBLIC_AGENT_API_URL;
 
     if (!AGENT_API_URL) {
@@ -406,16 +411,16 @@ export default function DashboardPage() {
     }
 
     const params = new URLSearchParams({
-      startDate: dataInicio,
-      endDate: dataFim,
+      startDate,
+      endDate,
     });
 
-    if (grupoSelecionado) {
-      params.append('grupo_id', grupoSelecionado);
+    if (grupoId) {
+      params.append('grupo_id', grupoId);
     }
 
-    if (usuarioSelecionado) {
-      params.append('usuario_id', usuarioSelecionado);
+    if (usuarioId) {
+      params.append('usuario_id', usuarioId);
     }
 
     carregarResponseLatency(AGENT_API_URL, params);
@@ -592,6 +597,13 @@ export default function DashboardPage() {
 
   const exportarDados = async () => {
     try {
+      console.log('[FRONTEND EXPORT] Iniciando exportação...');
+
+      if (!dataInicio || !dataFim) {
+        alert('Por favor, selecione o período (Data Início e Data Fim) antes de exportar.');
+        return;
+      }
+
       const params = new URLSearchParams({
         startDate: dataInicio,
         endDate: dataFim,
@@ -605,49 +617,73 @@ export default function DashboardPage() {
         params.append('usuarioId', usuarioSelecionado);
       }
 
-      const response = await fetch(`/api/v1/dashboard/exportar?${params}`);
+      const url = `/api/v1/dashboard/exportar?${params}`;
+      console.log('[FRONTEND EXPORT] URL da requisição:', url);
+      console.log('[FRONTEND EXPORT] Fazendo fetch...');
+
+      const response = await fetch(url);
+
+      console.log('[FRONTEND EXPORT] Response status:', response.status);
+      console.log('[FRONTEND EXPORT] Response ok:', response.ok);
+      console.log('[FRONTEND EXPORT] Response headers:', Object.fromEntries(response.headers.entries()));
+
+      if (!response.ok) {
+        console.log('[FRONTEND EXPORT] Response não ok, tentando ler erro...');
+        const errorData = await response.json();
+        console.log('[FRONTEND EXPORT] Erro retornado:', errorData);
+        alert(errorData.message || 'Erro ao exportar dados');
+        return;
+      }
+
+      console.log('[FRONTEND EXPORT] Convertendo para blob...');
       const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
+      console.log('[FRONTEND EXPORT] Blob size:', blob.size, 'bytes');
+      console.log('[FRONTEND EXPORT] Blob type:', blob.type);
+
+      const blobUrl = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url;
+      a.href = blobUrl;
       a.download = `dashboard-export-${new Date().toISOString().split('T')[0]}.csv`;
       document.body.appendChild(a);
       a.click();
-      window.URL.revokeObjectURL(url);
+      window.URL.revokeObjectURL(blobUrl);
       document.body.removeChild(a);
+
+      console.log('[FRONTEND EXPORT] Download iniciado com sucesso!');
     } catch (error) {
-      console.error('Erro ao exportar dados:', error);
-      alert('Erro ao exportar dados');
+      console.error('[FRONTEND EXPORT] ERRO CRÍTICO:', error);
+      console.error('[FRONTEND EXPORT] Stack trace:', error instanceof Error ? error.stack : 'N/A');
+      alert('Erro ao exportar dados: ' + (error instanceof Error ? error.message : String(error)));
     }
   };
 
   const dadosGrupos = metrics
     ? Object.entries(metrics.usuarios.porGrupo).map(([nome, valor]) => ({
-        name: nome,
-        value: valor,
-      }))
+      name: nome,
+      value: valor,
+    }))
     : [];
 
   const dadosTiposMensagens = metrics?.mensagens
     ? Object.entries(metrics.mensagens.porTipo).map(([tipo, quantidade]) => ({
-        tipo,
-        label: tipo === 'text' ? 'Texto' : tipo === 'audio' ? 'Áudio' : tipo === 'image' ? 'Imagem' : tipo === 'video' ? 'Vídeo' : tipo,
-        quantidade,
-        fill: tipo === 'text' ? '#3b82f6' : tipo === 'audio' ? '#10b981' : tipo === 'image' ? '#ec4899' : tipo === 'video' ? '#8b5cf6' : '#6b7280',
-      }))
+      tipo,
+      label: tipo === 'text' ? 'Texto' : tipo === 'audio' ? 'Áudio' : tipo === 'image' ? 'Imagem' : tipo === 'video' ? 'Vídeo' : tipo,
+      quantidade,
+      fill: tipo === 'text' ? '#3b82f6' : tipo === 'audio' ? '#10b981' : tipo === 'image' ? '#ec4899' : tipo === 'video' ? '#8b5cf6' : '#6b7280',
+    }))
     : [];
 
   const dadosTiposEntrada = dadosTiposMensagens;
 
   const dadosTiposMeta = metrics?.metas.porTipoMeta
     ? Object.entries(metrics.metas.porTipoMeta)
-        .map(([tipo, quantidade]) => ({
-          tipo,
-          label: LABELS_TIPOS_META[tipo] || tipo,
-          quantidade,
-          fill: CORES_TIPOS_META[tipo] || '#6b7280',
-        }))
-        .sort((a, b) => b.quantidade - a.quantidade)
+      .map(([tipo, quantidade]) => ({
+        tipo,
+        label: LABELS_TIPOS_META[tipo] || tipo,
+        quantidade,
+        fill: CORES_TIPOS_META[tipo] || '#6b7280',
+      }))
+      .sort((a, b) => b.quantidade - a.quantidade)
     : [];
 
   const tipoMetaMaisSolicitado = dadosTiposMeta.length > 0 ? dadosTiposMeta[0] : null;
@@ -680,7 +716,12 @@ export default function DashboardPage() {
           </div>
           <button
             onClick={exportarDados}
-            className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+            disabled={!dataInicio || !dataFim}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${!dataInicio || !dataFim
+                ? 'bg-gray-600 cursor-not-allowed opacity-50'
+                : 'bg-green-600 hover:bg-green-700'
+              } text-white`}
+            title={!dataInicio || !dataFim ? 'Selecione o período antes de exportar' : 'Exportar dados do dashboard'}
           >
             <Download className="w-4 h-4" />
             Exportar Dados
@@ -699,41 +740,37 @@ export default function DashboardPage() {
             <div className="flex gap-2 flex-wrap mb-4">
               <button
                 onClick={() => handlePeriodoChange('semana')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  periodoSelecionado === 'semana'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'semana'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
+                  }`}
               >
                 Última Semana
               </button>
               <button
                 onClick={() => handlePeriodoChange('mes')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  periodoSelecionado === 'mes'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'mes'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
+                  }`}
               >
                 Último Mês
               </button>
               <button
                 onClick={() => handlePeriodoChange('ano')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  periodoSelecionado === 'ano'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'ano'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
+                  }`}
               >
                 Último Ano
               </button>
               <button
                 onClick={() => handlePeriodoChange('custom')}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  periodoSelecionado === 'custom'
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${periodoSelecionado === 'custom'
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
+                  }`}
               >
                 Personalizado
               </button>
@@ -886,14 +923,12 @@ export default function DashboardPage() {
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
             <div
-              className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                (metrics?.transacoes.saldo || 0) >= 0 ? 'bg-purple-500/10' : 'bg-orange-500/10'
-              }`}
+              className={`w-12 h-12 rounded-lg flex items-center justify-center ${(metrics?.transacoes.saldo || 0) >= 0 ? 'bg-purple-500/10' : 'bg-orange-500/10'
+                }`}
             >
               <Wallet
-                className={`w-6 h-6 ${
-                  (metrics?.transacoes.saldo || 0) >= 0 ? 'text-purple-500' : 'text-orange-500'
-                }`}
+                className={`w-6 h-6 ${(metrics?.transacoes.saldo || 0) >= 0 ? 'text-purple-500' : 'text-orange-500'
+                  }`}
               />
             </div>
             <div className="flex items-center gap-2">
@@ -905,9 +940,8 @@ export default function DashboardPage() {
             </div>
           </div>
           <p
-            className={`text-3xl font-bold mb-1 ${
-              (metrics?.transacoes.saldo || 0) >= 0 ? 'text-green-500' : 'text-red-500'
-            }`}
+            className={`text-3xl font-bold mb-1 ${(metrics?.transacoes.saldo || 0) >= 0 ? 'text-green-500' : 'text-red-500'
+              }`}
           >
             {formatarMoeda(metrics?.transacoes.saldo || 0)}
           </p>
@@ -954,7 +988,7 @@ export default function DashboardPage() {
               Solicitações Ativas
               <MetricTooltip
                 title="Solicitações Ativas"
-                description="Conta quantas vezes os usuários pediram ajuda por conta própria. COMO FUNCIONA: (1) Sistema busca mensagens que o usuário enviou contendo as palavras: 'resumo', 'ajuda' ou 'suporte'; (2) Separa cada pedido por tipo; (3) Identifica o grupo experimental de cada pessoa. RESULTADO: Total de pedidos, quantos foram de resumo/ajuda/suporte, e quantas pessoas únicas pediram. IMPORTANTE: Mede quando a pessoa tomou INICIATIVA sozinha, sem ter recebido nenhum lembrete antes. Ideal para avaliar o grupo controle."
+                description="Conta quantas vezes os usuários fizeram solicitações ativas ao sistema. CATEGORIAS: (1) RESUMO - Consultas financeiras gerais: 'balanço', 'extrato', 'receita total', 'despesa total', 'saldo', 'resultado', 'totais', 'cálculos', 'quanto gastei/recebi/faturei', 'me orientar financeiramente'; (2) AJUDA - Pedidos de orientação: 'preciso de orientação', 'guardar valor', 'me organizar', 'sugestão', 'planejar', 'orientação', 'dicas', 'guardar', 'economizar', 'poupar'; (3) SUPORTE - Suporte técnico. IMPORTANTE: Mede INICIATIVA própria do usuário, sem lembretes. Exclui: números do questionário, cumprimentos e auto-respostas."
               />
             </h2>
             <div className="flex items-center justify-center h-32">
@@ -968,22 +1002,22 @@ export default function DashboardPage() {
               Solicitações Ativas
               <MetricTooltip
                 title="Solicitações Ativas"
-                description="Conta quantas vezes os usuários pediram ajuda por conta própria. COMO FUNCIONA: (1) Sistema busca mensagens que o usuário enviou contendo as palavras: 'resumo', 'ajuda' ou 'suporte'; (2) Separa cada pedido por tipo; (3) Identifica o grupo experimental de cada pessoa. RESULTADO: Total de pedidos, quantos foram de resumo/ajuda/suporte, e quantas pessoas únicas pediram. IMPORTANTE: Mede quando a pessoa tomou INICIATIVA sozinha, sem ter recebido nenhum lembrete antes. Ideal para avaliar o grupo controle."
+                description="Conta quantas vezes os usuários fizeram solicitações ativas ao sistema. CATEGORIAS: (1) RESUMO - Consultas financeiras gerais: 'balanço', 'extrato', 'receita total', 'despesa total', 'saldo', 'resultado', 'totais', 'cálculos', 'quanto gastei/recebi/faturei', 'me orientar financeiramente'; (2) AJUDA - Pedidos de orientação: 'preciso de orientação', 'guardar valor', 'me organizar', 'sugestão', 'planejar', 'orientação', 'dicas', 'guardar', 'economizar', 'poupar'; (3) SUPORTE - Suporte técnico. IMPORTANTE: Mede INICIATIVA própria do usuário, sem lembretes. Exclui: números do questionário, cumprimentos e auto-respostas."
               />
             </h2>
             <p className="text-4xl font-bold text-cyan-400 mb-4">{activeRequests.total_active_requests}</p>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Resumos:</span>
-                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.resumo}</span>
+                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.resumo || 0}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Ajuda:</span>
-                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.ajuda}</span>
+                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.ajuda || 0}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Suporte:</span>
-                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.suporte}</span>
+                <span className="text-cyan-300 font-semibold">{activeRequests.requests_by_type.suporte || 0}</span>
               </div>
               <div className="flex justify-between text-sm pt-2 border-t border-cyan-500/20">
                 <span className="text-gray-300">Usuários únicos:</span>
@@ -1424,9 +1458,8 @@ export default function DashboardPage() {
             </span>
           </div>
           <p
-            className={`text-3xl font-bold mb-3 ${
-              (metrics?.transacoes.pessoal.saldo || 0) >= 0 ? 'text-green-400' : 'text-red-400'
-            }`}
+            className={`text-3xl font-bold mb-3 ${(metrics?.transacoes.pessoal.saldo || 0) >= 0 ? 'text-green-400' : 'text-red-400'
+              }`}
           >
             {formatarMoeda(metrics?.transacoes.pessoal.saldo || 0)}
           </p>
@@ -1461,9 +1494,8 @@ export default function DashboardPage() {
             </span>
           </div>
           <p
-            className={`text-3xl font-bold mb-3 ${
-              (metrics?.transacoes.negocio.saldo || 0) >= 0 ? 'text-green-400' : 'text-red-400'
-            }`}
+            className={`text-3xl font-bold mb-3 ${(metrics?.transacoes.negocio.saldo || 0) >= 0 ? 'text-green-400' : 'text-red-400'
+              }`}
           >
             {formatarMoeda(metrics?.transacoes.negocio.saldo || 0)}
           </p>

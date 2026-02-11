@@ -4,6 +4,18 @@ import { criarMetaSchema, atualizarMetaSchema, marcarCumpridaSchema } from '@/va
 import { ApiResponse } from '@/types/api';
 import { ZodIssue } from 'zod';
 
+const extrairValorDaDescricao = (descricao: string): string => {
+  const regexValor = /R\$\s*(\d+(?:[.,]\d+)?)|(\d+(?:[.,]\d+)?)\s*(?:reais?|R\$)/gi;
+  const match = regexValor.exec(descricao);
+
+  if (match) {
+    const valor = match[1] || match[2];
+    return `R$ ${valor.replace(',', '.')}`;
+  }
+
+  return 'N/A';
+};
+
 export const metaController = {
   async criar(req: NextRequest): Promise<NextResponse<ApiResponse>> {
     try {
@@ -378,7 +390,7 @@ export const metaController = {
         const descricao = (m.descricao || '').replace(/,/g, ';').replace(/\n/g, ' ');
         const grupoNome = m.usuario.grupo?.nome || 'Sem Grupo';
         const statusCumprida = m.cumprida === null ? 'Pendente' : m.cumprida ? 'Sim' : 'Não';
-        const valorAlvo = m.valor_alvo || 'N/A';
+        const valorAlvo = extrairValorDaDescricao(m.descricao);
 
         csvLines.push(
           `${m.id},${m.usuario.nome || `Usuário #${m.usuario.id}`},${grupoNome},${m.usuario.agent_id || 'N/A'},${m.tipo_meta},${statusCumprida},${new Date(m.data_inicio).toLocaleDateString('pt-BR')},${new Date(m.data_fim).toLocaleDateString('pt-BR')},${semanaUsuario},${valorAlvo},${descricao}`

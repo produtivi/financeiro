@@ -3,6 +3,9 @@ import { dashboardController } from '@/controllers/dashboard.controller';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
+// Aumentar timeout para 60 segundos (exportação pode demorar)
+export const maxDuration = 60;
+
 export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
 
