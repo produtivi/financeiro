@@ -130,6 +130,7 @@ export default function LatenciasPage() {
   const [loadingResponseLatency, setLoadingResponseLatency] = useState(false);
   const [loadingGoalsLatency, setLoadingGoalsLatency] = useState(false);
   const [loadingKnowledgePillLatency, setLoadingKnowledgePillLatency] = useState(false);
+  const [loadingExport, setLoadingExport] = useState(false);
   const [grupos, setGrupos] = useState<Grupo[]>([]);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [grupoSelecionado, setGrupoSelecionado] = useState('');
@@ -391,150 +392,52 @@ export default function LatenciasPage() {
   };
 
   const baixarCSV = async () => {
-    const bom = '\uFEFF'; // BOM para UTF-8
-    const rows: string[] = [];
-
-    // ===== SEÇÃO 1: ESTATÍSTICAS COMPILADAS =====
-    rows.push('');
-
-    // Obter nomes de grupo e usuário
-    const grupoNome = grupoSelecionado
-      ? grupos.find(g => g.id.toString() === grupoSelecionado)?.nome || 'Todos os Grupos'
-      : 'Todos os Grupos';
-
-    const usuarioNome = usuarioSelecionado
-      ? usuarios.find(u => u.id.toString() === usuarioSelecionado)?.nome || 'Todos os Usuários'
-      : 'Todos os Usuários';
-
-    // Cabeçalho
-    rows.push('Tipo de Latência,Grupo,Usuário,Período Início,Período Fim,Total Respostas,Contatos Únicos Responderam,Taxa de Resposta (%),Tempo Mínimo (segundos),Tempo Mediano (segundos),Tempo Médio (segundos),Tempo Máximo (segundos),Tempo Médio (minutos),Tempo Médio (horas)');
-
-    // Response Latency
-    if (responseLatency && responseLatency.latency_metrics) {
-      const metrics = responseLatency.latency_metrics;
-      rows.push([
-        'Lembretes de Registro',
-        grupoNome,
-        usuarioNome,
-        responseLatency.period.start_date,
-        responseLatency.period.end_date,
-        responseLatency.total_responses,
-        responseLatency.unique_contacts_responded,
-        responseLatency.response_rate_percent.toFixed(2),
-        metrics.min_seconds,
-        metrics.median_seconds,
-        metrics.average_seconds,
-        metrics.max_seconds,
-        metrics.average_minutes.toFixed(2),
-        metrics.average_hours.toFixed(2),
-      ].join(','));
-    }
-
-    // Goals Template Latency
-    if (goalsTemplateLatency && goalsTemplateLatency.latency_metrics) {
-      const metrics = goalsTemplateLatency.latency_metrics;
-      rows.push([
-        'Templates de Metas',
-        grupoNome,
-        usuarioNome,
-        goalsTemplateLatency.period.start_date,
-        goalsTemplateLatency.period.end_date,
-        goalsTemplateLatency.total_responses,
-        goalsTemplateLatency.unique_contacts_responded,
-        goalsTemplateLatency.response_rate_percent.toFixed(2),
-        metrics.min_seconds,
-        metrics.median_seconds,
-        metrics.average_seconds,
-        metrics.max_seconds,
-        metrics.average_minutes.toFixed(2),
-        metrics.average_hours.toFixed(2),
-      ].join(','));
-    }
-
-    // Knowledge Pill Latency
-    if (knowledgePillLatency && knowledgePillLatency.latency_metrics) {
-      const metrics = knowledgePillLatency.latency_metrics;
-      rows.push([
-        'Pílulas do Conhecimento',
-        grupoNome,
-        usuarioNome,
-        knowledgePillLatency.period.start_date,
-        knowledgePillLatency.period.end_date,
-        knowledgePillLatency.total_responses,
-        knowledgePillLatency.unique_contacts,
-        '', // não tem taxa de resposta
-        metrics.min_seconds,
-        metrics.median_seconds,
-        metrics.average_seconds,
-        metrics.max_seconds,
-        metrics.average_minutes.toFixed(2),
-        metrics.average_hours.toFixed(2),
-      ].join(','));
-    }
-
-    // ===== SEÇÃO 2: DADOS INDIVIDUAIS DE LATÊNCIA =====
-
-
-    // Buscar dados detalhados da API
     try {
-      const params = new URLSearchParams();
+      if (!dataInicio || !dataFim) {
+        alert('Por favor, selecione o período (Data Início e Data Fim) antes de exportar.');
+        return;
+      }
+
+      setLoadingExport(true);
+
+      const params = new URLSearchParams({
+        startDate: dataInicio,
+        endDate: dataFim,
+      });
+
       if (grupoSelecionado) {
         params.append('grupoId', grupoSelecionado);
       }
+
       if (usuarioSelecionado) {
-        params.append('usuario_id', usuarioSelecionado);
-      }
-      if (dataInicio && dataFim) {
-        params.append('data_inicio', dataInicio);
-        params.append('data_fim', dataFim);
+        params.append('usuarioId', usuarioSelecionado);
       }
 
-      const response = await fetch(`/api/v1/latencias?${params}`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success && data.data && data.data.length > 0) {
-          rows.push('ID,Usuário,Grupo,Agent ID,Tipo Lembrete,Momento Lembrete,Momento Resposta,Latência (segundos),Latência (minutos),Latência (horas),Respondeu');
+      const url = `/api/v1/latencias/exportar?${params}`;
 
-          data.data.forEach((l: Latencia & { usuario: { nome: string; grupo?: { nome: string } } }) => {
-            const latenciaMinutos = (l.latencia_segundos / 60).toFixed(2);
-            const latenciaHoras = (l.latencia_segundos / 3600).toFixed(2);
-            const grupo = l.usuario?.grupo?.nome || 'Sem Grupo';
+      const response = await fetch(url);
 
-            rows.push([
-              l.id,
-              l.usuario?.nome || `Usuário #${l.usuario_id}`,
-              grupo,
-              l.agent_id,
-              l.tipo_lembrete || 'N/A',
-              new Date(l.momento_lembrete).toLocaleString('pt-BR'),
-              new Date(l.momento_resposta).toLocaleString('pt-BR'),
-              l.latencia_segundos,
-              latenciaMinutos,
-              latenciaHoras,
-              l.respondeu ? 'Sim' : 'Não'
-            ].join(','));
-          });
-        } else {
-          rows.push('');
-        }
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(errorData.message || 'Erro ao exportar dados');
+        return;
       }
+
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = blobUrl;
+      a.download = `latencias-export-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(blobUrl);
+      document.body.removeChild(a);
     } catch (error) {
-      console.error('Erro ao buscar dados individuais:', error);
-      rows.push('Erro ao buscar dados individuais de latência.');
+      console.error('Erro ao exportar dados:', error);
+      alert('Erro ao exportar dados: ' + (error instanceof Error ? error.message : String(error)));
+    } finally {
+      setLoadingExport(false);
     }
-
-    const csvContent = bom + rows.join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-
-    const dataFormatada = new Date().toISOString().split('T')[0];
-    link.setAttribute('href', url);
-    link.setAttribute('download', `latencias_${dataFormatada}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   return (
@@ -548,11 +451,25 @@ export default function LatenciasPage() {
         </div>
         <button
           onClick={baixarCSV}
-          disabled={!responseLatency && !goalsTemplateLatency && !knowledgePillLatency}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium transition-colors"
+          disabled={!dataInicio || !dataFim || loadingExport}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+            !dataInicio || !dataFim || loadingExport
+              ? 'bg-gray-600 cursor-not-allowed opacity-50'
+              : 'bg-green-600 hover:bg-green-700'
+          } text-white`}
+          title={!dataInicio || !dataFim ? 'Selecione o período antes de exportar' : loadingExport ? 'Exportando...' : 'Exportar dados de latências'}
         >
-          <Download className="w-5 h-5" />
-          Baixar CSV
+          {loadingExport ? (
+            <>
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+              Exportando...
+            </>
+          ) : (
+            <>
+              <Download className="w-5 h-5" />
+              Baixar CSV
+            </>
+          )}
         </button>
       </div>
 

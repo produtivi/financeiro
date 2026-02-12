@@ -58,6 +58,7 @@ export default function QuestionariosPage() {
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<'lista' | 'metricas'>('lista');
   const [usuarioFiltro, setUsuarioFiltro] = useState('');
+  const [loadingExport, setLoadingExport] = useState(false);
 
   const API_KEY = process.env.NEXT_PUBLIC_API_KEY || 'hkjsaDFSkjSDF39847sfkjdWr23';
 
@@ -111,6 +112,7 @@ export default function QuestionariosPage() {
 
   const exportarDados = async () => {
     try {
+      setLoadingExport(true);
       const response = await fetch('/api/v1/questionarios/exportar', {
         headers: { 'x-api-key': API_KEY },
       });
@@ -126,6 +128,8 @@ export default function QuestionariosPage() {
     } catch (error) {
       console.error('Erro ao exportar questionários:', error);
       alert('Erro ao exportar questionários');
+    } finally {
+      setLoadingExport(false);
     }
   };
 
@@ -173,10 +177,24 @@ export default function QuestionariosPage() {
 
         <button
           onClick={exportarDados}
-          className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+          disabled={loadingExport}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+            loadingExport
+              ? 'bg-gray-600 cursor-not-allowed opacity-50'
+              : 'bg-green-600 hover:bg-green-700'
+          } text-white`}
         >
-          <Download className="w-4 h-4" />
-          Exportar Questionários
+          {loadingExport ? (
+            <>
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              Exportando...
+            </>
+          ) : (
+            <>
+              <Download className="w-4 h-4" />
+              Exportar Questionários
+            </>
+          )}
         </button>
       </div>
 

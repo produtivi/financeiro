@@ -278,6 +278,7 @@ export default function DashboardPage() {
   const [loadingActiveRequests, setLoadingActiveRequests] = useState(false);
   const [loadingPanelViews, setLoadingPanelViews] = useState(false);
   const [loadingGoalsFrequency, setLoadingGoalsFrequency] = useState(false);
+  const [loadingExport, setLoadingExport] = useState(false);
 
   const getDomingoAnterior = (data: Date): Date => {
     const dia = data.getDay();
@@ -604,6 +605,8 @@ export default function DashboardPage() {
         return;
       }
 
+      setLoadingExport(true);
+
       const params = new URLSearchParams({
         startDate: dataInicio,
         endDate: dataFim,
@@ -654,6 +657,8 @@ export default function DashboardPage() {
       console.error('[FRONTEND EXPORT] ERRO CRÍTICO:', error);
       console.error('[FRONTEND EXPORT] Stack trace:', error instanceof Error ? error.stack : 'N/A');
       alert('Erro ao exportar dados: ' + (error instanceof Error ? error.message : String(error)));
+    } finally {
+      setLoadingExport(false);
     }
   };
 
@@ -716,15 +721,24 @@ export default function DashboardPage() {
           </div>
           <button
             onClick={exportarDados}
-            disabled={!dataInicio || !dataFim}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${!dataInicio || !dataFim
+            disabled={!dataInicio || !dataFim || loadingExport}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${!dataInicio || !dataFim || loadingExport
                 ? 'bg-gray-600 cursor-not-allowed opacity-50'
                 : 'bg-green-600 hover:bg-green-700'
               } text-white`}
-            title={!dataInicio || !dataFim ? 'Selecione o período antes de exportar' : 'Exportar dados do dashboard'}
+            title={!dataInicio || !dataFim ? 'Selecione o período antes de exportar' : loadingExport ? 'Exportando...' : 'Exportar dados do dashboard'}
           >
-            <Download className="w-4 h-4" />
-            Exportar Dados
+            {loadingExport ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                Exportando...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                Exportar Dados
+              </>
+            )}
           </button>
         </div>
 
@@ -1219,7 +1233,7 @@ export default function DashboardPage() {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {loadingGoalsLatency && !goalsTemplateLatency ? (
+        {loadingGoalsLatency ? (
           <div className="bg-gradient-to-br from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-xl p-6">
             <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
               <Target className="w-5 h-5 text-purple-400 animate-pulse" />
@@ -1293,7 +1307,7 @@ export default function DashboardPage() {
           </div>
         ) : null}
 
-        {loadingResponseLatency && !responseLatency ? (
+        {loadingResponseLatency ? (
           <div className="bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-blue-500/30 rounded-xl p-6">
             <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
               <Clock className="w-5 h-5 text-blue-400 animate-pulse" />
@@ -1367,7 +1381,7 @@ export default function DashboardPage() {
           </div>
         ) : null}
 
-        {loadingKnowledgePillLatency && !knowledgePillLatency ? (
+        {loadingKnowledgePillLatency ? (
           <div className="bg-gradient-to-br from-amber-500/10 to-yellow-600/10 border border-amber-500/30 rounded-xl p-6">
             <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-amber-400 animate-pulse" />
