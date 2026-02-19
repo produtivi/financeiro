@@ -30,6 +30,7 @@ import {
   HelpCircle,
   Eye,
   Activity,
+  MessageSquare,
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { MetricTooltip } from '@/components/MetricTooltip';
@@ -199,6 +200,19 @@ interface GoalsFrequencyData {
   unique_users: number;
 }
 
+interface InboundMessagesData {
+  total_inbound_messages: number;
+  unique_users: number;
+  messages_by_user: Array<{
+    chat_id: number;
+    usuario_id: number;
+    usuario_nome: string;
+    grupo_id: number;
+    grupo_nome: string;
+    message_count: number;
+  }>;
+}
+
 interface Grupo {
   id: number;
   nome: string;
@@ -275,9 +289,11 @@ export default function DashboardPage() {
   const [activeRequests, setActiveRequests] = useState<ActiveRequestsData | null>(null);
   const [panelViews, setPanelViews] = useState<PanelViewsData | null>(null);
   const [goalsFrequency, setGoalsFrequency] = useState<GoalsFrequencyData | null>(null);
+  const [inboundMessages, setInboundMessages] = useState<InboundMessagesData | null>(null);
   const [loadingActiveRequests, setLoadingActiveRequests] = useState(false);
   const [loadingPanelViews, setLoadingPanelViews] = useState(false);
   const [loadingGoalsFrequency, setLoadingGoalsFrequency] = useState(false);
+  const [loadingInboundMessages, setLoadingInboundMessages] = useState(false);
   const [loadingExport, setLoadingExport] = useState(false);
 
   const getDomingoAnterior = (data: Date): Date => {
@@ -430,6 +446,7 @@ export default function DashboardPage() {
     carregarActiveRequests(AGENT_API_URL, params);
     carregarPanelViews(AGENT_API_URL, params);
     carregarGoalsFrequency(AGENT_API_URL, params);
+    carregarInboundMessages(AGENT_API_URL, params);
   };
 
   const carregarResponseLatency = async (agentApiUrl: string, params: URLSearchParams) => {
@@ -567,6 +584,26 @@ export default function DashboardPage() {
       console.error('Erro ao carregar frequência de metas:', err);
     } finally {
       setLoadingGoalsFrequency(false);
+    }
+  };
+
+  const carregarInboundMessages = async (agentApiUrl: string, params: URLSearchParams) => {
+    setLoadingInboundMessages(true);
+    setInboundMessages(null);
+
+    try {
+      const response = await fetch(`${agentApiUrl}/public/agent-metrics/inbound-messages-count?${params}`);
+
+      if (response && response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setInboundMessages(data.data);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao carregar mensagens inbound:', err);
+    } finally {
+      setLoadingInboundMessages(false);
     }
   };
 
@@ -1127,6 +1164,55 @@ export default function DashboardPage() {
                 <span className="text-gray-300">Usuários únicos:</span>
                 <span className="text-white font-semibold">{goalsFrequency.unique_users}</span>
               </div>
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      {/* Nova Métrica: Engajamento Completo (Mensagens Inbound) */}
+      <div className="grid grid-cols-1 gap-6">
+        {loadingInboundMessages ? (
+          <div className="bg-gradient-to-br from-teal-500/10 to-teal-600/10 border border-teal-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-teal-400 animate-pulse" />
+              Engajamento Completo
+              <MetricTooltip
+                title="Engajamento Completo"
+                description="Mede quantas mensagens os usuários enviaram para o chatbot no período selecionado. COMO FUNCIONA: (1) Conta APENAS mensagens que os usuários enviaram (INBOUND), ignorando mensagens que o chatbot enviou; (2) Filtra por período de datas e grupos/usuários selecionados; (3) Mostra total de mensagens, quantos usuários únicos participaram, e detalhamento por usuário. INTERPRETAÇÃO: Quanto mais alto, maior o engajamento e uso ativo do sistema pelos usuários. Ajuda a identificar usuários mais ou menos ativos."
+              />
+            </h2>
+            <div className="flex items-center justify-center h-32">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-400"></div>
+            </div>
+          </div>
+        ) : inboundMessages ? (
+          <div className="bg-gradient-to-br from-teal-500/10 to-teal-600/10 border border-teal-500/30 rounded-xl p-6">
+            <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-teal-400" />
+              Engajamento Completo
+              <MetricTooltip
+                title="Engajamento Completo"
+                description="Mede quantas mensagens os usuários enviaram para o chatbot no período selecionado. COMO FUNCIONA: (1) Conta APENAS mensagens que os usuários enviaram (INBOUND), ignorando mensagens que o chatbot enviou; (2) Filtra por período de datas e grupos/usuários selecionados; (3) Mostra total de mensagens, quantos usuários únicos participaram, e detalhamento por usuário. INTERPRETAÇÃO: Quanto mais alto, maior o engajamento e uso ativo do sistema pelos usuários. Ajuda a identificar usuários mais ou menos ativos."
+              />
+            </h2>
+            <p className="text-4xl font-bold text-teal-400 mb-4">{inboundMessages.total_inbound_messages}</p>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Total de Mensagens Enviadas:</span>
+                <span className="text-teal-300 font-semibold">{inboundMessages.total_inbound_messages}</span>
+              </div>
+              <div className="flex justify-between text-sm pt-2 border-t border-teal-500/20">
+                <span className="text-gray-300">Usuários únicos:</span>
+                <span className="text-white font-bold">{inboundMessages.unique_users}</span>
+              </div>
+              {inboundMessages.unique_users > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-400">Média por usuário:</span>
+                  <span className="text-teal-200 font-medium">
+                    {(inboundMessages.total_inbound_messages / inboundMessages.unique_users).toFixed(1)} msgs
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         ) : null}

@@ -278,6 +278,17 @@ export class DashboardController {
         });
       }
 
+      csvLines.push('');
+      csvLines.push('ENGAJAMENTO COMPLETO (MENSAGENS INBOUND)');
+      csvLines.push('Usuário,Chat ID,Grupo,Grupo ID,Quantidade de Mensagens');
+      if (dados.inboundMessages && dados.inboundMessages.length > 0) {
+        dados.inboundMessages.forEach((m: any) => {
+          csvLines.push(
+            `${m.usuario_nome},${m.chat_id},${m.grupo},${m.grupo_id || 'N/A'},${m.message_count}`
+          );
+        });
+      }
+
       const csv = csvLines.join('\n');
       const bom = '\uFEFF';
       const csvWithBom = bom + csv;

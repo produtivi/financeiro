@@ -531,6 +531,7 @@ export class DashboardService {
     const visualizacoesPainel: any[] = [];
     const goalsLatency: any[] = [];
     const responseLatency: any[] = [];
+    const inboundMessages: any[] = [];
 
     if (AGENT_API_URL) {
       const params = new URLSearchParams({
@@ -599,14 +600,15 @@ export class DashboardService {
         }
       }
 
-      // Buscar métricas de pílulas, solicitações ativas, visualizações de painel, metas e registro
+      // Buscar métricas de pílulas, solicitações ativas, visualizações de painel, metas, registro e mensagens inbound
       try {
-        const [resPilulas, resAtivas, resPainel, resGoals, resResponse] = await Promise.all([
+        const [resPilulas, resAtivas, resPainel, resGoals, resResponse, resInbound] = await Promise.all([
           fetch(`${AGENT_API_URL}/public/agent-metrics/knowledge-pill-latency?${params}`).catch(() => null),
           fetch(`${AGENT_API_URL}/public/agent-metrics/active-requests?${params}`).catch(() => null),
           fetch(`${AGENT_API_URL}/public/agent-metrics/panel-views?${params}`).catch(() => null),
           fetch(`${AGENT_API_URL}/public/agent-metrics/goals-template-latency?${params}`).catch(() => null),
           fetch(`${AGENT_API_URL}/public/agent-metrics/response-latency?${params}`).catch(() => null),
+          fetch(`${AGENT_API_URL}/public/agent-metrics/inbound-messages-count?${params}`).catch(() => null),
         ]);
 
         if (resPilulas && resPilulas.ok) {
@@ -749,6 +751,25 @@ export class DashboardService {
             });
           }
         }
+
+        if (resInbound && resInbound.ok) {
+          const data = await resInbound.json();
+          if (data.success && data.data.messages_by_user) {
+            data.data.messages_by_user.forEach((msg: any) => {
+              const usuario = usuarios.find((u) => u.chat_id === msg.chat_id);
+              if (usuario) {
+                inboundMessages.push({
+                  usuario_id: usuario.id,
+                  usuario_nome: msg.usuario_nome || usuario.nome,
+                  chat_id: msg.chat_id,
+                  grupo: msg.grupo_nome || usuario.grupo?.nome || 'Sem Grupo',
+                  grupo_id: msg.grupo_id,
+                  message_count: msg.message_count,
+                });
+              }
+            });
+          }
+        }
       } catch (error) {
         console.error('Erro ao buscar métricas adicionais:', error);
       }
@@ -789,6 +810,7 @@ export class DashboardService {
       visualizacoesPainel,
       goalsLatency,
       responseLatency,
+      inboundMessages,
     };
   }
 }
